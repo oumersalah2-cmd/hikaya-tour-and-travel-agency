@@ -1,12 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Building2, MapPin, Clock, Phone, MessageCircle, ShieldCheck, ArrowRight } from "lucide-react";
+import { Building2, MapPin, Clock, MessageCircle, ShieldCheck, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSite } from "@/context/SiteContext";
 
 export default function OfficeDeskSection() {
   const { t, lang } = useLanguage();
+  const { site, whatsappLink } = useSite();
   const office = t.officeDesk;
 
   return (
@@ -16,7 +17,7 @@ export default function OfficeDeskSection() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Content */}
             <div className="lg:col-span-7">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-400/10 text-accent-500 dark:text-accent-300 text-xs font-semibold uppercase tracking-wider mb-4">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300 text-xs font-semibold uppercase tracking-wider mb-4">
                 <Building2 className="w-3.5 h-3.5" />
                 {office.badge}
               </span>
@@ -37,7 +38,7 @@ export default function OfficeDeskSection() {
                       {lang === "en" ? "Physical Address" : "Teessoo Waajjiraa"}
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {office.address}
+                      {site.address[lang].join(", ")}
                     </span>
                   </div>
                 </div>
@@ -49,7 +50,7 @@ export default function OfficeDeskSection() {
                       {lang === "en" ? "Consultation Hours" : "Sa'aatii Tajaajilaa"}
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {office.hours}
+                      {site.hours[lang].join(" · ")}
                     </span>
                   </div>
                 </div>
@@ -57,13 +58,13 @@ export default function OfficeDeskSection() {
 
               <div className="flex flex-wrap items-center gap-4">
                 <a
-                  href="https://wa.me/251911123456?text=Hello%20HIKAYA%2C%20I%20would%20like%20to%20inquire%20about%20your%20services"
+                  href={whatsappLink(decodeURIComponent("Hello%20HIKAYA%2C%20I%20would%20like%20to%20inquire%20about%20your%20services"))}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary px-6 py-3.5 text-sm flex items-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 text-white" />
-                  <span>{lang === "en" ? "Chat on WhatsApp (+251 911 123 456)" : "Waatsaappiin Nu Qunnamaa (+251 911 123 456)"}</span>
+                  <span>{lang === "en" ? `Chat on WhatsApp (${site.whatsappDisplay})` : `Waatsaappiin Nu Qunnamaa (${site.whatsappDisplay})`}</span>
                 </a>
 
                 <Link
@@ -93,21 +94,21 @@ export default function OfficeDeskSection() {
               </div>
 
               <div className="p-6 rounded-2xl bg-accent-50 dark:bg-accent-950/20 border border-accent-200/60 dark:border-accent-800/40">
-                <span className="text-xs font-bold text-accent-600 dark:text-accent-300 uppercase tracking-wider block mb-1">
+                <span className="text-xs font-bold text-accent-700 dark:text-accent-300 uppercase tracking-wider block mb-1">
                   {lang === "en" ? "Direct Pilgrimage Hotline" : "Lakk. Bilbila Hatattamaa"}
                 </span>
                 <div className="text-lg font-bold text-primary-700 dark:text-white">
-                  +251 911 123 456 / +251 116 123 456
+                  {site.phones.join(" / ")}
                 </div>
                 <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">
                   {lang === "en" ? "Or chat anytime on WhatsApp:" : "Ykn Waatsaappiin nu qunnamaa:"}{" "}
                   <a
-                    href="https://wa.me/251911123456"
+                    href={whatsappLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-600 dark:text-emerald-400 font-semibold underline"
                   >
-                    +251 911 123 456
+                    {site.whatsappDisplay}
                   </a>
                 </span>
               </div>

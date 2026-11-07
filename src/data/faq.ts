@@ -1,10 +1,11 @@
+import type { Locale } from "@/lib/i18n";
 export interface FAQItem {
   id: string;
   question: string;
   answer: string;
 }
 
-export const getFaqItems = (lang: "en" | "om"): FAQItem[] => [
+export const getFaqItems = (lang: Locale): FAQItem[] => [
   {
     id: "faq-1",
     question: lang === "en" ? "How do I book an Umrah package or tour with HIKAYA Tour and Travel Agency?" : "Akkamittin paakeejii Umraa ykn daawwannaa HIKAYA Tour wajjin qabsiisuu danda'a?",
@@ -12,7 +13,7 @@ export const getFaqItems = (lang: "en" | "om"): FAQItem[] => [
   },
   {
     id: "faq-2",
-    question: lang === "en" ? "What is included in HIKAYA's Umrah package?" : "Pakeejii Umaraa HIKAYA keessatti maaltu dhiyaata?",
+    question: lang === "en" ? "What is included in HIKAYA's Umrah package?" : "Paakeejii Umraa HIKAYA keessatti maaltu dhiyaata?",
     answer: lang === "en" ? "Our Umrah package is all-inclusive: Umrah visa processing, 5-star or premium 4-star hotel stays close to the Haram in both Makkah and Medina, airport transfers in private air-conditioned vehicles, and comprehensive historical Ziyarah tours led by experienced Islamic scholars." : "Paakeejiin Umraa keenya kan guutuu ta'ee dha: Viizaa Umraa, hoteelota sadarkaa olaanaa Haramatti dhihoo Makkaa fi Madiinaatti, geejjiba qabbaneessaa qabu, fi daawwannaa/ziyaaraa iddoowwan seena-qabeeyyii hunda qajeelchitoota amantiin geggeeffamu of keessaa qaba.",
   },
   {

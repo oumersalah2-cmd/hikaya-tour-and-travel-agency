@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n";
 import { Plane, MapPin, Globe, Palmtree, FileCheck, Hotel, Shield, Car, Briefcase, Moon, Compass, Ticket, Mountain } from "lucide-react";
 
 export interface Service {
@@ -11,10 +12,10 @@ export const serviceIcons = {
   Plane, MapPin, Globe, Palmtree, FileCheck, Hotel, Shield, Car, Briefcase, Moon, Compass, Ticket, Mountain,
 };
 
-export const getServices = (lang: "en" | "om"): Service[] => [
+export const getServices = (lang: Locale): Service[] => [
   {
     id: "umrah-packages",
-    title: lang === "en" ? "Umrah Packages (Makkah & Medina)" : "Pakeejii Umaraa ((Makkah, Madiina fi daawwannaa))",
+    title: lang === "en" ? "Umrah Packages (Makkah & Medina)" : "Paakeejii Umraa (Makkaa, Madiinaa fi Ziyaaraa)",
     description: lang === "en" 
       ? "Comprehensive spiritual Umrah packages with 5-star accommodations near Haram in Makkah & Medina, religious guidance, and historical Ziyarah tours."
       : "Paakeejii Umraa guutuu kan Makkaa, Madiinaa fi daawwannaa/ziyaaraa iddoowwan seena qabeessaa, qajeelchitoota beekumsa qabaniifi bakka bultii Haramatti dhihoo ta'e.",
@@ -54,7 +55,7 @@ export const getServices = (lang: "en" | "om"): Service[] => [
   },
   {
     id: "ethiopia-tours",
-    title: lang === "en" ? "Ethiopia Tours (Sof Omar, Wonchi, Bale, Semien, Afar)" : "Daawwannaa: Soof Omer, Wonchi, Baalee, Saameen, Affaar",
+    title: lang === "en" ? "Ethiopia Tours (Sof Omar, Wonchii, Bale, Semien, Afar)" : "Daawwannaa: Soof Umar, Wonchii, Baalee, Saameen, Affaar",
     description: lang === "en"
       ? "Unforgettable expeditions to Sof Omar Caves, Wonchi Crater Lake, Bale Mountains, Semien Mountains (Samen Terara), and Afar Depression."
       : "Imala daawwannaa dinqisiisaa Holqa Soof Umar, Haroo Wonchii, Gaarren Baalee, Gaarren Saameen (Samen Terara), Gammoojjii Affaar fi kanneen biroo.",

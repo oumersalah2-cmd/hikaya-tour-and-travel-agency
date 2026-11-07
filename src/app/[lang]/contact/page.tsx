@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle, CheckCircle2 } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, CheckCircle2, AlertCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
+import { telHref } from "@/data/site";
+import { useSite } from "@/context/SiteContext";
+import { submitLead } from "@/lib/submitLead";
 
 type ContactFormData = {
   name: string;
@@ -16,230 +19,253 @@ type ContactFormData = {
   phone: string;
   subject: string;
   message: string;
+  website: string; // honeypot
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const labelClass = "mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300";
 
 export default function ContactPage() {
   const { lang, t } = useLanguage();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { site, whatsappLink } = useSite();
+  const [failed, setFailed] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormData>();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactFormData>();
 
   const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(data);
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    reset();
-    
-    setTimeout(() => setIsSuccess(false), 5000);
+    setFailed(false);
+    const ok = await submitLead({ type: "contact", ...data });
+    if (ok) {
+      reset();
+      setIsSuccess(true);
+    } else {
+      setFailed(true);
+    }
   };
 
-  const contactInfo = [
+  const contactInfo: {
+    icon: typeof Phone;
+    title: string;
+    details: { text: string; href?: string; external?: boolean }[];
+    description: string;
+  }[] = [
     {
       icon: MessageCircle,
       title: lang === "en" ? "WhatsApp Direct" : "Waatsaappii Nu Qunnamaa",
-      details: ["+251 911 123 456", "Chat on WhatsApp"],
-      description: lang === "en" ? "Chat directly with our 24/7 instant booking & pilgrimage consultants." : "Tajaajila Umraa fi imalaa hatattamaaf Waatsaappiin nu qunnamaa.",
-      link: "https://wa.me/251911123456?text=Hello%20HIKAYA%2C%20I%20would%20like%20to%20inquire%20about%20your%20services",
+      details: [{ text: site.whatsappDisplay, href: whatsappLink(), external: true }],
+      description:
+        lang === "en"
+          ? "Chat directly with our booking & pilgrimage consultants."
+          : "Tajaajila Umraa fi imalaa hatattamaaf Waatsaappiin nu qunnamaa.",
     },
     {
       icon: Phone,
       title: t.contact.callUs,
-      details: ["+251 911 123 456", "+251 116 123 456"],
+      details: site.phones.map((p) => ({ text: p, href: telHref(p) })),
       description: t.contact.callDesc,
     },
     {
       icon: Mail,
       title: t.contact.emailUs,
-      details: ["info@hikayatour.com", "support@hikayatour.com"],
+      details: site.emails.map((e) => ({ text: e, href: `mailto:${e}` })),
       description: t.contact.emailDesc,
     },
     {
       icon: MapPin,
       title: t.contact.visitUs,
-      details: ["Bole Road, Near Friendship Mall", "Addis Ababa, Ethiopia"],
+      details: site.address[lang].map((text) => ({ text })),
       description: t.contact.visitDesc,
     },
     {
       icon: Clock,
       title: t.contact.workingHours,
-      details: ["Mon - Fri: 8:30 AM - 5:30 PM", "Sat: 9:00 AM - 1:00 PM"],
+      details: site.hours[lang].map((text) => ({ text })),
       description: t.contact.hoursDesc,
     },
   ];
 
+  const input = (hasError: boolean) =>
+    `form-input ${hasError ? "border-red-400 focus:ring-red-400" : ""}`;
+
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-28 pb-20 dark:bg-dark-500">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          
+      <main id="main" className="min-h-screen pb-20 pt-28 dark:bg-dark-500">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
           <SectionHeading
             subtitle={t.contact.subtitle}
             title={t.contact.title}
             description={t.contact.description}
           />
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 mt-12">
-            
-            {/* Contact Info Cards */}
-            <div className="lg:col-span-2 space-y-6">
+          <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-5">
+            <div className="space-y-6 lg:col-span-2">
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={info.title}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex gap-4 p-6 rounded-2xl bg-white dark:bg-dark-400 border border-gray-100 dark:border-dark-300 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-dark-300 dark:bg-dark-400"
                 >
-                  <div className="w-12 h-12 rounded-full bg-accent-400/10 flex items-center justify-center flex-shrink-0 text-accent-500">
-                    <info.icon className="w-6 h-6" />
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300">
+                    <info.icon className="h-6 w-6" aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg text-primary-700 dark:text-white mb-2">
-                      {info.title}
-                    </h3>
-                    <div className="space-y-1 mb-2">
-                      {info.details.map((detail, idx) => (
-                        info.link ? (
+                    <h3 className="mb-2 text-lg font-bold text-primary-700 dark:text-white">{info.title}</h3>
+                    <div className="mb-2 space-y-1">
+                      {info.details.map((d) =>
+                        d.href ? (
                           <a
-                            key={idx}
-                            href={info.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block text-accent-500 hover:text-accent-600 font-semibold underline underline-offset-2 transition-colors"
+                            key={d.text}
+                            href={d.href}
+                            {...(d.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                            className="block font-semibold text-accent-700 underline underline-offset-2 transition-colors hover:text-accent-800 dark:text-accent-300 dark:hover:text-accent-200"
                           >
-                            {detail}
+                            {d.text}
                           </a>
                         ) : (
-                          <p key={idx} className="text-gray-700 dark:text-gray-300 font-medium">
-                            {detail}
-                          </p>
+                          <p key={d.text} className="font-medium text-gray-700 dark:text-gray-300">{d.text}</p>
                         )
-                      ))}
+                      )}
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {info.description}
-                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{info.description}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Contact Form */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="lg:col-span-3 bg-white dark:bg-dark-300 rounded-3xl p-8 md:p-10 shadow-soft border border-gray-100 dark:border-dark-100"
+              className="rounded-3xl border border-gray-100 bg-white p-8 shadow-soft md:p-10 lg:col-span-3 dark:border-dark-100 dark:bg-dark-300"
             >
-              <h3 className="font-display font-bold text-2xl text-primary-700 dark:text-white mb-6">
+              <h2 className="mb-6 font-display text-2xl font-bold text-primary-700 dark:text-white">
                 {t.contact.sendMessage}
-              </h3>
+              </h2>
 
               {isSuccess ? (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  role="status"
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-2xl p-8 text-center"
+                  className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center dark:border-green-800 dark:bg-green-900/20"
                 >
-                  <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                  <h4 className="text-xl font-bold text-green-800 dark:text-green-400 mb-2">
-                    {t.contact.successTitle}
-                  </h4>
-                  <p className="text-green-700 dark:text-green-500/80">
-                    {t.contact.successDesc}
-                  </p>
+                  <CheckCircle2 className="mx-auto mb-4 h-16 w-16 text-green-500" />
+                  <h3 className="mb-2 text-xl font-bold text-green-800 dark:text-green-400">{t.contact.successTitle}</h3>
+                  <p className="mb-6 text-green-700 dark:text-green-500/80">{t.contact.successDesc}</p>
+                  <button type="button" onClick={() => setIsSuccess(false)} className="text-sm font-semibold text-green-800 underline dark:text-green-300">
+                    {lang === "en" ? "Send another message" : "Ergaa biraa ergi"}
+                  </button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Name */}
+                <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        {t.contact.nameLabel}
-                      </label>
+                      <label htmlFor="c-name" className={labelClass}>{t.contact.nameLabel}</label>
                       <input
-                        {...register("name", { required: "Name is required" })}
+                        id="c-name"
                         type="text"
+                        autoComplete="name"
+                        aria-invalid={!!errors.name}
                         placeholder={t.contact.namePlaceholder}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-400 transition"
+                        className={input(!!errors.name)}
+                        {...register("name", { required: t.ui.form.required })}
                       />
-                      {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                      {errors.name && <p role="alert" className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
                     </div>
 
-                    {/* Email */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        {t.contact.emailLabel}
-                      </label>
+                      <label htmlFor="c-email" className={labelClass}>{t.contact.emailLabel}</label>
                       <input
-                        {...register("email", { 
-                          required: "Email is required",
-                          pattern: { value: /^\S+@\S+$/i, message: "Invalid email address" }
-                        })}
+                        id="c-email"
                         type="email"
+                        autoComplete="email"
+                        aria-invalid={!!errors.email}
                         placeholder={t.contact.emailPlaceholder}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-400 transition"
+                        className={input(!!errors.email)}
+                        {...register("email", {
+                          required: t.ui.form.required,
+                          pattern: { value: EMAIL_RE, message: t.ui.form.invalidEmail },
+                        })}
                       />
-                      {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                      {errors.email && <p role="alert" className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
                     </div>
 
-                    {/* Phone */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        {t.contact.phoneLabel}
-                      </label>
+                      <label htmlFor="c-phone" className={labelClass}>{t.contact.phoneLabel}</label>
                       <input
-                        {...register("phone")}
+                        id="c-phone"
                         type="tel"
+                        autoComplete="tel"
                         placeholder={t.contact.phonePlaceholder}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-400 transition"
+                        className={input(false)}
+                        {...register("phone")}
                       />
                     </div>
 
-                    {/* Subject */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                        {t.contact.subjectLabel}
-                      </label>
+                      <label htmlFor="c-subject" className={labelClass}>{t.contact.subjectLabel}</label>
                       <input
-                        {...register("subject", { required: "Subject is required" })}
+                        id="c-subject"
                         type="text"
+                        aria-invalid={!!errors.subject}
                         placeholder={t.contact.subjectPlaceholder}
-                        className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-400 transition"
+                        className={input(!!errors.subject)}
+                        {...register("subject", { required: t.ui.form.required })}
                       />
-                      {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject.message}</p>}
+                      {errors.subject && <p role="alert" className="mt-1 text-xs text-red-500">{errors.subject.message}</p>}
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                      {t.contact.messageLabel}
-                    </label>
+                    <label htmlFor="c-message" className={labelClass}>{t.contact.messageLabel}</label>
                     <textarea
-                      {...register("message", { required: "Message is required" })}
+                      id="c-message"
                       rows={5}
+                      aria-invalid={!!errors.message}
                       placeholder={t.contact.messagePlaceholder}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-400 transition resize-none"
-                    ></textarea>
-                    {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
+                      className={`${input(!!errors.message)} resize-none`}
+                      {...register("message", { required: t.ui.form.required })}
+                    />
+                    {errors.message && <p role="alert" className="mt-1 text-xs text-red-500">{errors.message.message}</p>}
                   </div>
 
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn-primary w-full py-4 gap-2 text-base disabled:opacity-70 disabled:cursor-not-allowed"
-                  >
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                    {...register("website")}
+                  />
+
+                  {failed && (
+                    <div role="alert" className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+                      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                      <div>
+                        <p>{t.ui.form.sendError}</p>
+                        <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex items-center gap-1.5 font-semibold underline">
+                          <MessageCircle className="h-4 w-4" />
+                          {t.ui.form.chatWhatsApp}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+
+                  <button type="submit" disabled={isSubmitting} className="btn-primary w-full py-4 text-base">
                     {isSubmitting ? (
                       t.contact.sending
                     ) : (
                       <>
-                        <Send className="w-5 h-5" />
+                        <Send className="h-5 w-5" aria-hidden="true" />
                         {t.contact.send}
                       </>
                     )}
@@ -249,17 +275,17 @@ export default function ContactPage() {
             </motion.div>
           </div>
 
-          {/* Google Maps Map */}
-          <div className="mt-16 rounded-3xl overflow-hidden shadow-soft border border-gray-100 dark:border-dark-100 h-[400px]">
+          <div className="mt-16 h-[400px] overflow-hidden rounded-3xl border border-gray-100 shadow-soft dark:border-dark-100">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126115.11523403166!2d38.69469505820312!3d8.963479499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85cef5ab402d%3A0x8467b6b037a24d49!2sAddis%20Ababa%2C%20Ethiopia!5e0!3m2!1sen!2sus!4v1716301234567!5m2!1sen!2sus"
+              title={lang === "en" ? "Map of our Addis Ababa office" : "Kaartaa waajjira keenyaa Finfinnee"}
+              src="https://www.google.com/maps?q=Bole+Road,+Addis+Ababa,+Ethiopia&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
-              allowFullScreen={true}
+              allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            />
           </div>
         </div>
       </main>

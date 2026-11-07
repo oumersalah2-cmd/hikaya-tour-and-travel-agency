@@ -6,6 +6,7 @@ export const om = {
     schedule: "Sagantaa Umraa",
     ziyarat: "Ziyaaraa",
     diaspora: "Diyaaspooraa",
+    gallery: "Suuraalee",
     destinations: "Bakkeewwan",
     testimonials: "Yaada Maamiltootaa",
     contact: "Nu Quunnamaa",
@@ -15,7 +16,7 @@ export const om = {
     titleStart: "Imala Keessan, ",
     titleHighlight: "Seenaa (Hikaya)",
     titleEnd: " fi Yeroo Eebbifamaa",
-    subtitle: "Pakeejii Umaraa ((Makkah, Madiina fi daawwannaa)), Tikeettii Idil-addunyaa, Tikeettii Biyya Keessaa, Hoteela Idil-addunyaa fi Biyya Keessaa qabsiisuu, akkasumas daawwannaa Soof Omer, Wonchi, Gaarren Baalee, Gaarren Saameen, fi Gammoojjii Affaar.",
+    subtitle: "Paakeejii Umraa (Makkaa, Madiinaa fi Ziyaaraa), Tikeettii Idil-addunyaa, Tikeettii Biyya Keessaa, Hoteela Idil-addunyaa fi Biyya Keessaa qabsiisuu, akkasumas daawwannaa Soof Umar, Wonchii, Gaarren Baalee, Gaarren Saameen, fi Gammoojjii Affaar.",
     explore: "Paakeejota Daawwadhaa",
     contact: "Nu Quunnamaa",
     scroll: "Gadi Siqsi",
@@ -83,8 +84,8 @@ export const om = {
       },
       {
         day: "Guyyaa 3",
-        title: "Salaata Jumu'aa, Jannat al-Baqi & Rawdaa",
-        desc: "Salaata Jumu'aa Masjiida Nabawiitti salaatuu, qophii Rawdaa Qulqulluu seensisuu, qabrii Ergamaa Rabbii ﷺ fi Baqii irratti nagaa gaafachuu."
+        title: "Masjiida Nabawii, Jannat al-Baqi & Rawdaa",
+        desc: "Masjiida Nabawiitti salaatuu (salaanni Jumu'aa guyyaa Jumu'aan itti bu'u ni raawwatama), qophii Rawdaa Qulqulluu seensisuu, qabrii Ergamaa Rabbii ﷺ fi Baqii irratti nagaa gaafachuu."
       },
       {
         day: "Guyyaa 4",
@@ -113,8 +114,8 @@ export const om = {
       },
       {
         day: "Guyyaa 9",
-        title: "Salaata Jumu'aa Masjiida al-Haram Keessatti",
-        desc: "Salaata Jumu'aa Ka'abaa dura dhaabbatanii tokkummaa ummata Islaamaa waliin dabarsuu fi du'aa gaggeessuu."
+        title: "Ibaadaa fi Yaada Masjiida al-Haram Keessatti",
+        desc: "Salaata jamaa Ka'abaa marsee dhaabbatanii tokkummaa ummata Islaamaa waliin dabarsuu fi du'aa gaggeessuu."
       },
       {
         day: "Guyyaa 10",
@@ -136,12 +137,12 @@ export const om = {
       {
         step: "01",
         title: "Paakeejii Filachuu & Gatii Gaafachuu",
-        desc: "Pakeejii Umraa, tikeettii xiyyaaraa, hoteela, ykn daawwannaa bakkeewwan biyya keessaa filadhaa. Paaspoortiin dura hin barbaachisu."
+        desc: "Paakeejii Umraa, tikeettii xiyyaaraa, hoteela, ykn daawwannaa bakkeewwan biyya keessaa filadhaa. Paaspoortiin dura hin barbaachisu."
       },
       {
         step: "02",
         title: "Kutaa fi Galmee Mirkaneeffachuu",
-        desc: "Pakeejii Istadaardii (Kutaa 1 keessa nama 4) ykn VIP (Kutaa 1 keessa nama 2) filachuun nagahee fi qophii imalaa argadhaa."
+        desc: "Paakeejii Istadaardii (Kutaa 1 keessa nama 4) ykn VIP (Kutaa 1 keessa nama 2) filachuun nagahee fi qophii imalaa argadhaa."
       },
       {
         step: "03",
@@ -157,7 +158,7 @@ export const om = {
   },
   ziyaratHub: {
     badge: "Iddoowwan Seenaa Daawwataman",
-    title: "Ziyaaraa Seena-Qabeessa Pakeejii Hundaa Waliin Dhiyaatu",
+    title: "Ziyaaraa Seena-Qabeessa Paakeejii Hundaa Waliin Dhiyaatu",
     subtitle: "Bakkeewwan seenaan Islaamaa itti jalqabe beektota amantii waliin daawwachuun beekumsa hafuuraa keessan gabbifadhaa.",
     places: [
       {
@@ -199,6 +200,30 @@ export const om = {
     ctaWhatsApp: "Waatsaappiin Nu Qunnamaa (+251 911 123 456)",
     ctaQuote: "Gatii Diyaaspooraa Gaafadhaa",
   },
+  founder: {
+    badge: "Hundeeffaa & Geggeessummaa",
+    title: "Hundeeffaa fi Daarektara Ejansii HIKAYA",
+    subtitle: "Muuxannoo waggoota kudhanii, iftoomina faayinaansii, fi tajaajila imala biyya alaa amansiisaa ta'e.",
+    story: "Barnoota herregaa, faayinaansii fi teeknooloojii ICT ammayyaatiin cimina guddaa kan qaban hundeeffaan keenya, waggoota 10 oliif toora interneetii fi tajaajila imalaa garaa garaa keessatti — keessattuu tajaajila ejansii paaspoortii, viizaa, dookumentoota qindeessuu fi namoota nagaan gara biyya alaa erguu keessatti tajaajila amansiisaa kennaa turaniiru. Hogganummaa isaaniitiin Ejansiin Imalaa HIKAYA iftoomina, qulqullina fi imala eebbifamaa Umraa hujjajjootaaf qopheessa.",
+    qualificationsTitle: "Barnoota fi Muuxannoo Ogummaa",
+    education1: {
+      institution: "Yuunivarsitii Hawaasaa",
+      degree: "Digirii Jalqabaa (B.A.) Herregaa fi Faayinaansii (Accounting & Finance)",
+      desc: "Iftoomina herregaa, gatii haqaa, fi amanamummaa qabeenya maamiltootaa guutuu mirkaneessa.",
+    },
+    education2: {
+      institution: "Kolleejjii Teeknooloojii fi Daldalaa Xiyoon (Zion College)",
+      degree: "ICT (Information & Communication Technology)",
+      desc: "Sirna toora interneetii ammayyaa, tikeettii salphaa, fi qulqullina ragaa viizaa teeknooloojiin deeggaruuf.",
+    },
+    experience: {
+      title: "Muuxannoo Waggoota 10 Ol Tajaajila Imalaafi Paaspoortii",
+      desc: "Waggoota 10 oliif qophii paaspoortii, viizaa biyya alaa, fi tajaajila diyaaspooraa keessatti muuxannoo qabatamaa qaban.",
+    },
+    quote: "Waadaan keenya inni guddaan hujjajjoota fi imaltoota hunda amanamummaa guutuu, qophii of eeggannoo qabu, fi tajaajila qulqulluun tajaajiluudha.",
+    ctaWhatsApp: "Waatsaappiin Kallattiin Qunnamaa",
+    ctaVisit: "Waajjira Keenya Daawwadhaa",
+  },
   officeDesk: {
     badge: "Waajjira Guddaa Finfinnee",
     title: "Waajjira Qaamaan Dhuftanii Nu Arguu Dandeessan",
@@ -210,10 +235,10 @@ export const om = {
   services: {
     subtitle: "Kaanya Kan Irratti Xiyyeefannu",
     title: "Tajaajiloota Imalaa Qulqullina Olaanaa",
-    description: "Pakeejii Umaraa irraa kaasee hanga tikeettii xiyyaaraa, hoteelota biyya keessaa fi alaa, akkasumas daawwannaa bakkeewwan seena qabeessaatti.",
+    description: "Paakeejii Umraa irraa kaasee hanga tikeettii xiyyaaraa, hoteelota biyya keessaa fi alaa, akkasumas daawwannaa bakkeewwan seena qabeessaatti.",
     items: {
       umrah: {
-        title: "Pakeejii Umaraa ((Makkah, Madiina fi daawwannaa))",
+        title: "Paakeejii Umraa (Makkaa, Madiinaa fi Ziyaaraa)",
         description: "Tajaajila Umraa guutuu kan Makkaa, Madiinaa fi ziyaaraa/daawwannaa iddoowwan seena qabeessaa Haramatti dhihoo ta'e.",
       },
       tickets: {
@@ -225,7 +250,7 @@ export const om = {
         description: "Hoteelota sadarkaa olaanaa Makkaa, Madiinaa fi addunyaa irraa kaasee hanga loojjota Itoophiyaa babbareedootti.",
       },
       tours: {
-        title: "Daawwannaa: Soof Omer, Wonchi, Baalee, Saameen, Affaar",
+        title: "Daawwannaa: Soof Umar, Wonchii, Baalee, Saameen, Affaar",
         description: "Imala daawwannaa dinqisiisaa Holqa Soof Umar, Haroo Wonchii, Gaarren Baalee, Gaarren Saameen, fi Gammoojjii Affaar.",
       },
     }
@@ -245,7 +270,7 @@ export const om = {
       },
       {
         title: "Daawwannaa Hawwatoo Itoophiyaa",
-        description: "Soof Omer, Wonchi, Gaarren Baalee, Gaarren Saameen (Samen Terara), fi Gammoojjii Affaar daawwachiisuu irratti muuxannoo olaanaa."
+        description: "Soof Umar, Wonchii, Gaarren Baalee, Gaarren Saameen (Samen Terara), fi Gammoojjii Affaar daawwachiisuu irratti muuxannoo olaanaa."
       },
       {
         title: "Kaffaltii Amansiisaa",
@@ -284,7 +309,7 @@ export const om = {
   contact: {
     subtitle: "Nu Qunnamaa",
     title: "Ogeeyyii Imalaa HIKAYA Qunnamaa",
-    description: "Pakeejii Umaraa, tikeettii xiyyaaraa, hoteela, ykn daawwannaa qabsiisuuf nu qunnamaa, ariitiin isiniif deebisna.",
+    description: "Paakeejii Umraa, tikeettii xiyyaaraa, hoteela, ykn daawwannaa qabsiisuuf nu qunnamaa, ariitiin isiniif deebisna.",
     callUs: "Nuuf Bilbilaa",
     callDesc: "Dhimma hatattamaaf sa'aatii 24 qophiidha.",
     emailUs: "Iimeelii Nuuf Ergaa",
@@ -303,10 +328,55 @@ export const om = {
     phoneLabel: "Lakk. Bilbilaa",
     phonePlaceholder: "+251 911 123 456",
     subjectLabel: "Dhimma *",
-    subjectPlaceholder: "fkn. Pakeejii Umaraa / Daawwannaa Soof Omer / Tikeettii Xiyyaaraa",
+    subjectPlaceholder: "fkn. Paakeejii Umraa / Daawwannaa Soof Umar / Tikeettii Xiyyaaraa",
     messageLabel: "Ergaa Keessan *",
     messagePlaceholder: "Waa'ee karoora imala ykn Umraa keessanii nuuf ibsaa...",
     sending: "Ergamaa jira...",
     send: "Ergaa Ergi"
+  },
+  ui: {
+    bookNow: "Amma Qabsiisi",
+    mainNav: "Tartiiba ijaarsa guddaa",
+    openMenu: "Menyuu bani",
+    closeMenu: "Menyuu cufi",
+    switchLanguage: "Afaan jijjiiri",
+    switchToDark: "Haala dukkanaa'aa fayyadami",
+    switchToLight: "Haala ifaa fayyadami",
+    tagline: "& Ejansii Imalaa",
+    booking: {
+      title: "Imala Keessan Qabsiisaa",
+      close: "Cufi",
+      fullName: "Maqaa guutuu",
+      email: "Teessoo iimeelii",
+      phone: "Bilbila / Waatsaappii",
+      traveler: "Imaltuu",
+      travelers: "Imaltootaa",
+      preferredDates: "Guyyaa imalaa filattan (filannoo)",
+      requests: "Gaaffii addaa (filannoo)",
+      submit: "Gaaffii Qabsiisaa Ergi",
+      sending: "Ergamaa jira…",
+      successTitle: "Gaaffiin Keessan Nu Ga'eera!",
+      successDesc: "Galatoomaa. Gareen keenya argamuu fi gatii mirkanaa'e waliin dhiyootti isin qunnamu.",
+      note: "Kun gaaffii gatii qofa — amma kaffaltiin hin fudhatamu.",
+    },
+    form: {
+      required: "Kutaan kun barbaachisaadha",
+      invalidEmail: "Maaloo teessoo iimeelii sirrii galchaa",
+      sendError: "Ergaan keessan hin ergamne. Irra deebi'ii yaalaa ykn Waatsaappiin nu qunnamaa.",
+      chatWhatsApp: "Waatsaappiin Nu Qunnamaa",
+    },
+  },
+  gallery: {
+    subtitle: "Yeroowwan Imala Keenyaa",
+    title: "Suuraalee Imalaa",
+    description: "Yeroowwan dhugaa garee imaltoota HIKAYA — daandii ziyaaraa Madiinaa waliin deemaa.",
+    viewAll: "Suuraalee hunda ilaali",
+    close: "Cufi",
+    prev: "Suuraa duraa",
+    next: "Suuraa itti aanu",
+    open: "Suuraa bani",
+    empty: "Suuraaleen dhiyootti ni dhufu.",
+    of: "irraa",
+    back: "Gara jalqabaatti",
   },
 };

@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, User, Mail, Phone, Users, MessageSquare } from "lucide-react";
+import { X, Check, AlertCircle, MessageCircle } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { useTrip } from "@/context/TripContext";
+import { useSite } from "@/context/SiteContext";
+import { submitLead } from "@/lib/submitLead";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -11,30 +15,228 @@ interface BookingModalProps {
   packagePrice?: number;
 }
 
+type Status = "idle" | "sending" | "success" | "error";
+
+function BookingForm({
+  onClose,
+  packageTitle,
+}: Pick<BookingModalProps, "onClose" | "packageTitle">) {
+  const { t } = useLanguage();
+  const { whatsappLink } = useSite();
+  const { search } = useTrip();
+  const uid = useId();
+  const firstFieldRef = useRef<HTMLInputElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const prefillDates = [search.departure, search.returnDate].filter(Boolean).join(" → ");
+  const [status, setStatus] = useState<Status>("idle");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    travelers: search.travelers || "1",
+    dates: prefillDates,
+    requests: "",
+    website: "", // honeypot
+  });
+
+  useEffect(() => {
+    firstFieldRef.current?.focus();
+    return () => clearTimeout(closeTimer.current);
+  }, []);
+
+  const set = (key: keyof typeof form) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => setForm((prev) => ({ ...prev, [key]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+    const ok = await submitLead({
+      type: "booking",
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      travelers: form.travelers,
+      package: packageTitle ?? "",
+      preferredDates: form.dates,
+      message: form.requests,
+      website: form.website,
+    });
+    setStatus(ok ? "success" : "error");
+    if (ok) closeTimer.current = setTimeout(onClose, 4000);
+  };
+
+  const b = t.ui.booking;
+  const id = (name: string) => `${uid}-${name}`;
+  const label = "mb-1.5 block text-xs font-semibold text-gray-600 dark:text-gray-300";
+
+  if (status === "success") {
+    return (
+      <motion.div
+        key="success"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="p-10 text-center"
+        role="status"
+      >
+        <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+          <Check className="h-10 w-10 text-green-600" />
+        </div>
+        <h4 className="mb-2 text-xl font-bold text-primary-700 dark:text-white">{b.successTitle}</h4>
+        <p className="text-gray-600 dark:text-gray-400">{b.successDesc}</p>
+      </motion.div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="max-h-[70vh] space-y-4 overflow-y-auto p-6">
+      <div>
+        <label htmlFor={id("name")} className={label}>{b.fullName} *</label>
+        <input
+          ref={firstFieldRef}
+          id={id("name")}
+          type="text"
+          required
+          autoComplete="name"
+          value={form.name}
+          onChange={set("name")}
+          className="form-input"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor={id("email")} className={label}>{b.email} *</label>
+          <input
+            id={id("email")}
+            type="email"
+            required
+            autoComplete="email"
+            value={form.email}
+            onChange={set("email")}
+            className="form-input"
+          />
+        </div>
+        <div>
+          <label htmlFor={id("phone")} className={label}>{b.phone} *</label>
+          <input
+            id={id("phone")}
+            type="tel"
+            required
+            autoComplete="tel"
+            value={form.phone}
+            onChange={set("phone")}
+            className="form-input"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor={id("travelers")} className={label}>{b.travelers}</label>
+          <select
+            id={id("travelers")}
+            value={form.travelers}
+            onChange={set("travelers")}
+            className="form-input"
+          >
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20].map((n) => (
+              <option key={n} value={n}>
+                {n} {n === 1 ? b.traveler : b.travelers}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor={id("dates")} className={label}>{b.preferredDates}</label>
+          <input
+            id={id("dates")}
+            type="text"
+            value={form.dates}
+            onChange={set("dates")}
+            className="form-input"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor={id("requests")} className={label}>{b.requests}</label>
+        <textarea
+          id={id("requests")}
+          rows={3}
+          value={form.requests}
+          onChange={set("requests")}
+          className="form-input resize-none"
+        />
+      </div>
+
+      {/* Honeypot – hidden from people, bots fill it in */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        value={form.website}
+        onChange={set("website")}
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+      />
+
+      {status === "error" && (
+        <div
+          role="alert"
+          className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300"
+        >
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          <div>
+            <p>{t.ui.form.sendError}</p>
+            <a
+              href={whatsappLink(
+                `Hello HIKAYA, I would like to book: ${packageTitle ?? ""}`
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1.5 font-semibold underline"
+            >
+              <MessageCircle className="h-4 w-4" />
+              {t.ui.form.chatWhatsApp}
+            </a>
+          </div>
+        </div>
+      )}
+
+      <button type="submit" disabled={status === "sending"} className="btn-primary w-full py-4 text-base">
+        {status === "sending" ? b.sending : b.submit}
+      </button>
+      <p className="text-center text-xs text-gray-500 dark:text-gray-400">
+        {b.note}
+      </p>
+    </form>
+  );
+}
+
 export default function BookingModal({
   isOpen,
   onClose,
   packageTitle,
   packagePrice,
 }: BookingModalProps) {
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    travelers: "1",
-    requests: "",
-  });
+  const { t } = useLanguage();
+  const titleId = useId();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      onClose();
-      setFormData({ name: "", email: "", phone: "", travelers: "1", requests: "" });
-    }, 3000);
-  };
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -46,161 +248,44 @@ export default function BookingModal({
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           onClick={onClose}
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-primary-900/60 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-primary-900/60 backdrop-blur-sm" aria-hidden="true" />
 
-          {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-lg bg-white dark:bg-dark-300 rounded-2xl shadow-2xl overflow-hidden"
+            className="relative w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl dark:bg-dark-300"
           >
-            {/* Header */}
-            <div className="relative px-6 py-5 bg-gradient-to-r from-primary-700 via-primary-600 to-primary-700">
+            <div className="relative bg-gradient-to-r from-primary-700 via-primary-600 to-primary-700 px-6 py-5">
               <button
+                type="button"
                 onClick={onClose}
-                className="absolute top-4 right-4 p-1 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-colors"
-                aria-label="Close modal"
+                className="absolute right-4 top-4 rounded-full p-1 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                aria-label={t.ui.booking.close}
               >
-                <X className="w-5 h-5" />
+                <X className="h-5 w-5" />
               </button>
-              <h3 className="text-xl font-display font-bold text-white">
-                Book Your Trip
+              <h3 id={titleId} className="pr-8 font-display text-xl font-bold text-white">
+                {t.ui.booking.title}
               </h3>
               {packageTitle && (
-                <p className="text-sm text-accent-300 mt-1">
-                  {packageTitle}{" "}
-                  {packagePrice && (
-                    <span className="text-white font-semibold">
-                      — ${packagePrice.toLocaleString()}
+                <p className="mt-1 text-sm text-accent-300">
+                  {packageTitle}
+                  {packagePrice ? (
+                    <span className="font-semibold text-white">
+                      {" "}— ${packagePrice.toLocaleString("en-US")}
                     </span>
-                  )}
+                  ) : null}
                 </p>
               )}
             </div>
 
-            <AnimatePresence mode="wait">
-              {submitted ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="p-10 text-center"
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", delay: 0.2 }}
-                    className="w-20 h-20 mx-auto mb-4 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center"
-                  >
-                    <Check className="w-10 h-10 text-green-500" />
-                  </motion.div>
-                  <h4 className="text-xl font-bold text-primary-700 dark:text-white mb-2">
-                    Booking Confirmed!
-                  </h4>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    We&apos;ll contact you shortly with your trip details.
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onSubmit={handleSubmit}
-                  className="p-6 space-y-4"
-                >
-                  {/* Name */}
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition"
-                    />
-                  </div>
-
-                  {/* Email */}
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      required
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition"
-                    />
-                  </div>
-
-                  {/* Phone & Travelers */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <input
-                        type="tel"
-                        placeholder="Phone"
-                        required
-                        value={formData.phone}
-                        onChange={(e) =>
-                          setFormData({ ...formData, phone: e.target.value })
-                        }
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition"
-                      />
-                    </div>
-                    <div className="relative">
-                      <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <select
-                        value={formData.travelers}
-                        onChange={(e) =>
-                          setFormData({ ...formData, travelers: e.target.value })
-                        }
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition appearance-none"
-                      >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                          <option key={n} value={n}>
-                            {n} {n === 1 ? "Traveler" : "Travelers"}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Special Requests */}
-                  <div className="relative">
-                    <MessageSquare className="absolute left-3 top-3.5 w-4 h-4 text-gray-400" />
-                    <textarea
-                      placeholder="Special Requests (optional)"
-                      rows={3}
-                      value={formData.requests}
-                      onChange={(e) =>
-                        setFormData({ ...formData, requests: e.target.value })
-                      }
-                      className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-dark-100 bg-gray-50 dark:bg-dark-400 text-primary-700 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition resize-none"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn-primary w-full text-base py-4"
-                  >
-                    Confirm Booking
-                  </button>
-                </motion.form>
-              )}
-            </AnimatePresence>
+            <BookingForm onClose={onClose} packageTitle={packageTitle} />
           </motion.div>
         </motion.div>
       )}

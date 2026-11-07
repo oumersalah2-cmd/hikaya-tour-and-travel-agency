@@ -14,7 +14,7 @@ export default function ZiyaratHub() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-500 dark:text-accent-300 text-xs font-semibold uppercase tracking-wider mb-3">
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300 text-xs font-semibold uppercase tracking-wider mb-3">
             <Sparkles className="w-3.5 h-3.5" />
             {ziyarat.badge}
           </span>
@@ -68,7 +68,7 @@ export default function ZiyaratHub() {
               </div>
 
               <div className="px-6 pb-6 pt-2">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-accent-500 dark:text-accent-300 group-hover:text-accent-400">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-accent-700 dark:text-accent-300 group-hover:text-accent-400">
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>{lang === "en" ? "Guided by Scholar" : "Ogeessa Amantiin Daawwatama"}</span>
                 </div>

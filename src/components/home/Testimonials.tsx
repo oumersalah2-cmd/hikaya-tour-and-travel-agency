@@ -2,19 +2,22 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { Quote, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
-import { getTestimonials } from "@/data/testimonials";
+import { useSite } from "@/context/SiteContext";
 
 export default function Testimonials() {
   const [current, setCurrent] = useState(0);
-  const { lang, t } = useLanguage();
-  const testimonials = getTestimonials(lang);
+  const { lang } = useLanguage();
+  const { testimonials } = useSite();
 
   const next = () => setCurrent((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+
+  // The owner may hide or delete every testimonial in the admin panel
+  if (testimonials.length === 0) return null;
+  const item = testimonials[current % testimonials.length];
 
   return (
     <section id="testimonials" className="section-padding bg-gray-50/50 dark:bg-dark-400 relative overflow-hidden">
@@ -46,7 +49,7 @@ export default function Testimonials() {
                     <Star
                       key={i}
                       className={`w-5 h-5 ${
-                        i < testimonials[current].rating
+                        i < item.rating
                           ? "fill-accent-400 text-accent-400"
                           : "fill-gray-200 text-gray-200 dark:fill-dark-100 dark:text-dark-100"
                       }`}
@@ -55,24 +58,19 @@ export default function Testimonials() {
                 </div>
                 
                 <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed font-display italic mb-8 relative z-10">
-                  &quot;{testimonials[current].quote}&quot;
+                  &quot;{item.quote}&quot;
                 </p>
                 
                 <div className="flex items-center gap-4">
-                  <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-accent-400 shadow-sm">
-                    <Image
-                      src={testimonials[current].avatar}
-                      alt={testimonials[current].name}
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-accent-400 bg-accent-400/10 font-display text-lg font-bold text-accent-700 dark:text-accent-300" aria-hidden="true">
+                    {item.name.replace(/^(Sh\.|Dr\.)\s*/, "").charAt(0)}
                   </div>
                   <div className="text-left">
                     <h4 className="font-bold text-primary-700 dark:text-white">
-                      {testimonials[current].name}
+                      {item.name}
                     </h4>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {testimonials[current].role}
+                      {item.role}
                     </p>
                   </div>
                 </div>

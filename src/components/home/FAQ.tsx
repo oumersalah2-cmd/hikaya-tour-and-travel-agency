@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
-import { getFaqItems } from "@/data/faq";
+import { useSite } from "@/context/SiteContext";
 
 export default function FAQ() {
-  const { lang, t } = useLanguage();
-  const faqItems = getFaqItems(lang);
-  const [openId, setOpenId] = useState<string | null>(faqItems[0].id);
+  const { lang } = useLanguage();
+  const { faq: faqItems } = useSite();
+  const [openId, setOpenId] = useState<string | null>(faqItems[0]?.id ?? null);
 
   const toggleFAQ = (id: string) => {
     setOpenId(openId === id ? null : id);
@@ -47,7 +47,7 @@ export default function FAQ() {
                 <span
                   className={`font-semibold pr-8 ${
                     openId === faq.id
-                      ? "text-accent-500 dark:text-accent-400"
+                      ? "text-accent-700 dark:text-accent-400"
                       : "text-primary-700 dark:text-gray-200"
                   }`}
                 >

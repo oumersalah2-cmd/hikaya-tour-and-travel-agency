@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n";
 export interface Destination {
   id: string;
   name: string;
@@ -7,7 +8,7 @@ export interface Destination {
   featured?: boolean;
 }
 
-export const getDestinations = (lang: "en" | "om"): Destination[] => [
+export const getDestinations = (lang: Locale): Destination[] => [
   {
     id: "sof-omar",
     name: lang === "en" ? "Sof Omar Caves" : "Holqa Soof Umar",

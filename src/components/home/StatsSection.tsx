@@ -2,15 +2,17 @@
 
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSite } from "@/context/SiteContext";
 
 export default function StatsSection() {
   const { t } = useLanguage();
+  const { site } = useSite();
 
   const stats = [
-    { label: t.stats.travelers, value: 15000, suffix: "+" },
-    { label: t.stats.destinations, value: 120, suffix: "+" },
-    { label: t.stats.trips, value: 8500, suffix: "+" },
-    { label: t.stats.experience, value: 12, suffix: "+" },
+    { label: t.stats.travelers, value: site.stats.travelers, suffix: "+" },
+    { label: t.stats.destinations, value: site.stats.destinations, suffix: "+" },
+    { label: t.stats.trips, value: site.stats.trips, suffix: "+" },
+    { label: t.stats.experience, value: site.stats.experience, suffix: "+" },
   ];
 
   return (

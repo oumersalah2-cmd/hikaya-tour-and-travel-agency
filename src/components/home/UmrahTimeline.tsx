@@ -4,11 +4,15 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, Clock, Compass, PlaneTakeoff, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSite } from "@/context/SiteContext";
 
 export default function UmrahTimeline() {
   const { t, lang } = useLanguage();
+  const { site } = useSite();
   const schedule = t.umrahTimeline;
   const [activeDay, setActiveDay] = useState(0);
+  const en = lang === "en";
+  const totalDays = schedule.days.length;
 
   return (
     <section id="schedule" className="py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-dark-500/80 dark:via-dark-600 dark:to-dark-500/80 relative overflow-hidden">
@@ -19,7 +23,7 @@ export default function UmrahTimeline() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-500 dark:text-accent-300 text-xs font-semibold uppercase tracking-wider mb-3">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300 text-xs font-semibold uppercase tracking-wider mb-3">
             <Compass className="w-3.5 h-3.5" />
             {schedule.badge}
           </span>
@@ -35,23 +39,23 @@ export default function UmrahTimeline() {
         <div className="mb-14 p-6 sm:p-8 rounded-3xl bg-white dark:bg-dark-300 border border-gray-100 dark:border-dark-100 shadow-soft-lg">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-100 dark:border-dark-100">
             <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent-500 dark:text-accent-300 mb-1">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent-700 dark:text-accent-300 mb-1">
                 <PlaneTakeoff className="w-4 h-4" />
-                {lang === "en" ? "Official Round Itinerary" : "Daandii Imalaa Seera Qabeessa"}
+                {en ? "Official Round Itinerary" : "Daandii Imalaa Seera Qabeessa"}
               </div>
               <h3 className="text-xl sm:text-2xl font-bold font-display text-primary-700 dark:text-white">
-                Addis Ababa ➔ Jeddah ➔ Madinah (3N) ➔ Makkah (7N) ➔ Addis Ababa
+                {en ? "Addis Ababa → Jeddah → Madinah (3N) → Makkah (7N) → Addis Ababa" : "Finfinnee → Jeddah → Madiinaa (Halkan 3) → Makkaa (Halkan 7) → Finfinnee"}
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
-                ✓ 3 Nights Madinah
+                ✓ {en ? "3 Nights Madinah" : "Halkan 3 Madiinaa"}
               </span>
               <span className="px-3 py-1.5 rounded-full bg-accent-50 dark:bg-accent-950/40 border border-accent-200 dark:border-accent-800 text-accent-700 dark:text-accent-300 text-xs font-semibold">
-                ✓ 7 Nights Makkah
+                ✓ {en ? "7 Nights Makkah" : "Halkan 7 Makkaa"}
               </span>
               <span className="px-3 py-1.5 rounded-full bg-primary-50 dark:bg-primary-950/40 border border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300 text-xs font-semibold">
-                ✓ 11 Days Round
+                ✓ {en ? "11 Days Round" : "Guyyaa 11"}
               </span>
             </div>
           </div>
@@ -63,8 +67,8 @@ export default function UmrahTimeline() {
                 key={idx}
                 className="relative p-3.5 rounded-2xl bg-gray-50/70 dark:bg-dark-400/50 border border-gray-100 dark:border-dark-100 text-center flex flex-col justify-between"
               >
-                <div className="text-[10px] font-bold text-accent-500 dark:text-accent-300 tracking-wider mb-1">
-                  STEP {item.step}
+                <div className="text-[10px] font-bold text-accent-700 dark:text-accent-300 tracking-wider mb-1">
+                  {en ? "STEP" : "SADARKAA"} {item.step}
                 </div>
                 <div className="font-display font-bold text-sm sm:text-base text-primary-700 dark:text-white">
                   {item.city}
@@ -99,7 +103,7 @@ export default function UmrahTimeline() {
                       className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold ${
                         isActive
                           ? "bg-white/20 text-white"
-                          : "bg-gray-100 dark:bg-dark-400 text-accent-500 dark:text-accent-300"
+                          : "bg-gray-100 dark:bg-dark-400 text-accent-700 dark:text-accent-300"
                       }`}
                     >
                       {idx + 1}
@@ -131,13 +135,13 @@ export default function UmrahTimeline() {
                 className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-dark-300 border border-gray-100 dark:border-dark-100 shadow-soft-xl relative overflow-hidden"
               >
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-                  <span className="px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-500 dark:text-accent-300 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5" />
-                    {schedule.days[activeDay].day} of 11
+                    {schedule.days[activeDay].day} {en ? "of" : "irraa"} {totalDays}
                   </span>
                   <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                    {lang === "en" ? "Guided by HIKAYA Resident Scholars" : "Ogeeyyii Amantii HIKAYA Waliin"}
+                    {en ? "Guided by HIKAYA Resident Scholars" : "Ogeeyyii Amantii HIKAYA Waliin"}
                   </div>
                 </div>
 
@@ -155,12 +159,12 @@ export default function UmrahTimeline() {
                     <CheckCircle2 className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                     <div>
                       <div className="text-xs font-bold text-primary-700 dark:text-white uppercase tracking-wider">
-                        {lang === "en" ? "Accommodations & Logistics" : "Hoteela & Geejjiba"}
+                        {en ? "Accommodations & Logistics" : "Hoteela & Geejjiba"}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                         {activeDay < 3
-                          ? (lang === "en" ? "Madinah 5-Star Hotel steps from Masjid an-Nabawi" : "Hoteela Madiinaa Masjiida Nabawiitti Dhihoo")
-                          : (lang === "en" ? "Makkah 5-Star Hotel steps from Masjid al-Haram" : "Hoteela Makkaa Masjiida al-Haramitti Dhihoo")}
+                          ? (en ? "Madinah hotel near Masjid an-Nabawi" : "Hoteela Madiinaa Masjiida Nabawiitti Dhihoo")
+                          : (en ? "Makkah hotel near Masjid al-Haram" : "Hoteela Makkaa Masjiida al-Haramitti Dhihoo")}
                       </div>
                     </div>
                   </div>
@@ -169,10 +173,10 @@ export default function UmrahTimeline() {
                     <MapPin className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                     <div>
                       <div className="text-xs font-bold text-primary-700 dark:text-white uppercase tracking-wider">
-                        {lang === "en" ? "Coordinator Support" : "Qindeessaa Garee"}
+                        {en ? "Coordinator Support" : "Qindeessaa Garee"}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                        {lang === "en" ? "24/7 Ethiopian on-ground chaperone & WhatsApp desk (+251 911 123 456)" : "Gargaarsa qindeessaa sa'aatii 24 fi Waatsaappii (+251 911 123 456)"}
+                        {en ? `24/7 Ethiopian on-ground chaperone & WhatsApp desk (${site.whatsappDisplay})` : `Gargaarsa qindeessaa sa'aatii 24 fi Waatsaappii (${site.whatsappDisplay})`}
                       </div>
                     </div>
                   </div>
@@ -186,18 +190,18 @@ export default function UmrahTimeline() {
                     disabled={activeDay === 0}
                     className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
                   >
-                    ← {lang === "en" ? "Previous Day" : "Guyyaa Duraa"}
+                    ← {en ? "Previous Day" : "Guyyaa Duraa"}
                   </button>
                   <div className="text-xs text-gray-400 font-medium">
-                    {activeDay + 1} / 11
+                    {activeDay + 1} / {totalDays}
                   </div>
                   <button
                     type="button"
-                    onClick={() => setActiveDay((prev) => Math.min(10, prev + 1))}
-                    disabled={activeDay === 10}
-                    className="px-4 py-2 rounded-xl text-xs font-semibold text-accent-500 dark:text-accent-300 hover:bg-accent-50 dark:hover:bg-dark-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
+                    onClick={() => setActiveDay((prev) => Math.min(totalDays - 1, prev + 1))}
+                    disabled={activeDay === totalDays - 1}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-accent-700 dark:text-accent-300 hover:bg-accent-50 dark:hover:bg-dark-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
                   >
-                    {lang === "en" ? "Next Day" : "Guyyaa Itti Aanu"} →
+                    {en ? "Next Day" : "Guyyaa Itti Aanu"} →
                   </button>
                 </div>
               </motion.div>

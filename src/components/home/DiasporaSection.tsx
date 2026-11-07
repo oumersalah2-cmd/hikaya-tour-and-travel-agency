@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { Globe, HeartHandshake, CheckCircle2, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSite } from "@/context/SiteContext";
 
 export default function DiasporaSection() {
   const { t, lang } = useLanguage();
+  const { site, whatsappLink } = useSite();
   const diaspora = t.diaspora;
 
   return (
@@ -47,13 +49,13 @@ export default function DiasporaSection() {
 
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href="https://wa.me/251911123456?text=Hello%20HIKAYA%2C%20I%20am%20living%20in%20the%20diaspora%20and%20would%20like%20to%20sponsor%20my%20parents%20for%20Umrah"
+                href={whatsappLink(decodeURIComponent("Hello%20HIKAYA%2C%20I%20am%20living%20in%20the%20diaspora%20and%20would%20like%20to%20sponsor%20my%20parents%20for%20Umrah"))}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary px-8 py-4 text-base flex items-center gap-2 shadow-glow"
               >
                 <MessageCircle className="w-5 h-5 text-white" />
-                <span>{lang === "en" ? "Chat on WhatsApp (+251 911 123 456)" : "Waatsaappiin Nu Qunnamaa (+251 911 123 456)"}</span>
+                <span>{lang === "en" ? `Chat on WhatsApp (${site.whatsappDisplay})` : `Waatsaappiin Nu Qunnamaa (${site.whatsappDisplay})`}</span>
               </a>
 
               <Link
@@ -95,8 +97,8 @@ export default function DiasporaSection() {
                   </span>
                   <p className="text-xs text-gray-300 leading-relaxed">
                     {lang === "en"
-                      ? "Contact us via WhatsApp (+251 911 123 456), confirm dates and package, pay securely in USD/EUR/ETB."
-                      : "Waatsaappiin (+251 911 123 456) nu qunnamaa, guyyaa filadhaa, kaffaltii nagaan raawwadhaa."}
+                      ? `Contact us via WhatsApp (${site.whatsappDisplay}), confirm dates and package, pay securely in USD/EUR/ETB.`
+                      : `Waatsaappiin (${site.whatsappDisplay}) nu qunnamaa, guyyaa filadhaa, kaffaltii nagaan raawwadhaa.`}
                   </p>
                 </div>
 
@@ -127,12 +129,12 @@ export default function DiasporaSection() {
                 <span className="text-xs text-gray-300">
                   {lang === "en" ? "Direct WhatsApp Desk:" : "Waatsaappii Qindeessaa:"}{" "}
                   <a
-                    href="https://wa.me/251911123456"
+                    href={whatsappLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-300 font-bold underline hover:text-emerald-200"
                   >
-                    +251 911 123 456
+                    {site.whatsappDisplay}
                   </a>
                 </span>
               </div>

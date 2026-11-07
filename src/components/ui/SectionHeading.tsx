@@ -26,7 +26,7 @@ export default function SectionHeading({
       className={`mb-16 ${centered ? "text-center" : ""}`}
     >
       {subtitle && (
-        <span className="inline-block text-sm font-semibold uppercase tracking-[0.2em] text-accent-400 mb-3">
+        <span className="inline-block text-sm font-semibold uppercase tracking-[0.2em] text-accent-700 dark:text-accent-300 mb-3">
           {subtitle}
         </span>
       )}

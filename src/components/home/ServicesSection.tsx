@@ -26,7 +26,7 @@ export default function ServicesSection() {
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-accent-400/10 to-accent-300/10 flex items-center justify-center mb-5 group-hover:from-accent-400 group-hover:to-accent-300 transition-all duration-300">
                   <Icon className="w-6 h-6 text-accent-500 group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="font-display font-bold text-lg text-primary-700 dark:text-white mb-2 group-hover:text-accent-500 dark:group-hover:text-accent-300 transition-colors">
+                <h3 className="font-display font-bold text-lg text-primary-700 dark:text-white mb-2 group-hover:text-accent-700 dark:group-hover:text-accent-300 transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">

@@ -6,11 +6,14 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
-import { getDestinations } from "@/data/destinations";
+import { useSite } from "@/context/SiteContext";
+import { useTrip } from "@/context/TripContext";
 
 export default function PopularDestinations() {
-  const { lang, t } = useLanguage();
-  const destinations = getDestinations(lang);
+  const { lang } = useLanguage();
+  const { destinations } = useSite();
+  const { setCategory } = useTrip();
+  const open = (id: string) => setCategory(id === "mecca-medina" ? "umrah" : "tours");
 
   return (
     <section id="destinations" className="section-padding bg-gray-50/50 dark:bg-dark-400">
@@ -23,7 +26,7 @@ export default function PopularDestinations() {
             centered={false}
           />
           <Link
-            href={`/${lang}/#packages`}
+            href={`/${lang}#packages`}
             className="hidden md:flex items-center gap-2 text-primary-600 dark:text-gray-300 font-semibold hover:text-accent-500 transition-colors group"
           >
             {lang === "en" ? "View All Destinations" : "Bakkeewwan Hunda Daawwadhaa"}
@@ -41,7 +44,7 @@ export default function PopularDestinations() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="lg:col-span-2 relative rounded-3xl overflow-hidden group h-[320px] sm:h-[360px] cursor-pointer shadow-soft hover:shadow-soft-lg transition-all"
+              className="lg:col-span-2 relative rounded-3xl overflow-hidden group h-[320px] sm:h-[360px] shadow-soft hover:shadow-soft-lg transition-all"
             >
               <Image
                 src={dest.image}
@@ -51,6 +54,13 @@ export default function PopularDestinations() {
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <Link
+                href={`/${lang}#packages`}
+                onClick={() => open(dest.id)}
+                className="absolute inset-0 z-10"
+                aria-label={dest.name}
+              />
+
               <div className="absolute bottom-6 left-6 right-6">
                 <span className="px-3.5 py-1 bg-accent-400 text-white rounded-full text-xs font-bold uppercase tracking-wider mb-3 inline-block shadow-sm">
                   {dest.country}
@@ -76,7 +86,7 @@ export default function PopularDestinations() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 * (index + 2) }}
-              className="relative rounded-3xl overflow-hidden group h-[280px] cursor-pointer shadow-soft hover:shadow-soft-lg transition-all"
+              className="relative rounded-3xl overflow-hidden group h-[280px] shadow-soft hover:shadow-soft-lg transition-all"
             >
               <Image
                 src={dest.image}
@@ -86,6 +96,13 @@ export default function PopularDestinations() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
+              <Link
+                href={`/${lang}#packages`}
+                onClick={() => open(dest.id)}
+                className="absolute inset-0 z-10"
+                aria-label={dest.name}
+              />
+
               <div className="absolute bottom-5 left-5 right-5">
                 <span className="px-2.5 py-0.5 bg-white/20 backdrop-blur-md rounded-full text-white text-[10px] font-bold uppercase tracking-wider mb-2 inline-block">
                   {dest.country}
@@ -103,7 +120,7 @@ export default function PopularDestinations() {
         </div>
 
         <Link
-          href={`/${lang}/#packages`}
+          href={`/${lang}#packages`}
           className="flex md:hidden items-center justify-center gap-2 mt-8 text-primary-600 dark:text-gray-300 font-semibold"
         >
           {lang === "en" ? "View All Destinations" : "Bakkeewwan Hunda Daawwadhaa"}

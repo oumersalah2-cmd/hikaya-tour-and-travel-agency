@@ -2,54 +2,65 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Plane } from "lucide-react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-
 import { useLanguage } from "@/context/LanguageContext";
-import { usePathname, useRouter } from "next/navigation";
+import { useSite } from "@/context/SiteContext";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { t, lang } = useLanguage();
+  const { site } = useSite();
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname() ?? `/${lang}`;
+
+  // The transparent-over-hero style only works on the home page (dark hero image).
+  const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
+  const solid = isScrolled || isMobileOpen || !isHome;
 
   const toggleLanguage = () => {
     const newLang = lang === "en" ? "om" : "en";
-    const currentPathWithoutLang = pathname.replace(`/${lang}`, "") || "/";
-    router.push(`/${newLang}${currentPathWithoutLang}`);
+    const rest = pathname.replace(/^\/(en|om)(?=\/|$)/, "");
+    router.push(`/${newLang}${rest}${window.location.hash}`);
   };
 
   const navLinks = [
-    { href: `/${lang}/#home`, label: t.nav.home },
-    { href: `/${lang}/#services`, label: t.nav.services },
-    { href: `/${lang}/#packages`, label: t.nav.packages },
-    { href: `/${lang}/#schedule`, label: t.nav.schedule },
-    { href: `/${lang}/#ziyarat`, label: t.nav.ziyarat },
-    { href: `/${lang}/#diaspora`, label: t.nav.diaspora },
+    { href: `/${lang}#home`, label: t.nav.home },
+    { href: `/${lang}#services`, label: t.nav.services },
+    { href: `/${lang}#packages`, label: t.nav.packages },
+    { href: `/${lang}#schedule`, label: t.nav.schedule },
+    { href: `/${lang}#ziyarat`, label: t.nav.ziyarat },
+    { href: `/${lang}#diaspora`, label: t.nav.diaspora },
+    { href: `/${lang}/gallery`, label: t.nav.gallery },
     { href: `/${lang}/contact`, label: t.nav.contact },
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    if (isMobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!isMobileOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsMobileOpen(false);
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
   }, [isMobileOpen]);
+
+  const langButtonClass = `rounded-md border px-3 py-1.5 text-xs font-bold tracking-wider transition-colors ${
+    solid
+      ? "border-primary-200 text-primary-700 hover:bg-primary-50 dark:border-dark-100 dark:text-white dark:hover:bg-dark-200"
+      : "border-white/30 text-white hover:bg-white/10"
+  }`;
 
   return (
     <>
@@ -57,46 +68,47 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled || isMobileOpen
-            ? "bg-white/90 dark:bg-dark-500/90 backdrop-blur-xl shadow-soft border-b border-gray-100/50 dark:border-white/5"
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+          solid
+            ? "border-b border-gray-100/60 bg-white/90 shadow-soft backdrop-blur-xl dark:border-white/5 dark:bg-dark-500/90"
             : "bg-transparent"
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-          <Link href={`/${lang}`} className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-400 via-accent-300 to-accent-500 flex items-center justify-center shadow-glow group-hover:shadow-glow-lg transition-shadow duration-300">
-                <Plane className="w-5 h-5 text-white -rotate-45" />
-              </div>
+        <nav
+          aria-label={t.ui.mainNav}
+          className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8"
+        >
+          <Link href={`/${lang}`} className="group flex items-center gap-2.5">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent-400 via-accent-300 to-accent-500 shadow-glow transition-shadow duration-300 group-hover:shadow-glow-lg">
+              <Plane className="h-5 w-5 -rotate-45 text-primary-900" />
             </div>
             <div>
               <span
-                className={`text-lg font-display font-bold tracking-tight transition-colors duration-300 ${
-                  isScrolled || isMobileOpen ? "text-primary-700 dark:text-white" : "text-white"
+                className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
+                  solid ? "text-primary-700 dark:text-white" : "text-white"
                 }`}
               >
-                HIKAYA
+                {site.shortName}
               </span>
               <span
-                className={`block text-[10px] uppercase tracking-[0.3em] font-medium -mt-0.5 transition-colors duration-300 ${
-                  isScrolled || isMobileOpen ? "text-accent-500 dark:text-accent-300" : "text-accent-300"
+                className={`-mt-0.5 block text-[10px] font-medium uppercase tracking-[0.3em] transition-colors duration-300 ${
+                  solid ? "text-accent-700 dark:text-accent-300" : "text-accent-300"
                 }`}
               >
-                & Travel Agency
+                {t.ui.tagline}
               </span>
             </div>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden items-center gap-0.5 lg:flex">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:bg-white/10 ${
-                  isScrolled
-                    ? "text-primary-600 dark:text-gray-300 hover:text-primary-700 dark:hover:text-white hover:bg-primary-50 dark:hover:bg-dark-200"
-                    : "text-white/80 hover:text-white"
+                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-300 xl:px-4 ${
+                  solid
+                    ? "text-primary-600 hover:bg-primary-50 hover:text-primary-700 dark:text-gray-300 dark:hover:bg-dark-200 dark:hover:text-white"
+                    : "text-white/85 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -104,42 +116,42 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden items-center gap-3 lg:flex">
             <button
+              type="button"
               onClick={toggleLanguage}
-              className={`font-bold px-3 py-1.5 rounded-md border text-xs tracking-wider transition-colors ${
-                isScrolled
-                  ? "border-primary-200 text-primary-700 hover:bg-primary-50 dark:border-dark-100 dark:text-white dark:hover:bg-dark-200"
-                  : "border-white/30 text-white hover:bg-white/10"
-              }`}
+              className={langButtonClass}
+              aria-label={t.ui.switchLanguage}
             >
               {lang === "en" ? "OM" : "EN"}
             </button>
-            <ThemeToggle />
-            <Link href={`/${lang}/#packages`} className="btn-primary text-sm px-6 py-2.5">
-              Book Now
+            <ThemeToggle onDark={!solid} />
+            <Link href={`/${lang}#packages`} className="btn-primary px-6 py-2.5 text-sm">
+              {t.ui.bookNow}
             </Link>
           </div>
 
-          <div className="flex lg:hidden items-center gap-3">
+          <div className="flex items-center gap-2 lg:hidden">
             <button
+              type="button"
               onClick={toggleLanguage}
-              className={`font-bold px-2 py-1 rounded-md border text-xs transition-colors ${
-                isScrolled || isMobileOpen
-                  ? "border-primary-200 text-primary-700 dark:border-dark-100 dark:text-white"
-                  : "border-white/30 text-white"
-              }`}
+              className={langButtonClass}
+              aria-label={t.ui.switchLanguage}
             >
               {lang === "en" ? "OM" : "EN"}
             </button>
-            <ThemeToggle />
+            <ThemeToggle onDark={!solid} />
             <button
-              onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className={`p-2 rounded-lg transition-colors ${
-                isScrolled || isMobileOpen ? "text-primary-700 dark:text-white" : "text-white"
+              type="button"
+              onClick={() => setIsMobileOpen((open) => !open)}
+              className={`rounded-lg p-2 transition-colors ${
+                solid ? "text-primary-700 dark:text-white" : "text-white"
               }`}
+              aria-label={isMobileOpen ? t.ui.closeMenu : t.ui.openMenu}
+              aria-expanded={isMobileOpen}
+              aria-controls="mobile-menu"
             >
-              {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </nav>
@@ -148,6 +160,7 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -156,13 +169,14 @@ export default function Navbar() {
             <div
               className="absolute inset-0 bg-primary-900/60 backdrop-blur-sm"
               onClick={() => setIsMobileOpen(false)}
+              aria-hidden="true"
             />
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="absolute right-0 top-0 h-full w-[300px] bg-white dark:bg-dark-400 shadow-2xl"
+              className="absolute right-0 top-0 h-full w-[min(300px,85vw)] overflow-y-auto bg-white shadow-2xl dark:bg-dark-400"
             >
               <div className="p-6 pt-24">
                 <div className="space-y-1">
@@ -176,7 +190,7 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         onClick={() => setIsMobileOpen(false)}
-                        className="block px-4 py-3 text-primary-700 dark:text-gray-200 font-medium rounded-xl hover:bg-primary-50 dark:hover:bg-dark-200 transition-colors"
+                        className="block rounded-xl px-4 py-3 font-medium text-primary-700 transition-colors hover:bg-primary-50 dark:text-gray-200 dark:hover:bg-dark-200"
                       >
                         {link.label}
                       </Link>
@@ -190,11 +204,11 @@ export default function Navbar() {
                   className="mt-8"
                 >
                   <Link
-                    href="/#packages"
+                    href={`/${lang}#packages`}
                     onClick={() => setIsMobileOpen(false)}
                     className="btn-primary w-full text-center"
                   >
-                    Book Now
+                    {t.ui.bookNow}
                   </Link>
                 </motion.div>
               </div>

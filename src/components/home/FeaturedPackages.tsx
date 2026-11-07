@@ -1,171 +1,214 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useCallback, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { Star, Clock, MapPin, Users, MessageCircle, Check } from "lucide-react";
+import { Star, Clock, MapPin, Users, MessageCircle, Check, Route } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import BookingModal from "@/components/ui/BookingModal";
 import { useLanguage } from "@/context/LanguageContext";
-import { getPackages } from "@/data/packages";
+import { useTrip, type PackageCategory } from "@/context/TripContext";
+import type { Package } from "@/data/packages";
+import { useSite } from "@/context/SiteContext";
 
 export default function FeaturedPackages() {
   const { lang } = useLanguage();
-  const packages = getPackages(lang);
-  const featuredPackages = packages.filter((pkg) => pkg.featured);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPkg, setSelectedPkg] = useState<(typeof packages)[0] | null>(null);
+  const { search, setCategory } = useTrip();
+  const en = lang === "en";
+  const { packages, whatsappLink } = useSite();
 
-  const handleBookNow = (pkg: (typeof packages)[0]) => {
+  const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const closeModal = useCallback(() => setModalOpen(false), []);
+  const openModal = (pkg: Package) => {
     setSelectedPkg(pkg);
     setModalOpen(true);
   };
 
-  return (
-    <section id="packages" className="py-24 bg-gray-50 dark:bg-dark-500/50 relative overflow-hidden">
-      <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-accent-400/10 rounded-full blur-3xl opacity-50 dark:opacity-20" />
+  const filters: { id: PackageCategory; label: string }[] = [
+    { id: "all", label: en ? "All" : "Hunda" },
+    { id: "umrah", label: en ? "Umrah" : "Umraa" },
+    { id: "tours", label: en ? "Ethiopia Tours" : "Daawwannaa Itoophiyaa" },
+    { id: "travel", label: en ? "Flights & Hotels" : "Xiyyaaraa fi Hoteela" },
+  ];
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+  const visible = packages.filter((pkg) => {
+    if (search.packageId) return pkg.id === search.packageId;
+    return search.category === "all" || pkg.category === search.category;
+  });
+
+  return (
+    <section id="packages" className="relative overflow-hidden bg-gray-50 py-24 dark:bg-dark-500/50">
+      <div className="pointer-events-none absolute right-0 top-0 -mr-20 -mt-20 h-80 w-80 rounded-full bg-accent-400/10 opacity-50 blur-3xl dark:opacity-20" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          subtitle={lang === "en" ? "Transparent Pricing & Rounds" : "Gatii Ifaa & Paakeejota"}
-          title={lang === "en" ? "Featured Umrah & Travel Packages" : "Paakeejota Umraa fi Imalaa Filatamoo"}
+          subtitle={en ? "Transparent Pricing & Rounds" : "Gatii Ifaa & Paakeejota"}
+          title={en ? "Featured Umrah & Travel Packages" : "Paakeejota Umraa fi Imalaa Filatamoo"}
           description={
-            lang === "en"
+            en
               ? "Clear quotations with room occupancy breakdown, historical Ziyarat included, and no upfront passport documents."
               : "Gatii ifa ta'e, kutaa filatamaa, ziyaaraa guutuu waliin, fi paaspoortii dura hin barbaachisne."
           }
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {featuredPackages.map((pkg, index) => (
-            <motion.div
-              key={pkg.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group rounded-3xl bg-white dark:bg-dark-300 border border-gray-100 dark:border-dark-100 overflow-hidden shadow-soft hover:shadow-soft-xl transition-all duration-500 flex flex-col justify-between"
-            >
-              <div>
-                <div className="relative h-60 overflow-hidden">
-                  <Image
-                    src={pkg.image}
-                    alt={pkg.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="-mt-6 mb-10 flex flex-wrap justify-center gap-2" role="group" aria-label={en ? "Filter packages" : "Paakeejota calalisi"}>
+          {filters.map((f) => {
+            const active = !search.packageId && search.category === f.id;
+            return (
+              <button
+                key={f.id}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setCategory(f.id)}
+                className={`rounded-full border px-5 py-2 text-sm font-semibold transition-colors ${
+                  active
+                    ? "border-accent-400 bg-accent-400 text-primary-900"
+                    : "border-gray-200 bg-white text-primary-700 hover:border-accent-400 dark:border-dark-100 dark:bg-dark-300 dark:text-gray-300"
+                }`}
+              >
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
 
-                  {/* Top badges */}
-                  <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
-                    <div className="px-3 py-1 rounded-full glass text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
-                      <Clock className="w-3 h-3 text-accent-300" /> {pkg.duration}
-                    </div>
-                    {pkg.occupancy && (
-                      <div className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-gray-100 text-[11px] font-medium flex items-center gap-1 border border-white/10">
-                        <Users className="w-3 h-3 text-accent-300" /> {pkg.occupancy}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {visible.map((pkg, index) => (
+              <motion.article
+                layout
+                key={pkg.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: Math.min(index, 5) * 0.06 }}
+                className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-soft transition-shadow duration-500 hover:shadow-soft-xl dark:border-dark-100 dark:bg-dark-300"
+              >
+                <div>
+                  <div className="relative h-60 overflow-hidden">
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+                    <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+                      <div className="glass flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                        <Clock className="h-3 w-3 text-accent-300" /> {pkg.duration}
                       </div>
-                    )}
-                  </div>
-
-                  {/* Price Tag with ETB & USD */}
-                  <div className="absolute top-3 right-3 text-right">
-                    {pkg.priceETB ? (
-                      <div className="px-3.5 py-1.5 rounded-2xl bg-accent-400 text-white shadow-glow text-right">
-                        <div className="text-[10px] uppercase font-bold tracking-wider opacity-90 leading-none">
-                          {lang === "en" ? "From" : "Ka'umsa"}
+                      {pkg.occupancy && (
+                        <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/60 px-3 py-1 text-[11px] font-medium text-gray-100 backdrop-blur-md">
+                          <Users className="h-3 w-3 text-accent-300" /> {pkg.occupancy}
                         </div>
-                        <div className="text-sm font-extrabold">{pkg.priceETB}</div>
-                        <div className="text-[10px] opacity-90 leading-none">~${pkg.price.toLocaleString()}</div>
-                      </div>
-                    ) : (
-                      <div className="px-3.5 py-1.5 rounded-2xl bg-accent-400 text-white text-sm font-bold shadow-glow">
-                        ${pkg.price.toLocaleString()}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Bottom Destination pill */}
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
-                    <span className="flex items-center gap-1.5 font-medium truncate">
-                      <MapPin className="w-3.5 h-3.5 text-accent-300 shrink-0" /> {pkg.destination}
-                    </span>
-                    {pkg.badge && (
-                      <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md text-[10px] font-bold text-accent-200">
-                        {pkg.badge}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="font-display font-bold text-xl text-primary-700 dark:text-white mb-2 group-hover:text-accent-500 dark:group-hover:text-accent-300 transition-colors">
-                    {pkg.title}
-                  </h3>
-
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < Math.floor(pkg.rating)
-                              ? "fill-accent-400 text-accent-400"
-                              : "fill-gray-200 text-gray-200 dark:fill-dark-100 dark:text-dark-100"
-                          }`}
-                        />
-                      ))}
+                      )}
                     </div>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {pkg.rating} ({pkg.reviews} {lang === "en" ? "reviews" : "yaada"})
-                    </span>
+
+                    <div className="absolute right-3 top-3 text-right">
+                      {pkg.priceETB ? (
+                        <div className="rounded-2xl bg-accent-400 px-3.5 py-1.5 text-right text-primary-900 shadow-glow">
+                          <div className="text-[10px] font-bold uppercase leading-none tracking-wider opacity-80">
+                            {en ? "From" : "Ka'umsa"}
+                          </div>
+                          <div className="text-sm font-extrabold">{pkg.priceETB}</div>
+                          <div className="text-[10px] leading-none opacity-80">~${pkg.price.toLocaleString("en-US")}</div>
+                        </div>
+                      ) : (
+                        <div className="rounded-2xl bg-accent-400 px-3.5 py-1.5 text-sm font-bold text-primary-900 shadow-glow">
+                          ${pkg.price.toLocaleString("en-US")}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 text-xs text-white">
+                      <span className="flex min-w-0 items-center gap-1.5 font-medium">
+                        <MapPin className="h-3.5 w-3.5 shrink-0 text-accent-300" />
+                        <span className="truncate">{pkg.destination}</span>
+                      </span>
+                      {pkg.badge && (
+                        <span className="shrink-0 rounded-md bg-white/20 px-2 py-0.5 text-[10px] font-bold text-accent-200 backdrop-blur-md">
+                          {pkg.badge}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4 line-clamp-3">
-                    {pkg.description}
-                  </p>
+                  <div className="p-6">
+                    <h3 className="mb-2 font-display text-xl font-bold text-primary-700 transition-colors group-hover:text-accent-700 dark:text-white dark:group-hover:text-accent-300">
+                      {pkg.title}
+                    </h3>
 
-                  <div className="space-y-1.5 mb-6">
-                    {pkg.highlights.map((h) => (
-                      <div key={h} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300">
-                        <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                        <span className="truncate">{h}</span>
+                    <div className="mb-3 flex items-center gap-2">
+                      <div className="flex" role="img" aria-label={`${pkg.rating.toFixed(1)} / 5`}>
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${
+                              i < Math.round(pkg.rating)
+                                ? "fill-accent-400 text-accent-400"
+                                : "fill-gray-200 text-gray-200 dark:fill-dark-100 dark:text-dark-100"
+                            }`}
+                          />
+                        ))}
                       </div>
-                    ))}
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
+                        {pkg.rating.toFixed(1)} ({pkg.reviews} {en ? "reviews" : "yaada"})
+                      </span>
+                    </div>
+
+                    {pkg.routeBadge && (
+                      <p className="mb-3 flex items-center gap-1.5 text-xs font-medium text-primary-500 dark:text-primary-200">
+                        <Route className="h-3.5 w-3.5 shrink-0 text-accent-700 dark:text-accent-300" />
+                        {pkg.routeBadge}
+                      </p>
+                    )}
+
+                    <p className="mb-4 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+                      {pkg.description}
+                    </p>
+
+                    <ul className="mb-2 space-y-1.5">
+                      {pkg.highlights.map((h) => (
+                        <li key={h} className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-300">
+                          <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-              </div>
 
-              <div className="p-6 pt-0 space-y-2">
-                <button
-                  type="button"
-                  onClick={() => handleBookNow(pkg)}
-                  className="btn-primary w-full py-3 text-sm font-semibold shadow-soft"
-                >
-                  {lang === "en" ? "Request Quote & Book" : "Gatii Gaafadhaa & Qabsiisaa"}
-                </button>
+                <div className="space-y-2 p-6 pt-0">
+                  <button
+                    type="button"
+                    onClick={() => openModal(pkg)}
+                    className="btn-primary w-full py-3 text-sm"
+                  >
+                    {en ? "Request Quote & Book" : "Gatii Gaafadhaa & Qabsiisaa"}
+                  </button>
 
-                <a
-                  href={`https://wa.me/251911123456?text=Hello%20HIKAYA%2C%20I%20would%20like%20to%20inquire%20about%20${encodeURIComponent(
-                    pkg.title
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2.5 rounded-xl border border-gray-200 dark:border-dark-100 hover:border-[#25D366]/50 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:text-[#25D366] flex items-center justify-center gap-1.5 transition"
-                >
-                  <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
-                  <span>{lang === "en" ? "Inquire on WhatsApp (+251 911 123 456)" : "Waatsaappiin Gaafadhaa (+251 911 123 456)"}</span>
-                </a>
-              </div>
-            </motion.div>
-          ))}
+                  <a
+                    href={whatsappLink(`Hello HIKAYA, I would like to inquire about ${pkg.title}`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-gray-200 py-2.5 text-xs font-semibold text-gray-700 transition hover:border-[#25D366]/60 hover:text-[#128C7E] dark:border-dark-100 dark:text-gray-300 dark:hover:text-[#25D366]"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5 text-[#25D366]" />
+                    {en ? "Inquire on WhatsApp" : "Waatsaappiin Gaafadhaa"}
+                  </a>
+                </div>
+              </motion.article>
+            ))}
+          </AnimatePresence>
         </div>
       </div>
 
       <BookingModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={closeModal}
         packageTitle={selectedPkg?.title}
         packagePrice={selectedPkg?.price}
       />

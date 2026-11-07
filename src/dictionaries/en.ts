@@ -6,6 +6,7 @@ export const en = {
     schedule: "Umrah Schedule",
     ziyarat: "Ziyarat",
     diaspora: "Diaspora",
+    gallery: "Gallery",
     destinations: "Destinations",
     testimonials: "Testimonials",
     contact: "Contact Us",
@@ -83,8 +84,8 @@ export const en = {
       },
       {
         day: "Day 3",
-        title: "Jumu'ah, Baqi & The Rawdah Ash-Sharifah",
-        desc: "Perform blessed Friday prayer at the Prophet's Mosque. Experience tranquil prayer appointments in the Rawdah ash-Sharifah ('a garden from paradise') and pay respectful Salam at the Prophet's ﷺ chamber and Jannat al-Baqi."
+        title: "Prophet's Mosque, Baqi & The Rawdah Ash-Sharifah",
+        desc: "Pray in the Prophet's Mosque (Jumu'ah prayer is joined whenever Friday falls in your itinerary). Experience tranquil prayer appointments in the Rawdah ash-Sharifah ('a garden from paradise') and pay respectful Salam at the Prophet's ﷺ chamber and Jannat al-Baqi."
       },
       {
         day: "Day 4",
@@ -113,8 +114,8 @@ export const en = {
       },
       {
         day: "Day 9",
-        title: "Jumu'ah at Masjid al-Haram & Worship",
-        desc: "Experience the electrifying unity of Friday congregation at the Kaaba, followed by afternoon remembrance, supplications for loved ones back home, and quiet contemplation."
+        title: "Worship & Reflection at Masjid al-Haram",
+        desc: "Experience the unity of congregational prayer around the Kaaba, followed by afternoon remembrance, supplications for loved ones back home, and quiet contemplation."
       },
       {
         day: "Day 10",
@@ -198,6 +199,30 @@ export const en = {
     ],
     ctaWhatsApp: "Chat with Office on WhatsApp (+251 911 123 456)",
     ctaQuote: "Request Diaspora Quote",
+  },
+  founder: {
+    badge: "Founder & Leadership",
+    title: "Meet the Founder & Director of HIKAYA",
+    subtitle: "A proven decade of integrity, financial transparency, and trusted international travel facilitation.",
+    story: "With a rigorous academic background in accounting, finance, and ICT, our founder has spent over a decade leading diverse online and travel services. His long-standing track record includes operating specialized passport agency services, overseas documentation, visa acquisition, and safely sending citizens abroad for travel and employment. At HIKAYA, this wealth of experience is dedicated to delivering transparent pricing, seamless logistics, and deeply spiritually rewarding Umrah journeys.",
+    qualificationsTitle: "Academic Background & Proven Track Record",
+    education1: {
+      institution: "Hawassa University",
+      degree: "Bachelor of Arts (B.A.) in Accounting and Finance",
+      desc: "Guarantees absolute financial accountability, transparent billing, and trustworthy handling of all client funds.",
+    },
+    education2: {
+      institution: "Zion Technology & Business College",
+      degree: "Information & Communication Technology (ICT)",
+      desc: "Powers HIKAYA's modern digital booking infrastructure, online passport verification, and rapid ticketing.",
+    },
+    experience: {
+      title: "10+ Years in Online Travel & Passport Agency Services",
+      desc: "Over a decade of hands-on expertise facilitating passports, overseas visas, document clearances, and safely sending travelers abroad.",
+    },
+    quote: "Our sacred promise to every traveler and pilgrim is absolute truthfulness, meticulous preparation, and dedicated support from our office to the holy sites.",
+    ctaWhatsApp: "Direct Consultation with Founder",
+    ctaVisit: "Visit Our Headquarters",
   },
   officeDesk: {
     badge: "Addis Ababa Headquarters",
@@ -308,5 +333,50 @@ export const en = {
     messagePlaceholder: "Tell us about your travel or Umrah plans...",
     sending: "Sending...",
     send: "Send Message"
+  },
+  ui: {
+    bookNow: "Book Now",
+    mainNav: "Main navigation",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    switchLanguage: "Switch language",
+    switchToDark: "Switch to dark mode",
+    switchToLight: "Switch to light mode",
+    tagline: "& Travel Agency",
+    booking: {
+      title: "Book Your Trip",
+      close: "Close",
+      fullName: "Full name",
+      email: "Email address",
+      phone: "Phone / WhatsApp",
+      traveler: "Traveler",
+      travelers: "Travelers",
+      preferredDates: "Preferred travel dates (optional)",
+      requests: "Special requests (optional)",
+      submit: "Send Booking Request",
+      sending: "Sending…",
+      successTitle: "Request Received!",
+      successDesc: "Thank you. Our team will contact you shortly with availability and a confirmed quote.",
+      note: "This is a quote request — no payment is taken now.",
+    },
+    form: {
+      required: "This field is required",
+      invalidEmail: "Please enter a valid email address",
+      sendError: "Your message could not be sent. Please try again or contact us on WhatsApp.",
+      chatWhatsApp: "Chat on WhatsApp",
+    },
+  },
+  gallery: {
+    subtitle: "Moments From Our Journeys",
+    title: "Travel Gallery",
+    description: "Real moments from HIKAYA pilgrim groups — walking the ziyarat paths of Madinah together.",
+    viewAll: "View all photos",
+    close: "Close",
+    prev: "Previous photo",
+    next: "Next photo",
+    open: "Open photo",
+    empty: "Photos are coming soon.",
+    of: "of",
+    back: "Back to home",
   },
 };

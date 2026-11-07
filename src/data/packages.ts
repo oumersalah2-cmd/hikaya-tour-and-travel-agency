@@ -1,5 +1,10 @@
+import type { Locale } from "@/lib/i18n";
+
+export type PackageCategory = "umrah" | "tours" | "travel";
+
 export interface Package {
   id: string;
+  category: PackageCategory;
   title: string;
   destination: string;
   duration: string;
@@ -17,10 +22,11 @@ export interface Package {
   featured?: boolean;
 }
 
-export const getPackages = (lang: "en" | "om"): Package[] => [
+export const getPackages = (lang: Locale): Package[] => [
   {
     id: "umrah-standard",
-    title: lang === "en" ? "Standard Umrah Package" : "Pakeejii Umaraa Istadaardii",
+    category: "umrah",
+    title: lang === "en" ? "Standard Umrah Package" : "Paakeejii Umraa Istaandaardii",
     destination: lang === "en" ? "Makkah (7N) · Madinah (3N)" : "Makkaa (Halkan 7) · Madiinaa (Halkan 3)",
     duration: lang === "en" ? "11 Days / 10 Nights" : "Guyyaa 11 / Halkan 10",
     price: 1450,
@@ -42,7 +48,8 @@ export const getPackages = (lang: "en" | "om"): Package[] => [
   },
   {
     id: "umrah-vip",
-    title: lang === "en" ? "VIP Luxury Umrah Package" : "Pakeejii Umaraa VIP Qulqullina Olaanaa",
+    category: "umrah",
+    title: lang === "en" ? "VIP Luxury Umrah Package" : "Paakeejii Umraa VIP Qulqullina Olaanaa",
     destination: lang === "en" ? "Makkah (7N) · Madinah (3N)" : "Makkaa (Halkan 7) · Madiinaa (Halkan 3)",
     duration: lang === "en" ? "11 Days / 10 Nights" : "Guyyaa 11 / Halkan 10",
     price: 1850,
@@ -64,6 +71,7 @@ export const getPackages = (lang: "en" | "om"): Package[] => [
   },
   {
     id: "sof-omar-bale",
+    category: "tours",
     title: lang === "en" ? "Sof Omar Caves & Bale Mountains Expedition" : "Daawwannaa Holqa Soof Umar fi Gaarren Baalee",
     destination: lang === "en" ? "Bale, Oromia, Ethiopia" : "Baalee, Oromiyaa, Itoophiyaa",
     duration: lang === "en" ? "4 Days / 3 Nights" : "Guyyaa 4 / Halkan 3",
@@ -86,8 +94,9 @@ export const getPackages = (lang: "en" | "om"): Package[] => [
   },
   {
     id: "wonchi-crater-lake",
+    category: "tours",
     title: lang === "en" ? "Wonchi Crater Lake Paradise Getaway" : "Daawwannaa Haroo Wonchii Hawwataa",
-    destination: lang === "en" ? "Wonchi, Oromia, Ethiopia" : "Wonchii, Oromiyaa, Itoophiyaa",
+    destination: lang === "en" ? "Wonchii, Oromia, Ethiopia" : "Wonchii, Oromiyaa, Itoophiyaa",
     duration: lang === "en" ? "2 Days / 1 Night" : "Guyyaa 2 / Halkan 1",
     price: 190,
     priceETB: "18,500 ETB",
@@ -108,6 +117,7 @@ export const getPackages = (lang: "en" | "om"): Package[] => [
   },
   {
     id: "semien-mountains-samen",
+    category: "tours",
     title: lang === "en" ? "Semien Mountains (Samen Terara) Peak Trek" : "Daawwannaa Gaarren Saameen (Samen Terara)",
     destination: lang === "en" ? "Semien Mountains, Ethiopia" : "Gaarren Saameen, Itoophiyaa",
     duration: lang === "en" ? "5 Days / 4 Nights" : "Guyyaa 5 / Halkan 4",
@@ -130,6 +140,7 @@ export const getPackages = (lang: "en" | "om"): Package[] => [
   },
   {
     id: "gammoojji-affaar-danakil",
+    category: "tours",
     title: lang === "en" ? "Afar Depression & Erta Ale Volcano Expedition" : "Imala Gammoojjii Affaar fi Erta Ale",
     destination: lang === "en" ? "Danakil, Afar, Ethiopia" : "Dallol fi Erta Ale, Affaar",
     duration: lang === "en" ? "4 Days / 3 Nights" : "Guyyaa 4 / Halkan 3",
@@ -152,6 +163,7 @@ export const getPackages = (lang: "en" | "om"): Package[] => [
   },
   {
     id: "international-flight-hotel-package",
+    category: "travel",
     title: lang === "en" ? "International & Domestic Tickets & Hotel Booking" : "Tikeettii Xiyyaaraa & Hoteela Idil-Addunyaa fi Biyya Keessaa",
     destination: lang === "en" ? "Worldwide & Domestic Routes" : "Addunyaa Guutuu fi Biyya Keessaa",
     duration: lang === "en" ? "Flexible / Instant" : "Yeroo Fedhii Keessanii",
