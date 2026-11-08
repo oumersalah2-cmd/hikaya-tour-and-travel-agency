@@ -380,3 +380,4 @@ export const am = {
     back: "ወደ መነሻ ገጽ ተመለስ",
   },
 };
+
