@@ -1,1 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8b94a"/><stop offset="1" stop-color="#c49a3c"/></linearGradient></defs><rect width="64" height="64" rx="16" fill="#0a1f44"/><rect x="6" y="6" width="52" height="52" rx="12" fill="url(#g)"/><path d="M20 40l24-16-4 18-8-4-6 6-2-8z" fill="#0a1f44"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#061a4e" />
+      <stop offset="100%" stop-color="#041038" />
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F43F5E" />
+      <stop offset="100%" stop-color="#E11D48" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded App Tile -->
+  <rect width="64" height="64" rx="16" fill="url(#bg)" />
+
+  <!-- Royal Blue Diagonal Pill -->
+  <rect x="22" y="7" width="10" height="50" rx="5" transform="rotate(24 27 32)" fill="#0B4FD9" />
+
+  <!-- Lower White/Crimson Chevron -->
+  <path d="M 12 36 L 27 52 L 48 20 L 45 18 L 51 14 L 52 21 L 50 19 L 27 55 L 10 38 Z" fill="#FFFFFF" />
+  <path d="M 13 37 L 27 51 L 44 24 L 40 22 L 42 20 L 51 15 L 50 24 L 48 22 L 46 26 L 27 54 L 11 39 Z" fill="url(#redGrad)" />
+
+  <!-- Inner Chevron -->
+  <path d="M 15 29 L 27 42 L 41 21 L 43 23 L 27 46 L 13 31 Z" fill="url(#redGrad)" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round" />
+</svg>

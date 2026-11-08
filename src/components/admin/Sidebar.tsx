@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Inbox, Images, ExternalLink, LogOut, Plane, Settings, Package, MapPin, Star, Info } from "lucide-react";
+import { LayoutDashboard, Inbox, Images, ExternalLink, LogOut, Settings, Package, MapPin, Star, Info } from "lucide-react";
 import { logoutAction } from "@/app/admin/actions";
+import HikayaLogo from "@/components/ui/HikayaLogo";
 
 const groups = [
   {
@@ -32,13 +33,9 @@ export default function Sidebar({ newLeads }: { newLeads: number }) {
   return (
     <aside className="flex w-full shrink-0 flex-col bg-primary-800 text-white lg:sticky lg:top-0 lg:h-screen lg:w-64">
       <div className="flex items-center gap-3 border-b border-white/10 px-5 py-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent-400 to-accent-500">
-          <Plane className="h-5 w-5 -rotate-45 text-primary-900" />
-        </div>
-        <div>
-          <p className="font-display text-lg font-bold leading-none">HIKAYA</p>
-          <p className="mt-1 text-[10px] uppercase tracking-[0.25em] text-accent-300">Admin panel</p>
-        </div>
+        <Link href="/" target="_blank" className="flex items-center gap-2.5 transition-transform hover:scale-[1.02]">
+          <HikayaLogo variant="full" inverted size="md" />
+        </Link>
       </div>
 
       <nav aria-label="Admin" className="flex gap-1 overflow-x-auto p-3 lg:flex-1 lg:flex-col lg:overflow-y-auto">
@@ -54,8 +51,8 @@ export default function Sidebar({ newLeads }: { newLeads: number }) {
                   key={href}
                   href={href}
                   aria-current={active ? "page" : undefined}
-                  className={`flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                    active ? "bg-accent-400 text-primary-900" : "text-white/80 hover:bg-white/10 hover:text-white"
+                  className={`flex items-center gap-3 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
+                    active ? "bg-accent-600 text-white shadow-glow" : "text-white/80 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   <Icon className="h-4 w-4" aria-hidden="true" />

@@ -4,16 +4,15 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Plane } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import HikayaLogo from "@/components/ui/HikayaLogo";
 import { useLanguage } from "@/context/LanguageContext";
-import { useSite } from "@/context/SiteContext";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { t, lang } = useLanguage();
-  const { site } = useSite();
   const router = useRouter();
   const pathname = usePathname() ?? `/${lang}`;
 
@@ -78,26 +77,13 @@ export default function Navbar() {
           aria-label={t.ui.mainNav}
           className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8"
         >
-          <Link href={`/${lang}`} className="group flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent-400 via-accent-300 to-accent-500 shadow-glow transition-shadow duration-300 group-hover:shadow-glow-lg">
-              <Plane className="h-5 w-5 -rotate-45 text-primary-900" />
-            </div>
-            <div>
-              <span
-                className={`font-display text-lg font-bold tracking-tight transition-colors duration-300 ${
-                  solid ? "text-primary-700 dark:text-white" : "text-white"
-                }`}
-              >
-                {site.shortName}
-              </span>
-              <span
-                className={`-mt-0.5 block text-[10px] font-medium uppercase tracking-[0.3em] transition-colors duration-300 ${
-                  solid ? "text-accent-700 dark:text-accent-300" : "text-accent-300"
-                }`}
-              >
-                {t.ui.tagline}
-              </span>
-            </div>
+          <Link href={`/${lang}`} className="group flex items-center gap-2.5 transition-transform duration-200 hover:scale-[1.02]">
+            <HikayaLogo
+              variant="full"
+              inverted={!solid}
+              size="md"
+              priority
+            />
           </Link>
 
           <div className="hidden items-center gap-0.5 lg:flex">

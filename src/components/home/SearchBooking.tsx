@@ -80,7 +80,7 @@ export default function SearchBooking() {
                 onClick={() => selectTab(tab.id)}
                 className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold shadow-sm transition-all duration-300 sm:px-5 sm:text-sm ${
                   isActive
-                    ? "bg-accent-400 text-primary-900 shadow-glow"
+                    ? "bg-gradient-to-r from-accent-600 to-accent-500 text-white shadow-glow"
                     : "bg-white/90 text-primary-700 backdrop-blur-md hover:bg-white dark:bg-dark-400 dark:text-gray-300 dark:hover:bg-dark-300"
                 }`}
               >

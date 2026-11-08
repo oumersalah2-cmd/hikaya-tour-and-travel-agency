@@ -63,8 +63,8 @@ export default function FeaturedPackages() {
                 onClick={() => setCategory(f.id)}
                 className={`rounded-full border px-5 py-2 text-sm font-semibold transition-colors ${
                   active
-                    ? "border-accent-400 bg-accent-400 text-primary-900"
-                    : "border-gray-200 bg-white text-primary-700 hover:border-accent-400 dark:border-dark-100 dark:bg-dark-300 dark:text-gray-300"
+                    ? "border-accent-600 bg-accent-600 text-white shadow-sm"
+                    : "border-gray-200 bg-white text-primary-700 hover:border-accent-500 dark:border-dark-100 dark:bg-dark-300 dark:text-gray-300"
                 }`}
               >
                 {f.label}
@@ -109,15 +109,15 @@ export default function FeaturedPackages() {
 
                     <div className="absolute right-3 top-3 text-right">
                       {pkg.priceETB ? (
-                        <div className="rounded-2xl bg-accent-400 px-3.5 py-1.5 text-right text-primary-900 shadow-glow">
-                          <div className="text-[10px] font-bold uppercase leading-none tracking-wider opacity-80">
+                        <div className="rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 px-3.5 py-1.5 text-right text-white shadow-glow">
+                          <div className="text-[10px] font-bold uppercase leading-none tracking-wider opacity-90">
                             {en ? "From" : "Ka'umsa"}
                           </div>
                           <div className="text-sm font-extrabold">{pkg.priceETB}</div>
-                          <div className="text-[10px] leading-none opacity-80">~${pkg.price.toLocaleString("en-US")}</div>
+                          <div className="text-[10px] leading-none opacity-90">~${pkg.price.toLocaleString("en-US")}</div>
                         </div>
                       ) : (
-                        <div className="rounded-2xl bg-accent-400 px-3.5 py-1.5 text-sm font-bold text-primary-900 shadow-glow">
+                        <div className="rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 px-3.5 py-1.5 text-sm font-bold text-white shadow-glow">
                           ${pkg.price.toLocaleString("en-US")}
                         </div>
                       )}

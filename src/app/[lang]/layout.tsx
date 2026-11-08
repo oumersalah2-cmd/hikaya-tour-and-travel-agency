@@ -90,8 +90,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0a1f44" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b1121" },
+    { media: "(prefers-color-scheme: light)", color: "#0842cd" },
+    { media: "(prefers-color-scheme: dark)", color: "#051336" },
   ],
 };
 
@@ -143,11 +143,11 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${inter.variable} ${playfair.variable} bg-white font-sans text-primary-700 antialiased transition-colors duration-300 selection:bg-accent-400/30 selection:text-primary-900 dark:bg-dark-500 dark:text-gray-100 dark:selection:text-accent-200`}
+        className={`${inter.variable} ${playfair.variable} bg-white font-sans text-primary-700 antialiased transition-colors duration-300 selection:bg-accent-500/20 selection:text-accent-700 dark:bg-dark-500 dark:text-gray-100 dark:selection:text-accent-300`}
       >
         <a
           href="#main"
-          className="sr-only z-[200] rounded-lg bg-accent-400 px-4 py-2 font-semibold text-primary-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-[200] rounded-lg bg-accent-600 px-4 py-2 font-semibold text-white shadow-lg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           {skipLabel[lang]}
         </a>

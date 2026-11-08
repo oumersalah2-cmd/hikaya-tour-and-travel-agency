@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Plane, Mail, Phone, MapPin, MessageCircle, Send } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle, Send } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { telHref } from "@/data/site";
 import { useSite } from "@/context/SiteContext";
 import SocialIcons from "@/components/ui/SocialIcons";
+import HikayaLogo from "@/components/ui/HikayaLogo";
 import { submitLead } from "@/lib/submitLead";
 import type { Locale } from "@/lib/i18n";
 
@@ -49,7 +50,7 @@ export default function Footer() {
   };
 
   const iconLink =
-    "flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 transition-all duration-300 hover:bg-accent-400 hover:text-primary-900 hover:shadow-glow";
+    "flex h-9 w-9 items-center justify-center rounded-lg bg-white/10 transition-all duration-300 hover:bg-accent-600 hover:text-white hover:shadow-glow";
 
   return (
     <footer className="relative overflow-hidden bg-primary-700 text-white dark:bg-dark-600">
@@ -59,16 +60,8 @@ export default function Footer() {
       <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-20 md:px-8">
         <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link href={`/${lang}`} className="mb-6 flex items-center gap-2.5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-accent-400 via-accent-300 to-accent-500">
-                <Plane className="h-5 w-5 -rotate-45 text-primary-900" />
-              </div>
-              <div>
-                <span className="font-display text-lg font-bold">{site.shortName}</span>
-                <span className="-mt-0.5 block text-[10px] uppercase tracking-[0.3em] text-accent-300">
-                  {t.ui.tagline}
-                </span>
-              </div>
+            <Link href={`/${lang}`} className="mb-6 inline-flex items-center gap-2.5 transition-transform duration-200 hover:scale-[1.02]">
+              <HikayaLogo variant="full" inverted size="lg" />
             </Link>
             <p className="mb-6 text-sm leading-relaxed text-gray-300">{t.footer.description}</p>
             <div className="flex gap-3">
@@ -171,7 +164,7 @@ export default function Footer() {
                 type="submit"
                 disabled={status === "sending"}
                 aria-label={t.footer.subscribe}
-                className="rounded-xl bg-accent-400 px-4 py-2.5 text-primary-900 transition-colors duration-300 hover:bg-accent-300 disabled:opacity-60"
+                className="rounded-xl bg-accent-600 px-4 py-2.5 font-semibold text-white shadow-md transition-colors duration-300 hover:bg-accent-500 hover:shadow-glow disabled:opacity-60"
               >
                 <Send className="h-4 w-4" />
               </button>
