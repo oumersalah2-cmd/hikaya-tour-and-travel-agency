@@ -72,6 +72,28 @@ export default function ContactPage() {
           : "Chat directly with our booking & pilgrimage consultants.",
     },
     {
+      icon: Send,
+      title:
+        lang === "am"
+          ? "ቴሌግራም"
+          : lang === "om"
+          ? "Teleegiraama"
+          : "Telegram Direct",
+      details: [
+        {
+          text: "@Seifa95",
+          href: "https://t.me/Seifa95",
+          external: true,
+        },
+      ],
+      description:
+        lang === "am"
+          ? "በቴሌግራም መልእክት በቀጥታ ያነጋግሩን።"
+          : lang === "om"
+          ? "Ergaa fi qabsiisuuf kallattiin Teleegiraamaan nu qunnamaa."
+          : "Reach our team directly on Telegram for fast consultation.",
+    },
+    {
       icon: Phone,
       title: t.contact.callUs,
       details: site.phones.map((p) => ({ text: p, href: telHref(p) })),

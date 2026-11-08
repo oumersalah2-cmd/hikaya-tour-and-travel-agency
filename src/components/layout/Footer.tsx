@@ -147,6 +147,15 @@ export default function Footer() {
                 <MessageCircle className="h-4 w-4 shrink-0 text-[#25D366] transition-transform group-hover:scale-110" />
                 <span className="text-sm">WhatsApp: {site.whatsappDisplay}</span>
               </a>
+              <a
+                href={site.social.telegram || "https://t.me/Seifa95"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 text-gray-300 transition-colors hover:text-accent-300"
+              >
+                <Send className="h-4 w-4 shrink-0 text-[#2AABEE] transition-transform group-hover:scale-110" />
+                <span className="text-sm">Telegram: @Seifa95</span>
+              </a>
             </address>
 
             <h5 className="mb-3 text-sm font-semibold">{t.footer.newsletter}</h5>

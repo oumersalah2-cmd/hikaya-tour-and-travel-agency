@@ -48,7 +48,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     facebook: "",
     instagram: "",
     tiktok: "",
-    telegram: "",
+    telegram: "https://t.me/Seifa95",
     youtube: "",
   },
   mapUrl: "",
