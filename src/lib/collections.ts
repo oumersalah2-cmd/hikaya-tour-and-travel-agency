@@ -10,8 +10,8 @@ import type { Locale } from "@/lib/i18n";
  *  - "lines" fields are string[] (or { en: string[], om: string[] } when localized)
  */
 
-export type L10n = { en: string; om: string };
-export type L10nLines = { en: string[]; om: string[] };
+export type L10n = { en: string; om: string; am?: string };
+export type L10nLines = { en: string[]; om: string[]; am?: string[] };
 
 export type FieldType = "text" | "textarea" | "number" | "select" | "bool" | "image" | "lines";
 
@@ -244,15 +244,24 @@ export function blankItem(name: CollectionName): Item {
 export function buildDefaults(
   name: CollectionName,
   en: Record<string, unknown>[],
-  om: Record<string, unknown>[]
+  om: Record<string, unknown>[],
+  am?: Record<string, unknown>[]
 ): Item[] {
   const schema = SCHEMAS[name];
   return en.map((e, i) => {
     const o = om[i] ?? e;
+    const a = am?.[i] ?? e;
     const item: Item = { id: String(e.id), visible: true };
     for (const f of schema.fields) {
-      if (f.localized) item[f.key] = { en: e[f.key] ?? (f.type === "lines" ? [] : ""), om: o[f.key] ?? (f.type === "lines" ? [] : "") };
-      else item[f.key] = e[f.key] ?? (f.type === "bool" ? false : f.type === "number" ? 0 : "");
+      if (f.localized) {
+        item[f.key] = {
+          en: e[f.key] ?? (f.type === "lines" ? [] : ""),
+          om: o[f.key] ?? (f.type === "lines" ? [] : ""),
+          am: a[f.key] ?? (f.type === "lines" ? [] : ""),
+        };
+      } else {
+        item[f.key] = e[f.key] ?? (f.type === "bool" ? false : f.type === "number" ? 0 : "");
+      }
     }
     return item;
   });

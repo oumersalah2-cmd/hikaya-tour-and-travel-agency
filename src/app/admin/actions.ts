@@ -75,12 +75,20 @@ function refreshPublicGallery() {
   revalidatePath("/admin/gallery");
 }
 
-export async function saveCaptionAction(id: string, en: string, om: string, visible: boolean) {
+export async function saveCaptionAction(id: string, en: string, om: string, visible: boolean, am?: string) {
   await requireAdmin();
   await changeGallery((items) =>
     items.map((item) =>
       item.id === id
-        ? { ...item, caption: { en: en.trim().slice(0, 140), om: om.trim().slice(0, 140) }, visible }
+        ? {
+            ...item,
+            caption: {
+              en: en.trim().slice(0, 140),
+              om: om.trim().slice(0, 140),
+              am: (am || "").trim().slice(0, 140),
+            },
+            visible,
+          }
         : item
     )
   );

@@ -70,7 +70,13 @@ export default function ZiyaratHub() {
               <div className="px-6 pb-6 pt-2">
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-accent-700 dark:text-accent-300 group-hover:text-accent-400">
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>{lang === "en" ? "Guided by Scholar" : "Ogeessa Amantiin Daawwatama"}</span>
+                  <span>
+                    {lang === "en"
+                      ? "Guided by Scholar"
+                      : lang === "am"
+                      ? "በኢስላማዊ ምሁር የሚመራ"
+                      : "Ogeessa Amantiin Daawwatama"}
+                  </span>
                 </div>
               </div>
             </motion.div>

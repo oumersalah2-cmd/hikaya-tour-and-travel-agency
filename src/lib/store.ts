@@ -40,7 +40,7 @@ export interface GalleryItem {
   thumb: string;
   width: number;
   height: number;
-  caption: { en: string; om: string };
+  caption: { en: string; om: string; am?: string };
   visible: boolean;
   /** true when the file ships in /public (cannot be deleted from disk) */
   builtin?: boolean;

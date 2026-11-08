@@ -20,16 +20,22 @@ export default function PopularDestinations() {
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <SectionHeading
-            subtitle={lang === "en" ? "Explore" : "Daawwadhaa"}
-            title={lang === "en" ? "Popular Destinations" : "Bakkeewwan Beekamoo"}
-            description={lang === "en" ? "Discover the world's most breathtaking locations. Where will your next adventure take you?" : "Bakkeewwan addunyaa babbareedoo ta'an daawwadhaa. Imalli keessan itti aanu eessatti isin geessa?"}
+            subtitle={lang === "am" ? "ይጎብኙ" : lang === "om" ? "Daawwadhaa" : "Explore"}
+            title={lang === "am" ? "ተወዳጅ መዳረሻዎች" : lang === "om" ? "Bakkeewwan Beekamoo" : "Popular Destinations"}
+            description={
+              lang === "am"
+                ? "የዓለማችንን አስደናቂ ስፍራዎች ይጎብኙ። ቀጣዩ ጉዞዎ ወዴት ያደርስዎታል?"
+                : lang === "om"
+                ? "Bakkeewwan addunyaa babbareedoo ta'an daawwadhaa. Imalli keessan itti aanu eessatti isin geessa?"
+                : "Discover the world's most breathtaking locations. Where will your next adventure take you?"
+            }
             centered={false}
           />
           <Link
             href={`/${lang}#packages`}
             className="hidden md:flex items-center gap-2 text-primary-600 dark:text-gray-300 font-semibold hover:text-accent-500 transition-colors group"
           >
-            {lang === "en" ? "View All Destinations" : "Bakkeewwan Hunda Daawwadhaa"}
+            {lang === "am" ? "ሁሉንም መዳረሻዎች ይመልከቱ" : lang === "om" ? "Bakkeewwan Hunda Daawwadhaa" : "View All Destinations"}
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
@@ -69,9 +75,16 @@ export default function PopularDestinations() {
                   {dest.name}
                 </h3>
                 <p className="text-gray-200 text-sm flex items-center justify-between">
-                  <span>{dest.tours} {lang === "en" ? "Tours & Packages Available" : "Daawwannaan Ni Argama"}</span>
+                  <span>
+                    {dest.tours}{" "}
+                    {lang === "am"
+                      ? "ጉዞዎችና ፓኬጆች ይገኛሉ"
+                      : lang === "om"
+                      ? "Daawwannaan Ni Argama"
+                      : "Tours & Packages Available"}
+                  </span>
                   <span className="text-accent-300 font-semibold text-xs flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    {lang === "en" ? "Explore" : "Daawwadhaa"} &rarr;
+                    {lang === "am" ? "ይመልከቱ" : lang === "om" ? "Daawwadhaa" : "Explore"} &rarr;
                   </span>
                 </p>
               </div>
@@ -111,7 +124,10 @@ export default function PopularDestinations() {
                   {dest.name}
                 </h3>
                 <p className="text-gray-300 text-xs flex items-center justify-between">
-                  <span>{dest.tours} {lang === "en" ? "Tours" : "Daawwannaa"}</span>
+                  <span>
+                    {dest.tours}{" "}
+                    {lang === "am" ? "ጉዞዎች" : lang === "om" ? "Daawwannaa" : "Tours"}
+                  </span>
                   <span className="text-accent-300 text-xs font-semibold group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </p>
               </div>
@@ -123,7 +139,7 @@ export default function PopularDestinations() {
           href={`/${lang}#packages`}
           className="flex md:hidden items-center justify-center gap-2 mt-8 text-primary-600 dark:text-gray-300 font-semibold"
         >
-          {lang === "en" ? "View All Destinations" : "Bakkeewwan Hunda Daawwadhaa"}
+          {lang === "am" ? "ሁሉንም መዳረሻዎች ይመልከቱ" : lang === "om" ? "Bakkeewwan Hunda Daawwadhaa" : "View All Destinations"}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

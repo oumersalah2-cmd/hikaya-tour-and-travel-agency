@@ -8,7 +8,11 @@ export default function WhatsAppButton() {
   const { lang } = useLanguage();
   const { site, whatsappLink } = useSite();
   const label =
-    lang === "en" ? "Chat with HIKAYA on WhatsApp" : "Waatsaappiin HIKAYA waliin haasa'aa";
+    lang === "am"
+      ? "ከሂካያ ጋር በዋትስአፕ ይወያዩ"
+      : lang === "om"
+      ? "Waatsaappiin HIKAYA waliin haasa'aa"
+      : "Chat with HIKAYA on WhatsApp";
 
   return (
     <motion.a

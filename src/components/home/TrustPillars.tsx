@@ -58,7 +58,7 @@ export default function TrustPillars() {
                 </div>
 
                 <div className="mt-5 pt-4 border-t border-gray-200/60 dark:border-dark-100/60 flex items-center text-xs font-semibold text-accent-700 dark:text-accent-300 group-hover:gap-1.5 transition-all">
-                  <span>{lang === "en" ? "Learn how it works" : "Haala itti hojjetu"}</span>
+                  <span>{lang === "am" ? "እንዴት እንደሚሰራ ይመልከቱ" : lang === "om" ? "Haala itti hojjetu" : "Learn how it works"}</span>
                   <ArrowRight className="w-3.5 h-3.5 opacity-70 group-hover:translate-x-1 transition-transform" />
                 </div>
               </motion.div>

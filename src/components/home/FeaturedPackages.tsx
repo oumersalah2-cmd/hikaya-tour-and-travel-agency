@@ -14,7 +14,6 @@ import { useSite } from "@/context/SiteContext";
 export default function FeaturedPackages() {
   const { lang } = useLanguage();
   const { search, setCategory } = useTrip();
-  const en = lang === "en";
   const { packages, whatsappLink } = useSite();
 
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
@@ -26,10 +25,22 @@ export default function FeaturedPackages() {
   };
 
   const filters: { id: PackageCategory; label: string }[] = [
-    { id: "all", label: en ? "All" : "Hunda" },
-    { id: "umrah", label: en ? "Umrah" : "Umraa" },
-    { id: "tours", label: en ? "Ethiopia Tours" : "Daawwannaa Itoophiyaa" },
-    { id: "travel", label: en ? "Flights & Hotels" : "Xiyyaaraa fi Hoteela" },
+    {
+      id: "all",
+      label: lang === "am" ? "ሁሉም" : lang === "om" ? "Hunda" : "All",
+    },
+    {
+      id: "umrah",
+      label: lang === "am" ? "ኡምራ" : lang === "om" ? "Umraa" : "Umrah",
+    },
+    {
+      id: "tours",
+      label: lang === "am" ? "የኢትዮጵያ ቱሮች" : lang === "om" ? "Daawwannaa Itoophiyaa" : "Ethiopia Tours",
+    },
+    {
+      id: "travel",
+      label: lang === "am" ? "በረራና ሆቴል" : lang === "om" ? "Xiyyaaraa fi Hoteela" : "Flights & Hotels",
+    },
   ];
 
   const visible = packages.filter((pkg) => {
@@ -43,16 +54,34 @@ export default function FeaturedPackages() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          subtitle={en ? "Transparent Pricing & Rounds" : "Gatii Ifaa & Paakeejota"}
-          title={en ? "Featured Umrah & Travel Packages" : "Paakeejota Umraa fi Imalaa Filatamoo"}
+          subtitle={
+            lang === "am"
+              ? "ግልጽ ዋጋና የጉዞ ዙሮች"
+              : lang === "om"
+              ? "Gatii Ifaa & Paakeejota"
+              : "Transparent Pricing & Rounds"
+          }
+          title={
+            lang === "am"
+              ? "ተመራጭ የኡምራና የጉዞ ፓኬጆች"
+              : lang === "om"
+              ? "Paakeejota Umraa fi Imalaa Filatamoo"
+              : "Featured Umrah & Travel Packages"
+          }
           description={
-            en
-              ? "Clear quotations with room occupancy breakdown, historical Ziyarat included, and no upfront passport documents."
-              : "Gatii ifa ta'e, kutaa filatamaa, ziyaaraa guutuu waliin, fi paaspoortii dura hin barbaachisne."
+            lang === "am"
+              ? "ግልጽ የክፍልና የዋጋ ዝርዝር፣ ታሪካዊ ዚያራዎችን ያካተተ እና ያለ ቅድመ ፓስፖርት የሚሰጥ ዋጋ።"
+              : lang === "om"
+              ? "Gatii ifa ta'e, kutaa filatamaa, ziyaaraa guutuu waliin, fi paaspoortii dura hin barbaachisne."
+              : "Clear quotations with room occupancy breakdown, historical Ziyarat included, and no upfront passport documents."
           }
         />
 
-        <div className="-mt-6 mb-10 flex flex-wrap justify-center gap-2" role="group" aria-label={en ? "Filter packages" : "Paakeejota calalisi"}>
+        <div
+          className="-mt-6 mb-10 flex flex-wrap justify-center gap-2"
+          role="group"
+          aria-label={lang === "am" ? "ፓኬጆችን ለይ" : lang === "om" ? "Paakeejota calalisi" : "Filter packages"}
+        >
           {filters.map((f) => {
             const active = !search.packageId && search.category === f.id;
             return (
@@ -111,7 +140,7 @@ export default function FeaturedPackages() {
                       {pkg.priceETB ? (
                         <div className="rounded-2xl bg-gradient-to-r from-accent-600 to-accent-500 px-3.5 py-1.5 text-right text-white shadow-glow">
                           <div className="text-[10px] font-bold uppercase leading-none tracking-wider opacity-90">
-                            {en ? "From" : "Ka'umsa"}
+                            {lang === "am" ? "ከ" : lang === "om" ? "Ka'umsa" : "From"}
                           </div>
                           <div className="text-sm font-extrabold">{pkg.priceETB}</div>
                           <div className="text-[10px] leading-none opacity-90">~${pkg.price.toLocaleString("en-US")}</div>
@@ -155,7 +184,8 @@ export default function FeaturedPackages() {
                         ))}
                       </div>
                       <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {pkg.rating.toFixed(1)} ({pkg.reviews} {en ? "reviews" : "yaada"})
+                        {pkg.rating.toFixed(1)} ({pkg.reviews}{" "}
+                        {lang === "am" ? "አስተያየቶች" : lang === "om" ? "yaada" : "reviews"})
                       </span>
                     </div>
 
@@ -187,7 +217,11 @@ export default function FeaturedPackages() {
                     onClick={() => openModal(pkg)}
                     className="btn-primary w-full py-3 text-sm"
                   >
-                    {en ? "Request Quote & Book" : "Gatii Gaafadhaa & Qabsiisaa"}
+                    {lang === "am"
+                      ? "ዋጋ ይጠይቁና ያስይዙ"
+                      : lang === "om"
+                      ? "Gatii Gaafadhaa & Qabsiisaa"
+                      : "Request Quote & Book"}
                   </button>
 
                   <a
@@ -197,7 +231,11 @@ export default function FeaturedPackages() {
                     className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-gray-200 py-2.5 text-xs font-semibold text-gray-700 transition hover:border-[#25D366]/60 hover:text-[#128C7E] dark:border-dark-100 dark:text-gray-300 dark:hover:text-[#25D366]"
                   >
                     <MessageCircle className="h-3.5 w-3.5 text-[#25D366]" />
-                    {en ? "Inquire on WhatsApp" : "Waatsaappiin Gaafadhaa"}
+                    {lang === "am"
+                      ? "በዋትስአፕ ይጠይቁ"
+                      : lang === "om"
+                      ? "Waatsaappiin Gaafadhaa"
+                      : "Inquire on WhatsApp"}
                   </a>
                 </div>
               </motion.article>

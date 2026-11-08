@@ -4,16 +4,24 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import GalleryPageContent from "@/components/gallery/GalleryPageContent";
 import { getVisibleGallery } from "@/lib/gallery";
-import { isLocale } from "@/lib/i18n";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang } = await params;
-  const om = isLocale(lang) && lang === "om";
-  return {
-    title: om ? "Suuraalee Imalaa" : "Travel Gallery",
-    description: om
+  const title =
+    lang === "am"
+      ? "የጉዞ ጋለሪ"
+      : lang === "om"
+      ? "Suuraalee Imalaa"
+      : "Travel Gallery";
+  const description =
+    lang === "am"
+      ? "የሂካያ የምዕመናን ቡድኖች ፎቶዎች — በመዲና ዚያራና ጉብኝት ወቅት።"
+      : lang === "om"
       ? "Suuraalee imala garee HIKAYA — ziyaaraa Madiinaa fi daawwannaa."
-      : "Photos from HIKAYA pilgrim groups on their Madinah ziyarat and tours.",
+      : "Photos from HIKAYA pilgrim groups on their Madinah ziyarat and tours.";
+  return {
+    title,
+    description,
     alternates: { canonical: `/${lang}/gallery` },
   };
 }

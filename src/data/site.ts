@@ -8,8 +8,8 @@ export interface SiteSettings {
   whatsappDisplay: string;
   whatsappMessage: string;
   emails: string[];
-  address: { en: string[]; om: string[] };
-  hours: { en: string[]; om: string[] };
+  address: { en: string[]; om: string[]; am?: string[] };
+  hours: { en: string[]; om: string[]; am?: string[] };
   social: {
     facebook: string;
     instagram: string;
@@ -37,10 +37,12 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   address: {
     en: ["Bole Road, Near Friendship Mall", "Addis Ababa, Ethiopia"],
     om: ["Daandii Boolee, Friendship Mall Bira", "Finfinnee, Itoophiyaa"],
+    am: ["ቦሌ መንገድ፣ ፍሬንድሺፕ ሞል አጠገብ", "አዲስ አበባ፣ ኢትዮጵያ"],
   },
   hours: {
     en: ["Mon – Fri: 8:30 AM – 5:30 PM", "Sat: 9:00 AM – 1:00 PM"],
     om: ["Wiixata – Jimaata: 8:30 – 17:30", "Sanbata: 9:00 – 13:00"],
+    am: ["ከሰኞ – ዓርብ፡ 2:30 – 11:30", "ቅዳሜ፡ 3:00 – 7:00"],
   },
   social: {
     facebook: "",

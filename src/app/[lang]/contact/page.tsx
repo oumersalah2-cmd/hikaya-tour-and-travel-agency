@@ -57,12 +57,19 @@ export default function ContactPage() {
   }[] = [
     {
       icon: MessageCircle,
-      title: lang === "en" ? "WhatsApp Direct" : "Waatsaappii Nu Qunnamaa",
+      title:
+        lang === "am"
+          ? "ቀጥታ ዋትስአፕ"
+          : lang === "om"
+          ? "Waatsaappii Nu Qunnamaa"
+          : "WhatsApp Direct",
       details: [{ text: site.whatsappDisplay, href: whatsappLink(), external: true }],
       description:
-        lang === "en"
-          ? "Chat directly with our booking & pilgrimage consultants."
-          : "Tajaajila Umraa fi imalaa hatattamaaf Waatsaappiin nu qunnamaa.",
+        lang === "am"
+          ? "ከቦታ ማስያዣና የኡምራ አማካሪዎቻችን ጋር በቀጥታ ይወያዩ።"
+          : lang === "om"
+          ? "Tajaajila Umraa fi imalaa hatattamaaf Waatsaappiin nu qunnamaa."
+          : "Chat directly with our booking & pilgrimage consultants.",
     },
     {
       icon: Phone,
@@ -79,13 +86,13 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: t.contact.visitUs,
-      details: site.address[lang].map((text) => ({ text })),
+      details: (site.address[lang] ?? site.address.en).map((text) => ({ text })),
       description: t.contact.visitDesc,
     },
     {
       icon: Clock,
       title: t.contact.workingHours,
-      details: site.hours[lang].map((text) => ({ text })),
+      details: (site.hours[lang] ?? site.hours.en).map((text) => ({ text })),
       description: t.contact.hoursDesc,
     },
   ];
@@ -162,7 +169,7 @@ export default function ContactPage() {
                   <h3 className="mb-2 text-xl font-bold text-green-800 dark:text-green-400">{t.contact.successTitle}</h3>
                   <p className="mb-6 text-green-700 dark:text-green-500/80">{t.contact.successDesc}</p>
                   <button type="button" onClick={() => setIsSuccess(false)} className="text-sm font-semibold text-green-800 underline dark:text-green-300">
-                    {lang === "en" ? "Send another message" : "Ergaa biraa ergi"}
+                    {lang === "en" ? "Send another message" : lang === "am" ? "ሌላ መልእክት ይላኩ" : "Ergaa biraa ergi"}
                   </button>
                 </motion.div>
               ) : (
@@ -277,7 +284,7 @@ export default function ContactPage() {
 
           <div className="mt-16 h-[400px] overflow-hidden rounded-3xl border border-gray-100 shadow-soft dark:border-dark-100">
             <iframe
-              title={lang === "en" ? "Map of our Addis Ababa office" : "Kaartaa waajjira keenyaa Finfinnee"}
+              title={lang === "en" ? "Map of our Addis Ababa office" : lang === "am" ? "የአዲስ አበባ ቢሯችን ካርታ" : "Kaartaa waajjira keenyaa Finfinnee"}
               src="https://www.google.com/maps?q=Bole+Road,+Addis+Ababa,+Ethiopia&output=embed"
               width="100%"
               height="100%"

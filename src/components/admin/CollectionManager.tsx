@@ -28,8 +28,13 @@ export interface LibraryImage {
   label: string;
 }
 
-const emptyL10n: L10n = { en: "", om: "" };
-const emptyLines: L10nLines = { en: [], om: [] };
+const emptyL10n: L10n = { en: "", om: "", am: "" };
+const emptyLines: L10nLines = { en: [], om: [], am: [] };
+const langNames: Record<"en" | "om" | "am", string> = {
+  en: "English",
+  om: "Afaan Oromoo",
+  am: "አማርኛ",
+};
 
 /* ------------------------------ Image picker ------------------------------ */
 
@@ -242,10 +247,10 @@ function FieldEditor({
     if (field.localized) {
       const v = (value as L10nLines | undefined) ?? emptyLines;
       return (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {(["en", "om"] as const).map((l) => (
+        <div className="grid gap-4 sm:grid-cols-3">
+          {(["en", "om", "am"] as const).map((l) => (
             <div key={l}>
-              {label(`${field.label} (${l === "en" ? "English" : "Afaan Oromoo"})`, `${id}-${l}`)}
+              {label(`${field.label} (${langNames[l]})`, `${id}-${l}`)}
               <textarea
                 id={`${id}-${l}`}
                 rows={5}
@@ -293,16 +298,20 @@ function FieldEditor({
   if (field.localized) {
     const v = (value as L10n | undefined) ?? emptyL10n;
     return (
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          {label(`${field.label} (English)`, `${id}-en`)}
-          {control(v.en, (s) => onChange(field.key, { ...v, en: s }), "-en")}
-        </div>
-        <div>
-          {label(`${field.label} (Afaan Oromoo)`, `${id}-om`)}
-          {control(v.om, (s) => onChange(field.key, { ...v, om: s }), "-om")}
-          <p className="mt-1 text-xs text-gray-400">If empty, the English text is shown.</p>
-        </div>
+      <div className="grid gap-4 sm:grid-cols-3">
+        {(["en", "om", "am"] as const).map((l) => (
+          <div key={l}>
+            {label(`${field.label} (${langNames[l]})`, `${id}-${l}`)}
+            {control(
+              v[l] ?? "",
+              (s) => onChange(field.key, { ...v, [l]: s }),
+              `-${l}`
+            )}
+            {l !== "en" && (
+              <p className="mt-1 text-xs text-gray-400">If empty, falls back to English.</p>
+            )}
+          </div>
+        ))}
       </div>
     );
   }

@@ -132,11 +132,13 @@ export default function SettingsForm({ initial, isCustom }: { initial: SiteSetti
         <Input label="Default WhatsApp message" full value={s.whatsappMessage} onChange={(v) => set("whatsappMessage", v)} help="What visitors’ chat starts with when they tap a WhatsApp button." />
       </Card>
 
-      <Card title="Office address & opening hours" hint="One line per row. Afaan Oromoo falls back to the English text if left empty.">
+      <Card title="Office address & opening hours" hint="One line per row. Afaan Oromoo and Amharic fall back to English if left empty.">
         <Input label="Address (English)" rows={3} value={lines(s.address.en)} onChange={(v) => set("address", { ...s.address, en: v.split("\n") })} />
         <Input label="Address (Afaan Oromoo)" rows={3} value={lines(s.address.om)} onChange={(v) => set("address", { ...s.address, om: v.split("\n") })} />
+        <Input label="Address (አማርኛ)" rows={3} value={lines(s.address.am || [])} onChange={(v) => set("address", { ...s.address, am: v.split("\n") })} />
         <Input label="Opening hours (English)" rows={3} value={lines(s.hours.en)} onChange={(v) => set("hours", { ...s.hours, en: v.split("\n") })} />
         <Input label="Opening hours (Afaan Oromoo)" rows={3} value={lines(s.hours.om)} onChange={(v) => set("hours", { ...s.hours, om: v.split("\n") })} />
+        <Input label="Opening hours (አማርኛ)" rows={3} value={lines(s.hours.am || [])} onChange={(v) => set("hours", { ...s.hours, am: v.split("\n") })} />
         <Input label="Google Maps link (optional)" full value={s.mapUrl} onChange={(v) => set("mapUrl", v)} placeholder="https://maps.google.com/…" />
       </Card>
 

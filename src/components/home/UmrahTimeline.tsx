@@ -11,8 +11,10 @@ export default function UmrahTimeline() {
   const { site } = useSite();
   const schedule = t.umrahTimeline;
   const [activeDay, setActiveDay] = useState(0);
-  const en = lang === "en";
   const totalDays = schedule.days.length;
+
+  const l = (enText: string, amText: string, omText: string) =>
+    lang === "am" ? amText : lang === "om" ? omText : enText;
 
   return (
     <section id="schedule" className="py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-dark-500/80 dark:via-dark-600 dark:to-dark-500/80 relative overflow-hidden">
@@ -41,21 +43,25 @@ export default function UmrahTimeline() {
             <div>
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent-700 dark:text-accent-300 mb-1">
                 <PlaneTakeoff className="w-4 h-4" />
-                {en ? "Official Round Itinerary" : "Daandii Imalaa Seera Qabeessa"}
+                {l("Official Round Itinerary", "ይፋዊ የዙር የጉዞ መርሃ-ግብር", "Daandii Imalaa Seera Qabeessa")}
               </div>
               <h3 className="text-xl sm:text-2xl font-bold font-display text-primary-700 dark:text-white">
-                {en ? "Addis Ababa → Jeddah → Madinah (3N) → Makkah (7N) → Addis Ababa" : "Finfinnee → Jeddah → Madiinaa (Halkan 3) → Makkaa (Halkan 7) → Finfinnee"}
+                {l(
+                  "Addis Ababa → Jeddah → Madinah (3N) → Makkah (7N) → Addis Ababa",
+                  "አዲስ አበባ → ጅዳ → መዲና (3 ሌሊት) → መካ (7 ሌሊት) → አዲስ አበባ",
+                  "Finfinnee → Jeddah → Madiinaa (Halkan 3) → Makkaa (Halkan 7) → Finfinnee"
+                )}
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">
-                ✓ {en ? "3 Nights Madinah" : "Halkan 3 Madiinaa"}
+                ✓ {l("3 Nights Madinah", "3 ሌሊት በመዲና", "Halkan 3 Madiinaa")}
               </span>
               <span className="px-3 py-1.5 rounded-full bg-accent-50 dark:bg-accent-950/40 border border-accent-200 dark:border-accent-800 text-accent-700 dark:text-accent-300 text-xs font-semibold">
-                ✓ {en ? "7 Nights Makkah" : "Halkan 7 Makkaa"}
+                ✓ {l("7 Nights Makkah", "7 ሌሊት በመካ", "Halkan 7 Makkaa")}
               </span>
               <span className="px-3 py-1.5 rounded-full bg-primary-50 dark:bg-primary-950/40 border border-primary-200 dark:border-primary-800 text-primary-700 dark:text-primary-300 text-xs font-semibold">
-                ✓ {en ? "11 Days Round" : "Guyyaa 11"}
+                ✓ {l("11 Days Round", "የ11 ቀናት ዙር", "Guyyaa 11")}
               </span>
             </div>
           </div>
@@ -68,7 +74,7 @@ export default function UmrahTimeline() {
                 className="relative p-3.5 rounded-2xl bg-gray-50/70 dark:bg-dark-400/50 border border-gray-100 dark:border-dark-100 text-center flex flex-col justify-between"
               >
                 <div className="text-[10px] font-bold text-accent-700 dark:text-accent-300 tracking-wider mb-1">
-                  {en ? "STEP" : "SADARKAA"} {item.step}
+                  {l("STEP", "ደረጃ", "SADARKAA")} {item.step}
                 </div>
                 <div className="font-display font-bold text-sm sm:text-base text-primary-700 dark:text-white">
                   {item.city}
@@ -137,11 +143,11 @@ export default function UmrahTimeline() {
                 <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
                   <span className="px-4 py-1.5 rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
                     <Calendar className="w-3.5 h-3.5" />
-                    {schedule.days[activeDay].day} {en ? "of" : "irraa"} {totalDays}
+                    {schedule.days[activeDay].day} {l("of", "ከ", "irraa")} {totalDays}
                   </span>
                   <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 font-medium">
                     <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                    {en ? "Guided by HIKAYA Resident Scholars" : "Ogeeyyii Amantii HIKAYA Waliin"}
+                    {l("Guided by HIKAYA Resident Scholars", "በሂካያ አዋቂ ኡስታዞች የሚመራ", "Ogeeyyii Amantii HIKAYA Waliin")}
                   </div>
                 </div>
 
@@ -159,12 +165,12 @@ export default function UmrahTimeline() {
                     <CheckCircle2 className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                     <div>
                       <div className="text-xs font-bold text-primary-700 dark:text-white uppercase tracking-wider">
-                        {en ? "Accommodations & Logistics" : "Hoteela & Geejjiba"}
+                        {l("Accommodations & Logistics", "የማረፊያ እና የትራንስፖርት አገልግሎት", "Hoteela & Geejjiba")}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                         {activeDay < 3
-                          ? (en ? "Madinah hotel near Masjid an-Nabawi" : "Hoteela Madiinaa Masjiida Nabawiitti Dhihoo")
-                          : (en ? "Makkah hotel near Masjid al-Haram" : "Hoteela Makkaa Masjiida al-Haramitti Dhihoo")}
+                          ? l("Madinah hotel near Masjid an-Nabawi", "በመዲና ከመስጂደ ነበዊ አቅራቢያ የሚገኝ ሆቴል", "Hoteela Madiinaa Masjiida Nabawiitti Dhihoo")
+                          : l("Makkah hotel near Masjid al-Haram", "በመካ ከመስጂደል ሐረም አቅራቢያ የሚገኝ ሆቴል", "Hoteela Makkaa Masjiida al-Haramitti Dhihoo")}
                       </div>
                     </div>
                   </div>
@@ -173,10 +179,14 @@ export default function UmrahTimeline() {
                     <MapPin className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                     <div>
                       <div className="text-xs font-bold text-primary-700 dark:text-white uppercase tracking-wider">
-                        {en ? "Coordinator Support" : "Qindeessaa Garee"}
+                        {l("Coordinator Support", "የአስተባባሪዎች ድጋፍ", "Qindeessaa Garee")}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                        {en ? `24/7 Ethiopian on-ground chaperone & WhatsApp desk (${site.whatsappDisplay})` : `Gargaarsa qindeessaa sa'aatii 24 fi Waatsaappii (${site.whatsappDisplay})`}
+                        {l(
+                          `24/7 Ethiopian on-ground chaperone & WhatsApp desk (${site.whatsappDisplay})`,
+                          `የ24/7 የኢትዮጵያ አስተባባሪ ድጋፍ እና የዋትስአፕ አገልግሎት (${site.whatsappDisplay})`,
+                          `Gargaarsa qindeessaa sa'aatii 24 fi Waatsaappii (${site.whatsappDisplay})`
+                        )}
                       </div>
                     </div>
                   </div>
@@ -190,7 +200,7 @@ export default function UmrahTimeline() {
                     disabled={activeDay === 0}
                     className="px-4 py-2 rounded-xl text-xs font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
                   >
-                    ← {en ? "Previous Day" : "Guyyaa Duraa"}
+                    ← {l("Previous Day", "ያለፈው ቀን", "Guyyaa Duraa")}
                   </button>
                   <div className="text-xs text-gray-400 font-medium">
                     {activeDay + 1} / {totalDays}
@@ -201,7 +211,7 @@ export default function UmrahTimeline() {
                     disabled={activeDay === totalDays - 1}
                     className="px-4 py-2 rounded-xl text-xs font-semibold text-accent-700 dark:text-accent-300 hover:bg-accent-50 dark:hover:bg-dark-200 disabled:opacity-40 disabled:cursor-not-allowed transition"
                   >
-                    {en ? "Next Day" : "Guyyaa Itti Aanu"} →
+                    {l("Next Day", "ቀጣይ ቀን", "Guyyaa Itti Aanu")} →
                   </button>
                 </div>
               </motion.div>

@@ -73,14 +73,19 @@ function Uploader() {
 function Card({ item, index, total }: { item: GalleryItem; index: number; total: number }) {
   const [en, setEn] = useState(item.caption.en);
   const [om, setOm] = useState(item.caption.om);
+  const [am, setAm] = useState(item.caption.am || "");
   const [visible, setVisible] = useState(item.visible);
   const [pending, start] = useTransition();
   const [saved, setSaved] = useState(false);
-  const dirty = en !== item.caption.en || om !== item.caption.om || visible !== item.visible;
+  const dirty =
+    en !== item.caption.en ||
+    om !== item.caption.om ||
+    am !== (item.caption.am || "") ||
+    visible !== item.visible;
 
   const save = () =>
     start(async () => {
-      await saveCaptionAction(item.id, en, om, visible);
+      await saveCaptionAction(item.id, en, om, visible, am);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     });
@@ -120,6 +125,10 @@ function Card({ item, index, total }: { item: GalleryItem; index: number; total:
         <div>
           <label htmlFor={`om-${item.id}`} className="mb-1 block text-xs font-semibold text-gray-600">Caption (Afaan Oromoo)</label>
           <input id={`om-${item.id}`} value={om} maxLength={140} onChange={(e) => setOm(e.target.value)} className="form-input py-2 text-sm" />
+        </div>
+        <div>
+          <label htmlFor={`am-${item.id}`} className="mb-1 block text-xs font-semibold text-gray-600">Caption (አማርኛ)</label>
+          <input id={`am-${item.id}`} value={am} maxLength={140} onChange={(e) => setAm(e.target.value)} className="form-input py-2 text-sm" />
         </div>
 
         <div className="flex items-center justify-between gap-2 pt-1">

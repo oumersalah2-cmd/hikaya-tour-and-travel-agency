@@ -40,6 +40,13 @@ const copy: Record<Locale, { title: string; description: string; og: string; loc
     og: "Karaa imala Umraa eebbifamaa, tikeettii xiyyaaraa fi daawwannaa Itoophiyaa.",
     locale: "om_ET",
   },
+  am: {
+    title: "ሂካያ የጉዞና ቱሪዝም ኤጀንሲ | ኡምራ፣ የአየር ትኬት እና የኢትዮጵያ ቱሮች",
+    description:
+      "የተሟላ የኡምራ ጉዞዎች (መካ እና መዲና ከታሪካዊ ዚያራ ጋር)፣ የሀገር ውስጥና ዓለም አቀፍ የአየር ትኬት፣ የሆቴል ቦታ ማስያዝ እንዲሁም በኢትዮጵያ አስደናቂ ቱሮች — ሶፍ ኡመር ዋሻ፣ ወንጪ ሐይቅ፣ ባሌ ተራሮች፣ ሰሜን ተራራ እና አፋር።",
+    og: "ወደ ቅዱሳን የኡምራ ቦታዎች፣ የአየር ትኬት እና ወደ ተመረጡ የኢትዮጵያ መዳረሻዎች መግቢያዎ።",
+    locale: "am_ET",
+  },
 };
 
 export async function generateMetadata({
@@ -101,6 +108,7 @@ const themeScript = `(function(){try{var s=localStorage.getItem('theme');var d=s
 const skipLabel: Record<Locale, string> = {
   en: "Skip to main content",
   om: "Gara qabiyyee fuulaatti darbi",
+  am: "ወደ ዋናው ይዘት ይለፉ",
 };
 
 export default async function RootLayout({

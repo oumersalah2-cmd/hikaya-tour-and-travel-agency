@@ -35,10 +35,10 @@ export default function OfficeDeskSection() {
                   <MapPin className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold text-primary-700 dark:text-white uppercase tracking-wider block">
-                      {lang === "en" ? "Physical Address" : "Teessoo Waajjiraa"}
+                      {lang === "en" ? "Physical Address" : lang === "am" ? "የቢሮ አድራሻ" : "Teessoo Waajjiraa"}
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {site.address[lang].join(", ")}
+                      {(site.address[lang] ?? site.address.en).join(", ")}
                     </span>
                   </div>
                 </div>
@@ -47,10 +47,10 @@ export default function OfficeDeskSection() {
                   <Clock className="w-5 h-5 text-accent-500 shrink-0 mt-0.5" />
                   <div>
                     <span className="text-xs font-bold text-primary-700 dark:text-white uppercase tracking-wider block">
-                      {lang === "en" ? "Consultation Hours" : "Sa'aatii Tajaajilaa"}
+                      {lang === "en" ? "Consultation Hours" : lang === "am" ? "የስራ ሰዓታት" : "Sa'aatii Tajaajilaa"}
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {site.hours[lang].join(" · ")}
+                      {(site.hours[lang] ?? site.hours.en).join(" · ")}
                     </span>
                   </div>
                 </div>
@@ -64,14 +64,26 @@ export default function OfficeDeskSection() {
                   className="btn-primary px-6 py-3.5 text-sm flex items-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 text-white" />
-                  <span>{lang === "en" ? `Chat on WhatsApp (${site.whatsappDisplay})` : `Waatsaappiin Nu Qunnamaa (${site.whatsappDisplay})`}</span>
+                  <span>
+                    {lang === "en"
+                      ? `Chat on WhatsApp (${site.whatsappDisplay})`
+                      : lang === "am"
+                      ? `በዋትስአፕ ያናግሩን (${site.whatsappDisplay})`
+                      : `Waatsaappiin Nu Qunnamaa (${site.whatsappDisplay})`}
+                  </span>
                 </a>
 
                 <Link
                   href={`/${lang}/contact`}
                   className="btn-secondary px-6 py-3.5 text-sm flex items-center gap-2"
                 >
-                  <span>{lang === "en" ? "View Full Contact & Map" : "Teessoo Guutuu & Kaartaa"}</span>
+                  <span>
+                    {lang === "en"
+                      ? "View Full Contact & Map"
+                      : lang === "am"
+                      ? "ሙሉ አድራሻ እና ካርታ ይመልከቱ"
+                      : "Teessoo Guutuu & Kaartaa"}
+                  </span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -83,25 +95,39 @@ export default function OfficeDeskSection() {
                 <div className="flex items-center gap-3 mb-2">
                   <ShieldCheck className="w-6 h-6 text-accent-400" />
                   <span className="font-display font-bold text-base">
-                    {lang === "en" ? "Licensed Tour & Travel Agency" : "Ejansii Imalaa Seera Qabeessa"}
+                    {lang === "en"
+                      ? "Licensed Tour & Travel Agency"
+                      : lang === "am"
+                      ? "ህጋዊ የጉዞ እና የቱሪዝም ኤጀንሲ"
+                      : "Ejansii Imalaa Seera Qabeessa"}
                   </span>
                 </div>
                 <p className="text-xs text-gray-300 leading-relaxed">
                   {lang === "en"
                     ? "Full compliance with Ethiopian tourism regulations and official Saudi Umrah pilgrimage protocols."
+                    : lang === "am"
+                    ? "ከኢትዮጵያ ቱሪዝም ደንቦች እና ከሳዑዲ ይፋዊ የዑምራ ጉዞ መመሪያዎች ጋር ሙሉ በሙሉ የተጣጣመ።"
                     : "Heeyyama seera qabeessaa fi sirna imala Umraa Sa'uudii guutuu kan hordofu."}
                 </p>
               </div>
 
               <div className="p-6 rounded-2xl bg-accent-50 dark:bg-accent-950/20 border border-accent-200/60 dark:border-accent-800/40">
                 <span className="text-xs font-bold text-accent-700 dark:text-accent-300 uppercase tracking-wider block mb-1">
-                  {lang === "en" ? "Direct Pilgrimage Hotline" : "Lakk. Bilbila Hatattamaa"}
+                  {lang === "en"
+                    ? "Direct Pilgrimage Hotline"
+                    : lang === "am"
+                    ? "ቀጥታ የጉዞ መስመር"
+                    : "Lakk. Bilbila Hatattamaa"}
                 </span>
                 <div className="text-lg font-bold text-primary-700 dark:text-white">
                   {site.phones.join(" / ")}
                 </div>
                 <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">
-                  {lang === "en" ? "Or chat anytime on WhatsApp:" : "Ykn Waatsaappiin nu qunnamaa:"}{" "}
+                  {lang === "en"
+                    ? "Or chat anytime on WhatsApp:"
+                    : lang === "am"
+                    ? "ወይም በማንኛውም ጊዜ በዋትስአፕ ያናግሩን:"
+                    : "Ykn Waatsaappiin nu qunnamaa:"}{" "}
                   <a
                     href={whatsappLink()}
                     target="_blank"

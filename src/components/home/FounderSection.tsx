@@ -67,11 +67,15 @@ export default function FounderSection() {
                         <CheckCircle2 className="w-4 h-4 text-accent-400 fill-accent-400/20" />
                       </div>
                       <span className="text-xs text-accent-300 font-medium block">
-                        {lang === "en" ? "Founder & Managing Director" : "Hundeeffaa & Daarektara Ejansii"}
+                        {lang === "en"
+                          ? "Founder & Managing Director"
+                          : lang === "am"
+                          ? "መስራች እና ማኔጂንግ ዳይሬክተር"
+                          : "Hundeeffaa & Daarektara Ejansii"}
                       </span>
                     </div>
                     <span className="px-3 py-1 rounded-full bg-accent-400/20 border border-accent-400/50 text-[11px] font-semibold text-accent-200 backdrop-blur-md">
-                      {lang === "en" ? "Verified" : "Mirkanaa'e"}
+                      {lang === "en" ? "Verified" : lang === "am" ? "የተረጋገጠ" : "Mirkanaa'e"}
                     </span>
                   </div>
                 </div>
@@ -87,13 +91,17 @@ export default function FounderSection() {
                         10+ Years
                       </span>
                       <span className="text-[11px] text-gray-300">
-                        {lang === "en" ? "Online Travel & Overseas Services" : "Tajaajila Imalaafi Paaspoortii"}
+                        {lang === "en"
+                          ? "Online Travel & Overseas Services"
+                          : lang === "am"
+                          ? "የኦንላይን ጉዞ እና የውጭ አገልግሎቶች"
+                          : "Tajaajila Imalaafi Paaspoortii"}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold shrink-0">
                     <ShieldCheck className="w-4 h-4" />
-                    <span>{lang === "en" ? "Licensed" : "Seera Qabeessa"}</span>
+                    <span>{lang === "en" ? "Licensed" : lang === "am" ? "ህጋዊ ፍቃድ ያለው" : "Seera Qabeessa"}</span>
                   </div>
                 </div>
               </div>

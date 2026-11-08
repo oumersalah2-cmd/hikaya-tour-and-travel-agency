@@ -15,15 +15,25 @@ export default function NotFound() {
     >
       <p className="font-display text-7xl font-bold text-gradient-gold">404</p>
       <h1 className="mt-4 font-display text-3xl font-bold">
-        {lang === "om" ? "Fuulli kun hin argamne" : "Page not found"}
+        {lang === "am"
+          ? "ገጹ አልተገኘም"
+          : lang === "om"
+          ? "Fuulli kun hin argamne"
+          : "Page not found"}
       </h1>
       <p className="mt-3 max-w-md text-gray-300">
-        {lang === "om"
+        {lang === "am"
+          ? "የፈለጉት ገጽ የለም ወይም ወደ ሌላ ቦታ ተዛውሯል።"
+          : lang === "om"
           ? "Fuulli barbaaddan hin jiru ykn bakka biraatti ceesisameera."
           : "The page you are looking for doesn’t exist or has been moved."}
       </p>
       <Link href={`/${lang}`} className="btn-primary mt-8 px-8">
-        {lang === "om" ? "Gara jalqabaatti deebi’i" : "Back to home"}
+        {lang === "am"
+          ? "ወደ መነሻ ገጽ ተመለስ"
+          : lang === "om"
+          ? "Gara jalqabaatti deebi’i"
+          : "Back to home"}
       </Link>
     </main>
   );

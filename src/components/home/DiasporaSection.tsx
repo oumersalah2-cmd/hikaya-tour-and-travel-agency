@@ -55,7 +55,13 @@ export default function DiasporaSection() {
                 className="btn-primary px-8 py-4 text-base flex items-center gap-2 shadow-glow"
               >
                 <MessageCircle className="w-5 h-5 text-white" />
-                <span>{lang === "en" ? `Chat on WhatsApp (${site.whatsappDisplay})` : `Waatsaappiin Nu Qunnamaa (${site.whatsappDisplay})`}</span>
+                <span>
+                  {lang === "am"
+                    ? `በዋትስአፕ ያወያዩን (${site.whatsappDisplay})`
+                    : lang === "om"
+                    ? `Waatsaappiin Nu Qunnamaa (${site.whatsappDisplay})`
+                    : `Chat on WhatsApp (${site.whatsappDisplay})`}
+                </span>
               </a>
 
               <Link
@@ -82,10 +88,18 @@ export default function DiasporaSection() {
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-lg text-white">
-                    {lang === "en" ? "Parent Sponsorship Guarantee" : "Wabii Kunuunsa Maatii"}
+                    {lang === "en"
+                      ? "Parent Sponsorship Guarantee"
+                      : lang === "am"
+                      ? "የወላጆች ስፖንሰርሺፕ ዋስትና"
+                      : "Wabii Kunuunsa Maatii"}
                   </h3>
                   <p className="text-xs text-gray-300">
-                    {lang === "en" ? "Addis Ababa Desk ➔ Holy Cities" : "Finfinnee ➔ Magaalota Qulqullaa'oo"}
+                    {lang === "en"
+                      ? "Addis Ababa Desk ➔ Holy Cities"
+                      : lang === "am"
+                      ? "የአዲስ አበባ ቢሮ ➔ ቅዱሳን ከተሞች"
+                      : "Finfinnee ➔ Magaalota Qulqullaa'oo"}
                   </p>
                 </div>
               </div>
@@ -93,33 +107,51 @@ export default function DiasporaSection() {
               <div className="space-y-4 text-sm text-gray-200">
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
                   <span className="text-xs text-accent-300 font-bold block mb-1">
-                    {lang === "en" ? "Step 1: Abroad" : "Sadarkaa 1: Biyya Alaa"}
+                    {lang === "en"
+                      ? "Step 1: Abroad"
+                      : lang === "am"
+                      ? "ደረጃ 1፡ በውጭ ሀገር"
+                      : "Sadarkaa 1: Biyya Alaa"}
                   </span>
                   <p className="text-xs text-gray-300 leading-relaxed">
                     {lang === "en"
                       ? `Contact us via WhatsApp (${site.whatsappDisplay}), confirm dates and package, pay securely in USD/EUR/ETB.`
+                      : lang === "am"
+                      ? `በዋትስአፕ (${site.whatsappDisplay}) ያግኙን፣ ቀናትን እና ፓኬጅን ያረጋግጡ፣ ክፍያዎን በUSD/EUR/ETB በጥንቃቄ ይፈጽሙ።`
                       : `Waatsaappiin (${site.whatsappDisplay}) nu qunnamaa, guyyaa filadhaa, kaffaltii nagaan raawwadhaa.`}
                   </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
                   <span className="text-xs text-accent-300 font-bold block mb-1">
-                    {lang === "en" ? "Step 2: Addis Ababa" : "Sadarkaa 2: Finfinnee"}
+                    {lang === "en"
+                      ? "Step 2: Addis Ababa"
+                      : lang === "am"
+                      ? "ደረጃ 2፡ አዲስ አበባ"
+                      : "Sadarkaa 2: Finfinnee"}
                   </span>
                   <p className="text-xs text-gray-300 leading-relaxed">
                     {lang === "en"
                       ? "Our Addis Ababa team contacts your parents, handles passport verification, visa stamping, and orientation."
+                      : lang === "am"
+                      ? "የአዲስ አበባ ቡድናችን ወላጆችዎን ያገኛል፣ የፓስፖርት ማረጋገጫ፣ ቪዛ እና ገለጻ ያደርግላቸዋል።"
                       : "Gareen keenya maatii keessan waliin ta'uun paaspoortii fi viizaa qindeessa."}
                   </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
                   <span className="text-xs text-accent-300 font-bold block mb-1">
-                    {lang === "en" ? "Step 3: Holy Cities Ground Chaperone" : "Sadarkaa 3: Makkaa fi Madiinaa"}
+                    {lang === "en"
+                      ? "Step 3: Holy Cities Ground Chaperone"
+                      : lang === "am"
+                      ? "ደረጃ 3፡ በቅዱሳን ቦታዎች ሙሉ አጋዥ"
+                      : "Sadarkaa 3: Makkaa fi Madiinaa"}
                   </span>
                   <p className="text-xs text-gray-300 leading-relaxed">
                     {lang === "en"
                       ? "Airport pickup in Jeddah, assistance at Haram hotels, wheelchairs if needed, and guided Ziyarat."
+                      : lang === "am"
+                      ? "በጅዳ ኤርፖርት አቀባበል፣ በሐረም ሆቴሎች ድጋፍ፣ አስፈላጊ ከሆነ ዊልቼር እና የሚመራ የዚያራ ጉብኝት።"
                       : "Jeddah irraa simachuun hoteela Haramatti dhiheessuu, fi Ziyaaraa guutuu raawwachiisuu."}
                   </p>
                 </div>
@@ -127,7 +159,11 @@ export default function DiasporaSection() {
 
               <div className="mt-6 pt-4 border-t border-white/10 text-center">
                 <span className="text-xs text-gray-300">
-                  {lang === "en" ? "Direct WhatsApp Desk:" : "Waatsaappii Qindeessaa:"}{" "}
+                  {lang === "en"
+                    ? "Direct WhatsApp Desk:"
+                    : lang === "am"
+                    ? "ቀጥታ የዋትስአፕ ቢሮ፡"
+                    : "Waatsaappii Qindeessaa:"}{" "}
                   <a
                     href={whatsappLink()}
                     target="_blank"

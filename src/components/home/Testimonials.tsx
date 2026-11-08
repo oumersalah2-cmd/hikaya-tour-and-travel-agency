@@ -26,9 +26,27 @@ export default function Testimonials() {
       
       <div className="max-w-7xl mx-auto relative z-10">
         <SectionHeading
-          subtitle={lang === "en" ? "Testimonials" : "Yaada Maamiltootaa"}
-          title={lang === "en" ? "What Our Travelers Say" : "Imaltoonni Keenya Maal Jedhu"}
-          description={lang === "en" ? "Don't just take our word for it. Read about the unforgettable experiences our clients have had with HIKAYA Tour and Travel Agency." : "Hasaa keenya qofa hin amaniinaa. Muuxannoo dagatamuun hin danda'amne maamiltoonni keenya HIKAYA Tour wajjin qaban dubbisaa."}
+          subtitle={
+            lang === "am"
+              ? "የደንበኞች ምስክርነት"
+              : lang === "om"
+              ? "Yaada Maamiltootaa"
+              : "Testimonials"
+          }
+          title={
+            lang === "am"
+              ? "መንገደኞቻችን ምን ይላሉ?"
+              : lang === "om"
+              ? "Imaltoonni Keenya Maal Jedhu"
+              : "What Our Travelers Say"
+          }
+          description={
+            lang === "am"
+              ? "የእኛን ቃል ብቻ አይሰሙ፤ ደንበኞቻችን ከሂካያ የጉዞና ቱሪዝም ኤጀንሲ ጋር ስላሳለፏቸው የማይረሱ ገጠመኞች ያንብቡ።"
+              : lang === "om"
+              ? "Hasaa keenya qofa hin amaniinaa. Muuxannoo dagatamuun hin danda'amne maamiltoonni keenya HIKAYA Tour wajjin qaban dubbisaa."
+              : "Don't just take our word for it. Read about the unforgettable experiences our clients have had with HIKAYA Tour and Travel Agency."
+          }
         />
 
         <div className="max-w-4xl mx-auto mt-12 relative">

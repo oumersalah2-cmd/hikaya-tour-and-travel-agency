@@ -3,9 +3,12 @@
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import { en } from "@/dictionaries/en";
 import { om } from "@/dictionaries/om";
+import { am } from "@/dictionaries/am";
 import type { Locale } from "@/lib/i18n";
 
 export type Dictionary = typeof en;
+
+const dictionaries: Record<Locale, Dictionary> = { en, om, am };
 
 interface LanguageContextType {
   lang: Locale;
@@ -22,7 +25,7 @@ export function LanguageProvider({
   lang: Locale;
 }) {
   const value = useMemo(
-    () => ({ lang, t: (lang === "om" ? om : en) as Dictionary }),
+    () => ({ lang, t: dictionaries[lang] ?? en }),
     [lang]
   );
   return (

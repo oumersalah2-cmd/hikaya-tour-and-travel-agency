@@ -59,7 +59,13 @@ export default function BookingWorkflow() {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-gray-200/50 dark:border-dark-100/50 text-xs font-semibold text-accent-700 dark:text-accent-300 flex items-center gap-1">
-                  <span>{lang === "en" ? `Step ${item.step} Details` : `Odeeffannoo Sadarkaa ${item.step}`}</span>
+                  <span>
+                    {lang === "en"
+                      ? `Step ${item.step} Details`
+                      : lang === "am"
+                      ? `የደረጃ ${item.step} ዝርዝር`
+                      : `Odeeffannoo Sadarkaa ${item.step}`}
+                  </span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </motion.div>
@@ -73,7 +79,13 @@ export default function BookingWorkflow() {
             href={`/${lang}#packages`}
             className="inline-flex items-center gap-2 btn-primary px-8 py-4 text-base"
           >
-            <span>{lang === "en" ? "Explore Packages & Request Quote" : "Paakeejota Ilaalaa Gatii Gaafadhaa"}</span>
+            <span>
+              {lang === "en"
+                ? "Explore Packages & Request Quote"
+                : lang === "am"
+                ? "ፓኬጆችን ይመልከቱ እና ዋጋ ይጠይቁ"
+                : "Paakeejota Ilaalaa Gatii Gaafadhaa"}
+            </span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

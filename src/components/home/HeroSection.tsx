@@ -159,7 +159,7 @@ export default function HeroSection() {
               className={`h-1.5 rounded-full transition-all duration-500 ${
                 index === current ? "w-10 bg-accent-400" : "w-4 bg-white/30 hover:bg-white/50"
               }`}
-              aria-label={`${lang === "en" ? "Go to slide" : "Gara suuraa"} ${index + 1}`}
+              aria-label={`${lang === "en" ? "Go to slide" : lang === "am" ? "ወደ ስላይድ" : "Gara suuraa"} ${index + 1}`}
               aria-current={index === current}
             />
           ))}

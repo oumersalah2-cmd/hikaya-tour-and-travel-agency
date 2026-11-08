@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import HikayaLogo from "@/components/ui/HikayaLogo";
 import { useLanguage } from "@/context/LanguageContext";
+import type { Locale } from "@/lib/i18n";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,9 +21,9 @@ export default function Navbar() {
   const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
   const solid = isScrolled || isMobileOpen || !isHome;
 
-  const toggleLanguage = () => {
-    const newLang = lang === "en" ? "om" : "en";
-    const rest = pathname.replace(/^\/(en|om)(?=\/|$)/, "");
+  const switchLanguage = (newLang: Locale) => {
+    if (newLang === lang) return;
+    const rest = pathname.replace(/^\/(en|om|am)(?=\/|$)/, "");
     router.push(`/${newLang}${rest}${window.location.hash}`);
   };
 
@@ -54,12 +55,6 @@ export default function Navbar() {
       window.removeEventListener("keydown", onKey);
     };
   }, [isMobileOpen]);
-
-  const langButtonClass = `rounded-md border px-3 py-1.5 text-xs font-bold tracking-wider transition-colors ${
-    solid
-      ? "border-primary-200 text-primary-700 hover:bg-primary-50 dark:border-dark-100 dark:text-white dark:hover:bg-dark-200"
-      : "border-white/30 text-white hover:bg-white/10"
-  }`;
 
   return (
     <>
@@ -103,14 +98,37 @@ export default function Navbar() {
           </div>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              className={langButtonClass}
+            {/* 3-Language segmented switcher */}
+            <div
+              className={`inline-flex items-center rounded-xl p-0.5 text-xs font-bold transition-colors ${
+                solid
+                  ? "border border-primary-200/80 bg-gray-100/80 dark:border-white/10 dark:bg-dark-300"
+                  : "border border-white/25 bg-black/30 backdrop-blur-md"
+              }`}
+              role="group"
               aria-label={t.ui.switchLanguage}
             >
-              {lang === "en" ? "OM" : "EN"}
-            </button>
+              {(["en", "om", "am"] as const).map((l) => {
+                const active = lang === l;
+                const label = l === "en" ? "EN" : l === "om" ? "OM" : "አማ";
+                return (
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => switchLanguage(l)}
+                    className={`rounded-lg px-2.5 py-1 transition-all duration-200 ${
+                      active
+                        ? "bg-accent-600 text-white shadow-sm"
+                        : solid
+                        ? "text-primary-700 hover:text-accent-600 dark:text-gray-300 dark:hover:text-white"
+                        : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
             <ThemeToggle onDark={!solid} />
             <Link href={`/${lang}#packages`} className="btn-primary px-6 py-2.5 text-sm">
               {t.ui.bookNow}
@@ -118,14 +136,35 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              className={langButtonClass}
-              aria-label={t.ui.switchLanguage}
+            {/* Mobile language switcher */}
+            <div
+              className={`inline-flex items-center rounded-xl p-0.5 text-[11px] font-bold ${
+                solid
+                  ? "border border-primary-200/80 bg-gray-100 dark:border-white/10 dark:bg-dark-300"
+                  : "border border-white/25 bg-black/30 backdrop-blur-md"
+              }`}
             >
-              {lang === "en" ? "OM" : "EN"}
-            </button>
+              {(["en", "om", "am"] as const).map((l) => {
+                const active = lang === l;
+                const label = l === "en" ? "EN" : l === "om" ? "OM" : "አማ";
+                return (
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => switchLanguage(l)}
+                    className={`rounded-lg px-2 py-0.5 transition-all ${
+                      active
+                        ? "bg-accent-600 text-white shadow-sm"
+                        : solid
+                        ? "text-primary-700 dark:text-gray-300"
+                        : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
             <ThemeToggle onDark={!solid} />
             <button
               type="button"

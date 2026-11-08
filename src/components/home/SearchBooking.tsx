@@ -26,17 +26,52 @@ export default function SearchBooking() {
   const { packages } = useSite();
   const { setSearch } = useTrip();
   const uid = useId();
-  const en = lang === "en";
 
   const [activeTab, setActiveTab] = useState<Tab>("umrah");
   const [form, setForm] = useState({ packageId: "", departure: "", returnDate: "", travelers: "1" });
   const today = new Date().toISOString().split("T")[0];
 
   const tabs = [
-    { id: "umrah", icon: Moon, label: en ? "Umrah Packages" : "Paakeejii Umraa" },
-    { id: "flights", icon: Plane, label: en ? "Flight Tickets" : "Tikeettii Xiyyaaraa" },
-    { id: "hotels", icon: Hotel, label: en ? "Hotel Booking" : "Hoteela Qabsiisuu" },
-    { id: "tours", icon: Mountain, label: en ? "Ethiopia Tours" : "Daawwannaa Itoophiyaa" },
+    {
+      id: "umrah",
+      icon: Moon,
+      label:
+        lang === "am"
+          ? "የኡምራ ፓኬጆች"
+          : lang === "om"
+          ? "Paakeejii Umraa"
+          : "Umrah Packages",
+    },
+    {
+      id: "flights",
+      icon: Plane,
+      label:
+        lang === "am"
+          ? "የአየር ትኬቶች"
+          : lang === "om"
+          ? "Tikeettii Xiyyaaraa"
+          : "Flight Tickets",
+    },
+    {
+      id: "hotels",
+      icon: Hotel,
+      label:
+        lang === "am"
+          ? "የሆቴል ቦታ ማስያዝ"
+          : lang === "om"
+          ? "Hoteela Qabsiisuu"
+          : "Hotel Booking",
+    },
+    {
+      id: "tours",
+      icon: Mountain,
+      label:
+        lang === "am"
+          ? "የኢትዮጵያ ቱሮች"
+          : lang === "om"
+          ? "Daawwannaa Itoophiyaa"
+          : "Ethiopia Tours",
+    },
   ] as const;
 
   // Only offer destinations that belong to the selected service tab
@@ -95,7 +130,7 @@ export default function SearchBooking() {
           <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <div>
               <label htmlFor={field("dest")} className={labelClass}>
-                {en ? "Destination / Service" : "Bakka / Tajaajila"}
+                {lang === "am" ? "መዳረሻ / አገልግሎት" : lang === "om" ? "Bakka / Tajaajila" : "Destination / Service"}
               </label>
               <div className="relative">
                 <MapPin className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" aria-hidden="true" />
@@ -105,7 +140,7 @@ export default function SearchBooking() {
                   onChange={(e) => setForm({ ...form, packageId: e.target.value })}
                   className={`${inputClass} cursor-pointer`}
                 >
-                  <option value="">{en ? "All options" : "Filannoo hunda"}</option>
+                  <option value="">{lang === "am" ? "ሁሉም አማራጮች" : lang === "om" ? "Filannoo hunda" : "All options"}</option>
                   {options.map((pkg) => (
                     <option key={pkg.id} value={pkg.id}>
                       {pkg.title}
@@ -117,7 +152,7 @@ export default function SearchBooking() {
 
             <div>
               <label htmlFor={field("dep")} className={labelClass}>
-                {en ? "Departure Date" : "Guyyaa Ka'umsaa"}
+                {lang === "am" ? "የመነሻ ቀን" : lang === "om" ? "Guyyaa Ka'umsaa" : "Departure Date"}
               </label>
               <div className="relative">
                 <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" aria-hidden="true" />
@@ -140,7 +175,7 @@ export default function SearchBooking() {
 
             <div>
               <label htmlFor={field("ret")} className={labelClass}>
-                {en ? "Return Date" : "Guyyaa Deebii"}
+                {lang === "am" ? "የመመለሻ ቀን" : lang === "om" ? "Guyyaa Deebii" : "Return Date"}
               </label>
               <div className="relative">
                 <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" aria-hidden="true" />
@@ -157,7 +192,7 @@ export default function SearchBooking() {
 
             <div>
               <label htmlFor={field("trav")} className={labelClass}>
-                {en ? "Travelers" : "Baayyina Imaltootaa"}
+                {lang === "am" ? "የተጓዦች ብዛት" : lang === "om" ? "Baayyina Imaltootaa" : "Travelers"}
               </label>
               <div className="relative">
                 <Users className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" aria-hidden="true" />
@@ -169,7 +204,18 @@ export default function SearchBooking() {
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20].map((n) => (
                     <option key={n} value={n}>
-                      {n} {en ? (n === 1 ? "Person" : "People") : n === 1 ? "Nama" : "Namoota"}
+                      {n}{" "}
+                      {lang === "am"
+                        ? n === 1
+                          ? "ሰው"
+                          : "ሰዎች"
+                        : lang === "om"
+                        ? n === 1
+                          ? "Nama"
+                          : "Namoota"
+                        : n === 1
+                        ? "Person"
+                        : "People"}
                     </option>
                   ))}
                 </select>
@@ -178,7 +224,7 @@ export default function SearchBooking() {
 
             <button type="submit" className="btn-primary w-full py-3.5 text-sm sm:text-base">
               <Search className="h-5 w-5" aria-hidden="true" />
-              {en ? "Find Packages" : "Paakeejii Barbaadi"}
+              {lang === "am" ? "ፓኬጆችን ፈልግ" : lang === "om" ? "Paakeejii Barbaadi" : "Find Packages"}
             </button>
           </div>
         </form>

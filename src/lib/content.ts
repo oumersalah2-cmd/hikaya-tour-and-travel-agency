@@ -12,30 +12,32 @@ import {
 } from "@/lib/collections";
 import { readContent } from "@/lib/store";
 
+import type { Locale } from "@/lib/i18n";
+
 const FAQ_PHONE = "+251 911 123 456";
 
-/** Built-in content (English + Afaan Oromoo merged) used until the owner edits a list. */
+/** Built-in content (English + Afaan Oromoo + Amharic merged) used until the owner edits a list. */
 export function defaultItems(name: CollectionName): Item[] {
-  const pair = <T,>(fn: (l: "en" | "om") => T[]) => [fn("en"), fn("om")] as const;
+  const trio = <T,>(fn: (l: Locale) => T[]) => [fn("en"), fn("om"), fn("am")] as const;
   switch (name) {
     case "packages": {
-      const [en, om] = pair(getPackages);
-      return buildDefaults(name, en as never, om as never);
+      const [en, om, am] = trio(getPackages);
+      return buildDefaults(name, en as never, om as never, am as never);
     }
     case "destinations": {
-      const [en, om] = pair(getDestinations);
-      return buildDefaults(name, en as never, om as never);
+      const [en, om, am] = trio(getDestinations);
+      return buildDefaults(name, en as never, om as never, am as never);
     }
     case "testimonials": {
-      const [en, om] = pair(getTestimonials);
-      return buildDefaults(name, en as never, om as never);
+      const [en, om, am] = trio(getTestimonials);
+      return buildDefaults(name, en as never, om as never, am as never);
     }
     case "faq": {
-      const [en, om] = pair(getFaqItems);
+      const [en, om, am] = trio(getFaqItems);
       // Replace the placeholder number with a token so it follows the real WhatsApp number
       const swap = (list: typeof en) =>
         list.map((f) => ({ ...f, answer: f.answer.split(FAQ_PHONE).join("{{whatsapp}}") }));
-      return buildDefaults(name, swap(en) as never, swap(om) as never);
+      return buildDefaults(name, swap(en) as never, swap(om) as never, swap(am) as never);
     }
   }
 }

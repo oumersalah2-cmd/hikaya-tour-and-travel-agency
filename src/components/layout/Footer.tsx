@@ -11,27 +11,31 @@ import HikayaLogo from "@/components/ui/HikayaLogo";
 import { submitLead } from "@/lib/submitLead";
 import type { Locale } from "@/lib/i18n";
 
-const pick = (lang: Locale, en: string, om: string) => (lang === "en" ? en : om);
+const pick = (lang: Locale, en: string, om: string, am?: string) => {
+  if (lang === "am") return am ?? en;
+  if (lang === "om") return om;
+  return en;
+};
 
 const getQuickLinks = (lang: Locale) => [
-  { href: `/${lang}#home`, label: pick(lang, "Home", "Mana") },
-  { href: `/${lang}#services`, label: pick(lang, "Services", "Tajaajila") },
-  { href: `/${lang}#packages`, label: pick(lang, "Packages & Pricing", "Paakeejota & Gatii") },
-  { href: `/${lang}#schedule`, label: pick(lang, "11-Day Schedule", "Sagantaa Guyyaa 11") },
-  { href: `/${lang}#ziyarat`, label: pick(lang, "Sacred Ziyarat", "Ziyaaraa Seenaa") },
-  { href: `/${lang}#founder`, label: pick(lang, "Founder & Leadership", "Hundeeffaa & Geggeessummaa") },
-  { href: `/${lang}#diaspora`, label: pick(lang, "Diaspora Sponsorship", "Kaffaltii Alaa (Diyaaspooraa)") },
-  { href: `/${lang}/gallery`, label: pick(lang, "Gallery", "Suuraalee") },
-  { href: `/${lang}/contact`, label: pick(lang, "Contact Us", "Nu Qunnamaa") },
+  { href: `/${lang}#home`, label: pick(lang, "Home", "Mana", "መነሻ") },
+  { href: `/${lang}#services`, label: pick(lang, "Services", "Tajaajila", "አገልግሎቶች") },
+  { href: `/${lang}#packages`, label: pick(lang, "Packages & Pricing", "Paakeejota & Gatii", "ፓኬጆችና ዋጋ") },
+  { href: `/${lang}#schedule`, label: pick(lang, "11-Day Schedule", "Sagantaa Guyyaa 11", "የ11 ቀናት መርሃ-ግብር") },
+  { href: `/${lang}#ziyarat`, label: pick(lang, "Sacred Ziyarat", "Ziyaaraa Seenaa", "ቅዱሳን ዚያራዎች") },
+  { href: `/${lang}#founder`, label: pick(lang, "Founder & Leadership", "Hundeeffaa & Geggeessummaa", "መስራችና አመራር") },
+  { href: `/${lang}#diaspora`, label: pick(lang, "Diaspora Sponsorship", "Kaffaltii Alaa (Diyaaspooraa)", "የዲያስፖራ ድጋፍ") },
+  { href: `/${lang}/gallery`, label: pick(lang, "Gallery", "Suuraalee", "ጋለሪ") },
+  { href: `/${lang}/contact`, label: pick(lang, "Contact Us", "Nu Qunnamaa", "ያግኙን") },
 ];
 
 const getServiceLinks = (lang: Locale) => [
-  { href: `/${lang}#packages`, label: pick(lang, "Umrah Packages (Makkah & Medina)", "Paakeejii Umraa (Makkaa fi Madiinaa)") },
-  { href: `/${lang}#services`, label: pick(lang, "International Flight Tickets", "Tikeettii Idil-Addunyaa") },
-  { href: `/${lang}#services`, label: pick(lang, "Domestic Flight Tickets", "Tikeettii Biyya Keessaa") },
-  { href: `/${lang}#services`, label: pick(lang, "Hotel Booking (Haram & Worldwide)", "Hoteelota Haram & Addunyaa") },
-  { href: `/${lang}#packages`, label: pick(lang, "Sof Omar Caves Expedition", "Daawwannaa Holqa Soof Umar") },
-  { href: `/${lang}#packages`, label: pick(lang, "Wonchi, Bale, Semien & Afar Tours", "Daawwannaa Wonchii, Baalee, Saameen & Affaar") },
+  { href: `/${lang}#packages`, label: pick(lang, "Umrah Packages (Makkah & Medina)", "Paakeejii Umraa (Makkaa fi Madiinaa)", "የኡምራ ፓኬጆች (መካና መዲና)") },
+  { href: `/${lang}#services`, label: pick(lang, "International Flight Tickets", "Tikeettii Idil-Addunyaa", "ዓለም አቀፍ የአየር ትኬት") },
+  { href: `/${lang}#services`, label: pick(lang, "Domestic Flight Tickets", "Tikeettii Biyya Keessaa", "የሀገር ውስጥ የአየር ትኬት") },
+  { href: `/${lang}#services`, label: pick(lang, "Hotel Booking (Haram & Worldwide)", "Hoteelota Haram & Addunyaa", "የሆቴል ቦታ ማስያዝ (ሀረምና ዓለም አቀፍ)") },
+  { href: `/${lang}#packages`, label: pick(lang, "Sof Omar Caves Expedition", "Daawwannaa Holqa Soof Umar", "የሶፍ ኡመር ዋሻ ጉብኝት") },
+  { href: `/${lang}#packages`, label: pick(lang, "Wonchi, Bale, Semien & Afar Tours", "Daawwannaa Wonchii, Baalee, Saameen & Affaar", "የወንጪ፣ ባሌ፣ ሰሜንና አፋር ቱሮች") },
 ];
 
 export default function Footer() {
@@ -74,7 +78,7 @@ export default function Footer() {
               >
                 <MessageCircle className="h-4 w-4" />
               </a>
-              <a href={telHref(site.phones[0])} aria-label={pick(lang, "Call us", "Nuuf bilbilaa")} className={iconLink}>
+              <a href={telHref(site.phones[0])} aria-label={pick(lang, "Call us", "Nuuf bilbilaa", "ይደውሉልን")} className={iconLink}>
                 <Phone className="h-4 w-4" />
               </a>
               <a href={`mailto:${site.emails[0]}`} aria-label="Email" className={iconLink}>
@@ -115,7 +119,7 @@ export default function Footer() {
             <address className="mb-8 space-y-4 not-italic">
               <div className="flex items-start gap-3">
                 <MapPin className="mt-1 h-4 w-4 shrink-0 text-accent-400" />
-                <span className="text-sm text-gray-300">{site.address[lang].join(", ")}</span>
+                <span className="text-sm text-gray-300">{(site.address[lang] ?? site.address.en).join(", ")}</span>
               </div>
               <div className="flex items-start gap-3">
                 <Phone className="mt-1 h-4 w-4 shrink-0 text-accent-400" />
