@@ -1,15 +1,15 @@
 export const om = {
   nav: {
-    home: "Gara Jalqabaa",
+    home: "Jalqaba",
     services: "Tajaajiloota",
     packages: "Paakeejota",
-    schedule: "Sagantaa Umraa",
+    schedule: "Sagantaa",
     ziyarat: "Ziyaaraa",
     diaspora: "Diyaaspooraa",
     gallery: "Suuraalee",
     destinations: "Bakkeewwan",
     testimonials: "Yaada Maamiltootaa",
-    contact: "Nu Quunnamaa",
+    contact: "Quunnamaa",
   },
   hero: {
     welcome: "✈ Baga nagaan gara HIKAYA Tour and Travel Agency dhuftan",

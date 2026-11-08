@@ -75,7 +75,7 @@ export default function Navbar() {
           aria-label={t.ui.mainNav}
           className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8"
         >
-          <Link href={`/${lang}`} className="group flex items-center gap-2.5 transition-transform duration-200 hover:scale-[1.02]">
+          <Link href={`/${lang}`} className="group flex shrink-0 items-center gap-2.5 transition-transform duration-200 hover:scale-[1.02] mr-2 xl:mr-6">
             <HikayaLogo
               variant="full"
               inverted={!solid}
@@ -84,15 +84,15 @@ export default function Navbar() {
             />
           </Link>
 
-          <div className="hidden items-center gap-0.5 lg:flex">
+          <div className="hidden items-center gap-0.5 xl:gap-1.5 lg:flex flex-1 justify-center max-w-3xl min-w-0">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-300 xl:px-4 ${
+                className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-semibold tracking-tight transition-colors duration-200 xl:px-3.5 xl:text-sm ${
                   solid
-                    ? "text-primary-600 hover:bg-primary-50 hover:text-primary-700 dark:text-gray-300 dark:hover:bg-dark-200 dark:hover:text-white"
-                    : "text-white/85 hover:bg-white/10 hover:text-white"
+                    ? "text-primary-700 hover:bg-primary-50 hover:text-primary-900 dark:text-gray-300 dark:hover:bg-dark-200 dark:hover:text-white"
+                    : "text-white/90 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -100,7 +100,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden items-center gap-3 lg:flex">
+          <div className="hidden shrink-0 items-center gap-2 xl:gap-3 lg:flex ml-2 xl:ml-6">
             {/* 3-Language segmented switcher */}
             <div
               className={`inline-flex items-center rounded-xl p-0.5 text-xs font-bold transition-colors ${
@@ -119,7 +119,7 @@ export default function Navbar() {
                     key={l}
                     type="button"
                     onClick={() => switchLanguage(l)}
-                    className={`rounded-lg px-2.5 py-1 transition-all duration-200 ${
+                    className={`rounded-lg px-2 xl:px-2.5 py-1 text-[11px] xl:text-xs transition-all duration-200 ${
                       active
                         ? "bg-accent-600 text-white shadow-sm"
                         : solid
@@ -133,7 +133,10 @@ export default function Navbar() {
               })}
             </div>
             <ThemeToggle onDark={!solid} />
-            <Link href={`/${lang}#packages`} className="btn-primary px-6 py-2.5 text-sm">
+            <Link
+              href={`/${lang}#packages`}
+              className="btn-primary whitespace-nowrap px-3.5 py-2 text-xs font-bold xl:px-6 xl:py-2.5 xl:text-sm"
+            >
               {t.ui.bookNow}
             </Link>
           </div>

@@ -3,7 +3,7 @@ export const am = {
     home: "መነሻ",
     services: "አገልግሎቶች",
     packages: "ፓኬጆች",
-    schedule: "የኡምራ መርሃ-ግብር",
+    schedule: "መርሐ-ግብር",
     ziyarat: "ዚያራ",
     diaspora: "ዲያስፖራ",
     gallery: "ጋለሪ",
