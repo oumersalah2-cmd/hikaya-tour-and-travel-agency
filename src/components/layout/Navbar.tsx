@@ -31,8 +31,11 @@ export default function Navbar() {
     { href: `/${lang}#home`, label: t.nav.home },
     { href: `/${lang}#services`, label: t.nav.services },
     { href: `/${lang}#packages`, label: t.nav.packages },
+    {
+      href: `/${lang}#founder`,
+      label: lang === "en" ? "Founder" : lang === "am" ? "መስራች" : "Hundeeffaa",
+    },
     { href: `/${lang}#schedule`, label: t.nav.schedule },
-    { href: `/${lang}#ziyarat`, label: t.nav.ziyarat },
     { href: `/${lang}#diaspora`, label: t.nav.diaspora },
     { href: `/${lang}/gallery`, label: t.nav.gallery },
     { href: `/${lang}/contact`, label: t.nav.contact },

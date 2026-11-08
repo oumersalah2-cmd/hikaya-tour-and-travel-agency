@@ -122,19 +122,28 @@ export default function OfficeDeskSection() {
                 <div className="text-lg font-bold text-primary-700 dark:text-white">
                   {site.phones.join(" / ")}
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">
+                <span className="text-xs text-gray-500 dark:text-gray-400 mt-2 block">
                   {lang === "en"
-                    ? "Or chat anytime on WhatsApp:"
+                    ? "Or chat anytime on WhatsApp & Telegram:"
                     : lang === "am"
-                    ? "ወይም በማንኛውም ጊዜ በዋትስአፕ ያናግሩን:"
-                    : "Ykn Waatsaappiin nu qunnamaa:"}{" "}
+                    ? "ወይም በዋትስአፕና ቴሌግራም ያናግሩን:"
+                    : "Ykn Waatsaappii fi Telegiraamiin nu qunnamaa:"}{" "}
                   <a
                     href={whatsappLink()}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-emerald-600 dark:text-emerald-400 font-semibold underline"
                   >
-                    {site.whatsappDisplay}
+                    WhatsApp ({site.whatsappDisplay})
+                  </a>
+                  {" · "}
+                  <a
+                    href={site.social.telegram || "https://t.me/Seifa95"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sky-600 dark:text-sky-400 font-semibold underline"
+                  >
+                    Telegram (@Seifa95)
                   </a>
                 </span>
               </div>

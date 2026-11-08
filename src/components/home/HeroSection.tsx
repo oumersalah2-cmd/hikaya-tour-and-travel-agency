@@ -8,14 +8,60 @@ import Image from "next/image";
 
 import { useLanguage } from "@/context/LanguageContext";
 
-const slides = [
-  { image: "/images/destinations/umrah-makkah.jpg", alt: "Makkah Al-Mukarramah Umrah Package" },
-  { image: "/images/destinations/sof-omar.jpg", alt: "Sof Omar Caves in Bale, Ethiopia" },
-  { image: "/images/destinations/wonchi.jpg", alt: "Wonchi Crater Lake in Oromia, Ethiopia" },
-  { image: "/images/destinations/bale-mountains.jpg", alt: "Bale Mountains National Park, Ethiopia" },
-  { image: "/images/destinations/semien-mountains.jpg", alt: "Semien Mountains Samen Terara, Ethiopia" },
-  { image: "/images/destinations/afar-danakil.jpg", alt: "Afar Depression Dallol & Erta Ale, Ethiopia" },
-  { image: "/images/destinations/medina-ziyarah.jpg", alt: "Al-Masjid an-Nabawi Medina Ziyarah Tour" },
+interface HeroSlide {
+  image: string;
+  alt: string;
+  label: { en: string; om: string; am: string };
+  isFounder?: boolean;
+}
+
+const slides: HeroSlide[] = [
+  {
+    image: "/images/destinations/umrah-makkah.jpg",
+    alt: "Makkah Al-Mukarramah Umrah Package",
+    label: {
+      en: "Makkah Al-Mukarramah · Umrah Pilgrimage",
+      om: "Makka Al-Mukarrama · Imala Umraa",
+      am: "መካ አል-ሙከረማ · የዑምራ ጉዞ",
+    },
+  },
+  {
+    image: "/images/destinations/founder-office-hero.webp",
+    alt: "HIKAYA Agency Founder & Office Headquarters",
+    label: {
+      en: "HIKAYA Leadership · Agency Headquarters",
+      om: "Hundeeffaa & Geggeessummaa Ejansii HIKAYA",
+      am: "የሂካያ ኤጀንሲ መስራች እና አመራር · አዲስ አበባ",
+    },
+    isFounder: true,
+  },
+  {
+    image: "/images/destinations/medina-ziyarah.jpg",
+    alt: "Al-Masjid an-Nabawi Medina Ziyarah Tour",
+    label: {
+      en: "Al-Masjid an-Nabawi · Madinah Ziyarah",
+      om: "Masjiida Nabiyyii · Ziyaaraa Madiinaa",
+      am: "አል-መስጂድ አን-ነበዊ · የመዲና ዚያራ",
+    },
+  },
+  {
+    image: "/images/destinations/sof-omar.jpg",
+    alt: "Sof Omar Caves in Bale, Ethiopia",
+    label: {
+      en: "Sof Omar Caves · Bale, Ethiopia",
+      om: "Holqa Soof Umar · Baale, Itoophiyaa",
+      am: "ሶፍ ዑመር ዋሻ · ባሌ፣ ኢትዮጵያ",
+    },
+  },
+  {
+    image: "/images/destinations/wonchi.jpg",
+    alt: "Wonchi Crater Lake in Oromia, Ethiopia",
+    label: {
+      en: "Wonchi Crater Lake · Oromia, Ethiopia",
+      om: "Haroo Wancii · Oromiyaa, Itoophiyaa",
+      am: "ወንጪ እሳተ ገሞራ ሀይቅ · ኦሮሚያ፣ ኢትዮጵያ",
+    },
+  },
 ];
 
 export default function HeroSection() {
@@ -49,7 +95,7 @@ export default function HeroSection() {
             src={slides[current].image}
             alt={slides[current].alt}
             fill
-            className="object-cover"
+            className={`object-cover ${slides[current].isFounder ? "object-[78%_center] sm:object-center" : "object-center"}`}
             priority={current === 0}
             sizes="100vw"
           />
@@ -57,8 +103,20 @@ export default function HeroSection() {
       </AnimatePresence>
 
       {/* Atmospheric dark gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-950/85 via-primary-900/60 to-primary-950/90" />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary-950/70 via-transparent to-primary-950/40" />
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          slides[current].isFounder
+            ? "bg-gradient-to-b from-primary-950/75 via-primary-900/40 to-primary-950/80"
+            : "bg-gradient-to-b from-primary-950/85 via-primary-900/60 to-primary-950/90"
+        }`}
+      />
+      <div
+        className={`absolute inset-0 transition-opacity duration-1000 ${
+          slides[current].isFounder
+            ? "bg-gradient-to-r from-primary-950/90 via-primary-950/50 to-primary-950/20"
+            : "bg-gradient-to-r from-primary-950/70 via-transparent to-primary-950/40"
+        }`}
+      />
 
       {/* Main hero content */}
       <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-4 text-center my-auto">
@@ -109,24 +167,29 @@ export default function HeroSection() {
           </Link>
         </motion.div>
 
-        {/* Slide Indicators */}
+        {/* Slide Indicators & Caption */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1 }}
-          className="flex gap-2 mt-4 sm:mt-6"
+          className="flex flex-col items-center gap-2.5 mt-4 sm:mt-6"
         >
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrent(index)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                index === current ? "w-10 bg-accent-400" : "w-4 bg-white/30 hover:bg-white/50"
-              }`}
-              aria-label={`${lang === "en" ? "Go to slide" : lang === "am" ? "ወደ ስላይድ" : "Gara suuraa"} ${index + 1}`}
-              aria-current={index === current}
-            />
-          ))}
+          <div className="flex items-center gap-2">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrent(index)}
+                className={`h-2 rounded-full transition-all duration-500 ${
+                  index === current ? "w-10 bg-accent-400 shadow-glow" : "w-4 bg-white/30 hover:bg-white/60"
+                }`}
+                aria-label={`${lang === "en" ? "Go to slide" : lang === "am" ? "ወደ ስላይድ" : "Gara suuraa"} ${index + 1}`}
+                aria-current={index === current}
+              />
+            ))}
+          </div>
+          <span className="text-xs text-white/80 font-medium tracking-wide drop-shadow-sm">
+            {slides[current].label[lang] ?? slides[current].label.en}
+          </span>
         </motion.div>
       </div>
 
