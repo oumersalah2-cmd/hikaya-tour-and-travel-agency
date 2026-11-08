@@ -19,7 +19,10 @@ export default function Providers({
 }) {
   return (
     <ThemeProvider>
-      <LanguageProvider lang={lang}>
+      <LanguageProvider
+        lang={lang}
+        tokens={{ whatsapp: content.settings.whatsappDisplay, phones: content.settings.phones.join(" / ") }}
+      >
         <SiteProvider lang={lang} content={content}>
           <TripProvider>
             {/* Honour the visitor's "reduce motion" OS setting */}

@@ -25,7 +25,7 @@ export const en = {
       quoteFirst: "Quote first — documents later",
       passportCheck: "Strict 6-month passport checks",
       diaspora: "Diaspora family sponsorship",
-      support: "24/7 WhatsApp support (+251 911 123 456)",
+      support: "24/7 WhatsApp support ({{whatsapp}})",
     }
   },
   trustPillars: {
@@ -152,7 +152,7 @@ export const en = {
       {
         step: "04",
         title: "Travel Ready & WhatsApp Support",
-        desc: "Receive approved visas, confirmed e-tickets, hotel vouchers, and attend the pre-departure briefing. Join our 24/7 WhatsApp support group (+251 911 123 456)."
+        desc: "Receive approved visas, confirmed e-tickets, hotel vouchers, and attend the pre-departure briefing. Join our 24/7 WhatsApp support group ({{whatsapp}})."
       }
     ]
   },
@@ -197,7 +197,7 @@ export const en = {
       "Regular WhatsApp progress updates sent directly to you abroad",
       "Full on-ground chaperone service in Makkah & Madinah for elderly pilgrims"
     ],
-    ctaWhatsApp: "Chat with Office on WhatsApp (+251 911 123 456)",
+    ctaWhatsApp: "Chat with Office on WhatsApp ({{whatsapp}})",
     ctaQuote: "Request Diaspora Quote",
   },
   founder: {
@@ -230,7 +230,7 @@ export const en = {
     subtitle: "Walk into our reception on Bole Road for face-to-face consultations, transparent quotes, and clear travel orientation.",
     address: "Bole Road, Addis Ababa, Ethiopia",
     hours: "Monday – Saturday: 8:30 AM – 6:30 PM",
-    phone: "+251 911 123 456 / +251 116 123 456",
+    phone: "{{phones}}",
   },
   services: {
     subtitle: "Our Core Focus",

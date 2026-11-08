@@ -33,7 +33,7 @@ export default function Sidebar({ newLeads }: { newLeads: number }) {
   return (
     <aside className="flex w-full shrink-0 flex-col bg-primary-800 text-white lg:sticky lg:top-0 lg:h-screen lg:w-64">
       <div className="flex items-center gap-3 border-b border-white/10 px-5 py-5">
-        <Link href="/" target="_blank" className="flex items-center gap-2.5 transition-transform hover:scale-[1.02]">
+        <Link href="/" target="_blank" rel="noopener" className="flex items-center gap-2.5 transition-transform hover:scale-[1.02]">
           <HikayaLogo variant="full" inverted size="md" />
         </Link>
       </div>

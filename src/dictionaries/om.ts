@@ -25,7 +25,7 @@ export const om = {
       quoteFirst: "Gatii dura gaafadhaa — ragaan booda",
       passportCheck: "Paaspoortiin yoo xiqqaate baatii 6 qabaachuu",
       diaspora: "Maatiif biyya alaa irraa kaffaluu",
-      support: "Gargaarsa Waatsaappii sa'aatii 24 (+251 911 123 456)",
+      support: "Gargaarsa Waatsaappii sa'aatii 24 ({{whatsapp}})",
     }
   },
   trustPillars: {
@@ -152,7 +152,7 @@ export const om = {
       {
         step: "04",
         title: "Qophii Imalaa fi Garee Waatsaappii",
-        desc: "Viizaa, tikeettii fi nagahee hoteelaa simadhaa. Qajeelfama duraa argachuun garee Waatsaappii sa'aatii 24 (+251 911 123 456) seenadha."
+        desc: "Viizaa, tikeettii fi nagahee hoteelaa simadhaa. Qajeelfama duraa argachuun garee Waatsaappii sa'aatii 24 ({{whatsapp}}) seenadha."
       }
     ]
   },
@@ -197,7 +197,7 @@ export const om = {
       "Odeeffannoo fi suuraalee imalaa Waatsaappiin yeroo yeroon isiniif ergama",
       "Qajeelchitoota maanguddoota simatanii Makkaa fi Madiinaatti kunuunsan"
     ],
-    ctaWhatsApp: "Waatsaappiin Nu Qunnamaa (+251 911 123 456)",
+    ctaWhatsApp: "Waatsaappiin Nu Qunnamaa ({{whatsapp}})",
     ctaQuote: "Gatii Diyaaspooraa Gaafadhaa",
   },
   founder: {
@@ -230,7 +230,7 @@ export const om = {
     subtitle: "Waajjira keenya daandii Boolee Finfinneetti dhuftanii qajeelfama, kaffaltii fi galmee keessan iftoominaan xumuraa.",
     address: "Daandii Boolee, Finfinnee, Itoophiyaa",
     hours: "Wiixata – Sanbata: 2:30 Ganama – 12:30 Galgala",
-    phone: "+251 911 123 456 / +251 116 123 456",
+    phone: "{{phones}}",
   },
   services: {
     subtitle: "Kaanya Kan Irratti Xiyyeefannu",

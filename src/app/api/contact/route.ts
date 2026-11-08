@@ -8,11 +8,40 @@ const MAX = { short: 200, long: 4000 };
 
 type Body = Record<string, unknown>;
 
+/* Simple per-IP rate limit (in memory): 8 submissions / 10 minutes. */
+const WINDOW_MS = 10 * 60_000;
+const MAX_HITS = 8;
+const hits = new Map<string, number[]>();
+
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  if (hits.size > 5000) {
+    for (const [key, times] of hits) {
+      if (times.every((t) => now - t >= WINDOW_MS)) hits.delete(key);
+    }
+  }
+  return recent.length > MAX_HITS;
+}
+
 function str(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
 export async function POST(request: Request) {
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
+  if (rateLimited(ip)) {
+    return NextResponse.json({ error: "too_many_requests" }, { status: 429 });
+  }
+  if (Number(request.headers.get("content-length") ?? 0) > 20_000) {
+    return NextResponse.json({ error: "payload_too_large" }, { status: 413 });
+  }
+
   let body: Body;
   try {
     body = (await request.json()) as Body;

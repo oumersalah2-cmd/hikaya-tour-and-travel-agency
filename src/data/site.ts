@@ -29,9 +29,9 @@ export interface SiteSettings {
 export const DEFAULT_SETTINGS: SiteSettings = {
   name: "HIKAYA Tour and Travel Agency",
   shortName: "HIKAYA",
-  phones: ["+251 911 123 456", "+251 116 123 456"],
-  whatsapp: "251911123456",
-  whatsappDisplay: "+251 911 123 456",
+  phones: ["+251 91 014 7495"],
+  whatsapp: "251910147495",
+  whatsappDisplay: "+251 91 014 7495",
   whatsappMessage: "Hello HIKAYA, I would like to inquire about your services",
   emails: ["info@hikayatour.com", "support@hikayatour.com"],
   address: {
@@ -47,7 +47,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   social: {
     facebook: "",
     instagram: "",
-    tiktok: "",
+    tiktok: "https://www.tiktok.com/@hikaya1212",
     telegram: "https://t.me/Seifa95",
     youtube: "",
   },
@@ -77,6 +77,12 @@ export function buildWhatsappLink(phone: string, message?: string) {
 
 export function whatsappLink(message: string = DEFAULT_SETTINGS.whatsappMessage) {
   return buildWhatsappLink(DEFAULT_SETTINGS.whatsapp, message);
+}
+
+/** "https://t.me/name" or "https://www.tiktok.com/@name" -> "@name" */
+export function handleFromUrl(url: string) {
+  const last = url.replace(/[?#].*$/, "").replace(/\/+$/, "").split("/").pop() ?? "";
+  return last ? (last.startsWith("@") ? last : `@${last}`) : url;
 }
 
 export function telHref(phone: string) {

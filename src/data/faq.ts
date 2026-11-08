@@ -16,10 +16,10 @@ export const getFaqItems = (lang: Locale): FAQItem[] => [
         : "How do I book an Umrah package or tour with HIKAYA Tour and Travel Agency?",
     answer:
       lang === "am"
-        ? "በድረ-ገጻችን 'ቦታ ያስይዙ' የሚለውን በመጫን ወይም የ24/7 ዋትስአፕ ቢሯችንን (+251 911 123 456)፣ በስልክ ወይም በኢሜይል በማነጋገር በቀላሉ ማስያዝ ይችላሉ። ቡድናችን የፓኬጅ ዝርዝር፣ ቪዛ፣ በረራና ሆቴሎችን ያመቻችሎታል።"
+        ? "በድረ-ገጻችን 'ቦታ ያስይዙ' የሚለውን በመጫን ወይም የ24/7 ዋትስአፕ ቢሯችንን (+251 91 014 7495)፣ በስልክ ወይም በኢሜይል በማነጋገር በቀላሉ ማስያዝ ይችላሉ። ቡድናችን የፓኬጅ ዝርዝር፣ ቪዛ፣ በረራና ሆቴሎችን ያመቻችሎታል።"
         : lang === "om"
-        ? "Marsariitii keenya irraan mallattoo 'Amma Qabsiisi' jedhu fayyadamuun, ykn Waatsaappii keenya (+251 911 123 456), bilbila, fi iimeeliidhaan nu qunnamuun qabsiisuu dandeessu. Ogeeyyiin keenya odeeffannoo paakeejii, viizaa, xiyyaaraa fi hoteelaa hunda isiniif qopheessu."
-        : "You can book directly through our website by clicking 'Book Now', or contact our team via our 24/7 WhatsApp desk (+251 911 123 456), phone, or email. We will guide you through package details, visa processing, flight schedules, and personalized hotel accommodations.",
+        ? "Marsariitii keenya irraan mallattoo 'Amma Qabsiisi' jedhu fayyadamuun, ykn Waatsaappii keenya (+251 91 014 7495), bilbila, fi iimeeliidhaan nu qunnamuun qabsiisuu dandeessu. Ogeeyyiin keenya odeeffannoo paakeejii, viizaa, xiyyaaraa fi hoteelaa hunda isiniif qopheessu."
+        : "You can book directly through our website by clicking 'Book Now', or contact our team via our 24/7 WhatsApp desk (+251 91 014 7495), phone, or email. We will guide you through package details, visa processing, flight schedules, and personalized hotel accommodations.",
   },
   {
     id: "faq-2",

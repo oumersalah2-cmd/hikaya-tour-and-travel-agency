@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send, MessageCircle, CheckCircle2, AlertCircle } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, MessageCircle, CheckCircle2, AlertCircle, Globe } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { useLanguage } from "@/context/LanguageContext";
-import { telHref } from "@/data/site";
+import { handleFromUrl, telHref } from "@/data/site";
 import { useSite } from "@/context/SiteContext";
 import { submitLead } from "@/lib/submitLead";
 
@@ -71,28 +71,36 @@ export default function ContactPage() {
           ? "Tajaajila Umraa fi imalaa hatattamaaf Waatsaappiin nu qunnamaa."
           : "Chat directly with our booking & pilgrimage consultants.",
     },
-    {
-      icon: Send,
-      title:
-        lang === "am"
-          ? "ቴሌግራም"
-          : lang === "om"
-          ? "Teleegiraama"
-          : "Telegram Direct",
-      details: [
-        {
-          text: "@Seifa95",
-          href: "https://t.me/Seifa95",
-          external: true,
-        },
-      ],
-      description:
-        lang === "am"
-          ? "በቴሌግራም መልእክት በቀጥታ ያነጋግሩን።"
-          : lang === "om"
-          ? "Ergaa fi qabsiisuuf kallattiin Teleegiraamaan nu qunnamaa."
-          : "Reach our team directly on Telegram for fast consultation.",
-    },
+    ...(site.social.telegram
+      ? [
+          {
+            icon: Send,
+            title: lang === "am" ? "ቴሌግራም" : lang === "om" ? "Teleegiraama" : "Telegram Direct",
+            details: [{ text: handleFromUrl(site.social.telegram), href: site.social.telegram, external: true }],
+            description:
+              lang === "am"
+                ? "በቴሌግራም መልእክት በቀጥታ ያነጋግሩን።"
+                : lang === "om"
+                ? "Ergaa fi qabsiisuuf kallattiin Teleegiraamaan nu qunnamaa."
+                : "Reach our team directly on Telegram for fast consultation.",
+          },
+        ]
+      : []),
+    ...(site.social.tiktok
+      ? [
+          {
+            icon: Globe,
+            title: "TikTok",
+            details: [{ text: handleFromUrl(site.social.tiktok), href: site.social.tiktok, external: true }],
+            description:
+              lang === "am"
+                ? "የቅርብ ጊዜ ጉዞዎቻችንን እና የኡምራ ዝግጅቶችን በቲክቶክ ይከታተሉ።"
+                : lang === "om"
+                ? "Oduu fi daawwannaa keenya TikTok irratti hordofaa."
+                : "Follow our latest tours and Umrah updates on TikTok.",
+          },
+        ]
+      : []),
     {
       icon: Phone,
       title: t.contact.callUs,

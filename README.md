@@ -56,6 +56,13 @@ Back up the `data/` folder regularly (or use *Business info → Download backup*
 - **Privacy policy text**: `src/app/[lang]/privacy/page.tsx` — have it reviewed (and the Afaan Oromoo wording checked by a native speaker) before launch
 - **Colours & design tokens**: `src/app/globals.css` (`@theme`)
 
+## Home page order
+
+Hero → quick enquiry → Services → Packages → Destinations → Umrah timeline → Ziyarat → Why HIKAYA →
+Diaspora → Founder → Gallery → Reviews → FAQ → Office & contact. The order lives in `src/app/[lang]/page.tsx`.
+Customer reviews only appear once real ones are saved in the admin (Testimonials). `TrustPillars`,
+`BookingWorkflow` and `StatsSection` still exist in `src/components/home/` and can be added back to that file.
+
 ## Structure
 
 ```

@@ -20,8 +20,8 @@ export default async function Dashboard() {
 
   const checklist = [
     {
-      done: settings.whatsapp !== DEFAULT_SETTINGS.whatsapp && settings.emails[0] !== DEFAULT_SETTINGS.emails[0],
-      label: "Enter your real phone, WhatsApp and e-mail",
+      done: settings.emails[0] !== DEFAULT_SETTINGS.emails[0],
+      label: "Enter your real e-mail address (and double-check phone / WhatsApp)",
       href: "/admin/settings",
     },
     { done: customPackages, label: "Review packages and prices", href: "/admin/packages" },

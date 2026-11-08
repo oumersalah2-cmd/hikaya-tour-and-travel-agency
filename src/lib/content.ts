@@ -14,7 +14,7 @@ import { readContent } from "@/lib/store";
 
 import type { Locale } from "@/lib/i18n";
 
-const FAQ_PHONE = "+251 911 123 456";
+const FAQ_PHONE = "+251 91 014 7495";
 
 /** Built-in content (English + Afaan Oromoo + Amharic merged) used until the owner edits a list. */
 export function defaultItems(name: CollectionName): Item[] {
