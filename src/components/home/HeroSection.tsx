@@ -2,12 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, MapPin, ClipboardList, ShieldCheck, Globe, MessageCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { useSite } from "@/context/SiteContext";
 
 const slides = [
   { image: "/images/destinations/umrah-makkah.jpg", alt: "Makkah Al-Mukarramah Umrah Package" },
@@ -22,7 +21,6 @@ const slides = [
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
   const { t, lang } = useLanguage();
-  const { whatsappLink } = useSite();
 
   const nextSlide = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
@@ -111,46 +109,12 @@ export default function HeroSection() {
           </Link>
         </motion.div>
 
-        {/* Trust badges pills */}
-        <motion.ul
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-          className="flex max-w-4xl flex-wrap items-center justify-center gap-2 sm:gap-2.5"
-        >
-          {[
-            { icon: MapPin, text: t.hero.pills.route },
-            { icon: ClipboardList, text: t.hero.pills.quoteFirst },
-            { icon: ShieldCheck, text: t.hero.pills.passportCheck },
-            { icon: Globe, text: t.hero.pills.diaspora },
-          ].map(({ icon: Icon, text }) => (
-            <li
-              key={text}
-              className="flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3.5 py-1.5 text-xs font-medium text-white backdrop-blur-md"
-            >
-              <Icon className="h-3.5 w-3.5 text-accent-300" aria-hidden="true" />
-              {text}
-            </li>
-          ))}
-          <li>
-            <a
-              href={whatsappLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 rounded-full border border-[#25D366]/50 bg-[#25D366]/30 px-3.5 py-1.5 text-xs font-medium text-emerald-100 backdrop-blur-md transition hover:bg-[#25D366]/50"
-            >
-              <MessageCircle className="h-3.5 w-3.5 text-[#25D366]" aria-hidden="true" />
-              {t.hero.pills.support}
-            </a>
-          </li>
-        </motion.ul>
-
         {/* Slide Indicators */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.1 }}
-          className="flex gap-2 mt-8 sm:mt-10"
+          className="flex gap-2 mt-4 sm:mt-6"
         >
           {slides.map((_, index) => (
             <button

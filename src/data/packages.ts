@@ -28,16 +28,16 @@ export const getPackages = (lang: Locale): Package[] => [
     category: "umrah",
     title:
       lang === "am"
-        ? "መደበኛ የኡምራ ፓኬጅ"
+        ? "የታህሳስ / ዲሴምበር ልዩ የኡምራ ጉዞ"
         : lang === "om"
-        ? "Paakeejii Umraa Istaandaardii"
-        : "Standard Umrah Package",
+        ? "Paakeejii Umraa Addaa Muddee (December)"
+        : "December Special Umrah Pilgrimage",
     destination:
       lang === "am"
-        ? "መካ (7 ምሽቶች) · መዲና (3 ምሽቶች)"
+        ? "መካ (7 ምሽቶች) · መዲና (3 ምሽቶች) — በዑለሞች መሪነት"
         : lang === "om"
-        ? "Makkaa (Halkan 7) · Madiinaa (Halkan 3)"
-        : "Makkah (7N) · Madinah (3N)",
+        ? "Makkaa (Halkan 7) · Madiinaa (Halkan 3) — Ogeessa Amantiin"
+        : "Makkah (7N) · Madinah (3N) — Guided by Scholar",
     duration:
       lang === "am"
         ? "11 ቀናት / 10 ምሽቶች"
@@ -56,25 +56,40 @@ export const getPackages = (lang: Locale): Package[] => [
     routeBadge: "Addis ➔ Madinah ➔ Makkah ➔ Addis",
     badge:
       lang === "am"
-        ? "ተወዳጅ ዙር"
+        ? "የዲሴምበር ልዩ ጉዞ"
         : lang === "om"
-        ? "Filatamaa Baay'ee"
-        : "Most Popular Round",
+        ? "Imala Addaa Muddee"
+        : "December Special",
     rating: 5.0,
     reviews: 780,
     description:
       lang === "am"
-        ? "ሙሉ ፓኬጅ በ150,000 ብር — 3 ምሽቶች መዲና ከመስጂደ ነበዊ አጠገብ፣ 7 ምሽቶች መካ ከሀረም አቅራቢያ (11 ቀናት ከአዲስ አበባ ጀምሮ እስከ መመለሻ)። 4 ምዕመናን በአንድ ክፍል ከሙሉ ታሪካዊ ዚያራ፣ ቪዛ እና የኡለሞች መመሪያ ጋር።"
+        ? "በተከበሩ ዑለሞችና ኡስታዞች የሚመራ የ11 ቀናት የታህሳስ (ዲሴምበር) ልዩ የኡምራ ጉዞ በ150,000 ብር። 3 ምሽቶች መዲና ከመስጂደ ነበዊ አቅራቢያ፣ 7 ምሽቶች መካ ከሀረም አቅራቢያ። የተሟላ ታሪካዊ ዚያራ፣ ይፋዊ ቪዛ፣ የአየር ትኬት እና የላቀ መንፈሳዊ መመሪያ ያካትታል።"
         : lang === "om"
-        ? "Kaffaltii guutuu 150,000 ETB — Halkan 3 Madiinaa Masjiida Nabawiitti dhihoo, Halkan 7 Makkaa Haramatti dhihoo (Guyyaa 11 Finfinnee irraa deebi'u). Kutaa 1 keessa namoota 4, ziyaaraa guutuu, viizaa fi qajeelchaa amantii waliin."
-        : "Full package for 150,000 ETB — 3 nights Madinah near Masjid an-Nabawi, 7 nights Makkah near the Haram (11 days from Addis Ababa and back). 4 pilgrims per room sharing with full historical Ziyarah, visa, and dedicated scholar guidance.",
-    image: "/images/destinations/umrah-makkah.jpg",
+        ? "Imala Umraa addaa Muddee (December) guyyoota 11 kan ogeeyyii amantii kabajamoo wajjin ta'u kaffaltii 150,000 ETB qofaan. Halkan 3 Madiinaa Masjiida Nabawiitti dhihoo, Halkan 7 Makkaa Haramatti dhihoo, ziyaaraa seenaa guutuu, viizaa fi deeggarsa guutuu waliin."
+        : "Special 11-day December holiday Umrah pilgrimage accompanied and guided by respected Islamic scholars for 150,000 ETB. 3 nights Madinah near Masjid an-Nabawi, 7 nights Makkah near the Haram. Full historical Ziyarah, official visa, and dedicated spiritual guidance.",
+    image: "/images/packages/december-umrah-scholar.jpg",
     highlights:
       lang === "am"
-        ? ["3 ምሽቶች መዲና + 7 ምሽቶች መካ", "4 ሰው በአንድ ክፍል", "ሙሉ ታሪካዊ ዚያራ (ቁባ እና ኡሁድ)", "ይፋዊ የኡምራ ቪዛ እና የተሟላ ትራንስፖርት"]
+        ? [
+            "በተከበሩ ዑለሞችና ኡስታዞች የሚመራ",
+            "3 ምሽቶች መዲና + 7 ምሽቶች መካ (11 ቀናት)",
+            "ሙሉ ታሪካዊ ዚያራ (ቁባ እና ኡሁድ)",
+            "ይፋዊ የኡምራ ቪዛ እና የተሟላ ትራንስፖርት",
+          ]
         : lang === "om"
-        ? ["Halkan 3 Madiinaa + Halkan 7 Makkaa", "Nama 4 Kutaa Tokkotti", "Ziyaaraa Guutuu (Qubaa fi Uhud)", "Viizaa Umraa fi Geejjiba Guutuu"]
-        : ["3N Madinah + 7N Makkah", "4 / Room Sharing", "Full Historical Ziyarat (Quba & Uhud)", "Official Umrah Visa & Ground Support"],
+        ? [
+            "Ogeeyyii Amantiin Kan Geggeeffamu",
+            "Halkan 3 Madiinaa + Halkan 7 Makkaa",
+            "Ziyaaraa Guutuu (Qubaa fi Uhud)",
+            "Viizaa Umraa fi Geejjiba Guutuu",
+          ]
+        : [
+            "Accompanied by Respected Islamic Scholars",
+            "3N Madinah + 7N Makkah (11 Days Round)",
+            "Full Historical Ziyarat (Quba & Uhud)",
+            "Official Umrah Visa & Ground Support",
+          ],
     featured: true,
   },
   {
