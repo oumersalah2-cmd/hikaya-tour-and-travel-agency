@@ -25,6 +25,14 @@ type ContactFormData = {
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const labelClass = "mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300";
 
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
+      <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" />
+    </svg>
+  );
+}
+
 export default function ContactPage() {
   const { lang, t } = useLanguage();
   const { site, whatsappLink } = useSite();
@@ -40,8 +48,8 @@ export default function ContactPage() {
 
   const onSubmit = async (data: ContactFormData) => {
     setFailed(false);
-    const ok = await submitLead({ type: "contact", ...data });
-    if (ok) {
+    const res = await submitLead({ type: "contact", ...data });
+    if (res.ok) {
       reset();
       setIsSuccess(true);
     } else {
@@ -50,7 +58,7 @@ export default function ContactPage() {
   };
 
   const contactInfo: {
-    icon: typeof Phone;
+    icon: React.ComponentType<{ className?: string }>;
     title: string;
     details: { text: string; href?: string; external?: boolean }[];
     description: string;
@@ -83,6 +91,21 @@ export default function ContactPage() {
                 : lang === "om"
                 ? "Ergaa fi qabsiisuuf kallattiin Teleegiraamaan nu qunnamaa."
                 : "Reach our team directly on Telegram for fast consultation.",
+          },
+        ]
+      : []),
+    ...(site.social.facebook
+      ? [
+          {
+            icon: FacebookIcon,
+            title: "Facebook",
+            details: [{ text: "Hikaya Travel Agency", href: site.social.facebook, external: true }],
+            description:
+              lang === "am"
+                ? "የቅርብ ጊዜ ዝመናዎችን እና መረጃዎችን በፌስቡክ ገጻችን ያግኙ።"
+                : lang === "om"
+                ? "Oduu fi odeeffannoo dhihoo fuula Feesbuukii keenya irratti hordofaa."
+                : "Follow our official Facebook page for packages, updates, and stories.",
           },
         ]
       : []),

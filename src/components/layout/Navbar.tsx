@@ -27,6 +27,21 @@ export default function Navbar() {
     router.push(`/${newLang}${rest}${window.location.hash}`);
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.includes("#")) {
+      const hash = href.split("#")[1];
+      if (isHome) {
+        const el = document.getElementById(hash);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${hash}`);
+          setIsMobileOpen(false);
+        }
+      }
+    }
+  };
+
   const navLinks = [
     { href: `/${lang}#home`, label: t.nav.home },
     { href: `/${lang}#services`, label: t.nav.services },
@@ -89,6 +104,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-semibold tracking-tight transition-colors duration-200 xl:px-3.5 xl:text-sm ${
                   solid
                     ? "text-primary-700 hover:bg-primary-50 hover:text-primary-900 dark:text-gray-300 dark:hover:bg-dark-200 dark:hover:text-white"
@@ -220,7 +236,10 @@ export default function Navbar() {
                     >
                       <Link
                         href={link.href}
-                        onClick={() => setIsMobileOpen(false)}
+                        onClick={(e) => {
+                          handleNavClick(e, link.href);
+                          setIsMobileOpen(false);
+                        }}
                         className="block rounded-xl px-4 py-3 font-medium text-primary-700 transition-colors hover:bg-primary-50 dark:text-gray-200 dark:hover:bg-dark-200"
                       >
                         {link.label}
@@ -236,7 +255,10 @@ export default function Navbar() {
                 >
                   <Link
                     href={`/${lang}#packages`}
-                    onClick={() => setIsMobileOpen(false)}
+                    onClick={(e) => {
+                      handleNavClick(e, `/${lang}#packages`);
+                      setIsMobileOpen(false);
+                    }}
                     className="btn-primary w-full text-center"
                   >
                     {t.ui.bookNow}

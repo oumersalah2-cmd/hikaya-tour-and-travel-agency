@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { useLanguage } from "@/context/LanguageContext";
+import { useTrip } from "@/context/TripContext";
 
 interface HeroSlide {
   image: string;
@@ -67,6 +68,19 @@ const slides: HeroSlide[] = [
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
   const { t, lang } = useLanguage();
+  const { setCategory } = useTrip();
+
+  const handleExplorePackages = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setCategory("all");
+    const el = document.getElementById("packages");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, "", `#packages`);
+    } else {
+      window.location.href = `/${lang}#packages`;
+    }
+  };
 
   const nextSlide = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
@@ -159,9 +173,13 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.75 }}
           className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 mb-8 w-full sm:w-auto justify-center"
         >
-          <Link href={`/${lang}#packages`} className="btn-primary text-sm sm:text-base px-8 sm:px-10 py-3.5 sm:py-4">
+          <a
+            href={`/${lang}#packages`}
+            onClick={handleExplorePackages}
+            className="btn-primary text-sm sm:text-base px-8 sm:px-10 py-3.5 sm:py-4 cursor-pointer"
+          >
             {t.hero.explore}
-          </Link>
+          </a>
           <Link href={`/${lang}/contact`} className="btn-secondary text-sm sm:text-base px-8 sm:px-10 py-3.5 sm:py-4">
             {t.hero.contact}
           </Link>
@@ -200,15 +218,20 @@ export default function HeroSection() {
         transition={{ delay: 1.3 }}
         className="relative z-10 mx-auto hidden md:block mt-4"
       >
-        <Link
+        <a
           href={`/${lang}#search`}
-          className="flex flex-col items-center gap-1.5 text-white/70 hover:text-white transition-colors"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById("search")?.scrollIntoView({ behavior: "smooth" });
+            window.history.pushState(null, "", `#search`);
+          }}
+          className="flex flex-col items-center gap-1.5 text-white/70 hover:text-white transition-colors cursor-pointer"
         >
           <span className="text-[10px] tracking-widest uppercase font-semibold">{t.hero.scroll}</span>
           <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
             <ChevronDown className="w-4 h-4 text-accent-300" />
           </motion.div>
-        </Link>
+        </a>
       </motion.div>
     </section>
   );

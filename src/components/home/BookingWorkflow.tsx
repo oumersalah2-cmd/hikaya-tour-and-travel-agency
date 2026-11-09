@@ -75,9 +75,17 @@ export default function BookingWorkflow() {
 
         {/* CTA underneath */}
         <div className="mt-14 text-center">
-          <Link
+          <a
             href={`/${lang}#packages`}
-            className="inline-flex items-center gap-2 btn-primary px-8 py-4 text-base"
+            onClick={(e) => {
+              const el = document.getElementById("packages");
+              if (el) {
+                e.preventDefault();
+                el.scrollIntoView({ behavior: "smooth" });
+                window.history.pushState(null, "", `#packages`);
+              }
+            }}
+            className="inline-flex items-center gap-2 btn-primary px-8 py-4 text-base cursor-pointer"
           >
             <span>
               {lang === "en"
@@ -87,7 +95,7 @@ export default function BookingWorkflow() {
                 : "Paakeejota Ilaalaa Gatii Gaafadhaa"}
             </span>
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </a>
         </div>
       </div>
     </section>

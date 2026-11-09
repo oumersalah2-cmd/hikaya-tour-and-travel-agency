@@ -31,13 +31,21 @@ export default function PopularDestinations() {
             }
             centered={false}
           />
-          <Link
+          <a
             href={`/${lang}#packages`}
-            className="hidden md:flex items-center gap-2 text-primary-600 dark:text-gray-300 font-semibold hover:text-accent-500 transition-colors group"
+            onClick={(e) => {
+              const el = document.getElementById("packages");
+              if (el) {
+                e.preventDefault();
+                el.scrollIntoView({ behavior: "smooth" });
+                window.history.pushState(null, "", `#packages`);
+              }
+            }}
+            className="hidden md:flex items-center gap-2 text-primary-600 dark:text-gray-300 font-semibold hover:text-accent-500 transition-colors group cursor-pointer"
           >
             {lang === "am" ? "ሁሉንም መዳረሻዎች ይመልከቱ" : lang === "om" ? "Bakkeewwan Hunda Daawwadhaa" : "View All Destinations"}
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+          </a>
         </div>
 
         {/* Bento Grid displaying all 6 destinations */}
@@ -135,13 +143,21 @@ export default function PopularDestinations() {
           ))}
         </div>
 
-        <Link
+        <a
           href={`/${lang}#packages`}
-          className="flex md:hidden items-center justify-center gap-2 mt-8 text-primary-600 dark:text-gray-300 font-semibold"
+          onClick={(e) => {
+            const el = document.getElementById("packages");
+            if (el) {
+              e.preventDefault();
+              el.scrollIntoView({ behavior: "smooth" });
+              window.history.pushState(null, "", `#packages`);
+            }
+          }}
+          className="flex md:hidden items-center justify-center gap-2 mt-8 text-primary-600 dark:text-gray-300 font-semibold cursor-pointer"
         >
           {lang === "am" ? "ሁሉንም መዳረሻዎች ይመልከቱ" : lang === "om" ? "Bakkeewwan Hunda Daawwadhaa" : "View All Destinations"}
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </a>
       </div>
     </section>
   );

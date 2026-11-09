@@ -10,7 +10,7 @@ export type LeadPayload =
   | {
       type: "booking";
       name: string;
-      email: string;
+      email?: string;
       phone: string;
       travelers: string;
       package: string;
@@ -19,18 +19,28 @@ export type LeadPayload =
     }
   | { type: "newsletter"; email: string };
 
-/** Posts a lead to /api/contact. Resolves `true` only when the server accepted it. */
+export type SubmitLeadResult = {
+  ok: boolean;
+  error?: string;
+};
+
+/** Posts a lead to /api/contact. */
 export async function submitLead(
   payload: LeadPayload & { website?: string }
-): Promise<boolean> {
+): Promise<SubmitLeadResult> {
   try {
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    return res.ok;
-  } catch {
-    return false;
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      return { ok: false, error: data?.error || `error_${res.status}` };
+    }
+    return { ok: true };
+  } catch (error) {
+    console.error("[submitLead] network or server error", error);
+    return { ok: false, error: "network_error" };
   }
 }

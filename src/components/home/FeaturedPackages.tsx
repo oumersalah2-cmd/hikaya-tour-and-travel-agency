@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { Star, Clock, MapPin, Users, MessageCircle, Check, Route } from "lucide-react";
+import { Star, Clock, MapPin, Users, MessageCircle, Check, Route, Send } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import BookingModal from "@/components/ui/BookingModal";
 import { useLanguage } from "@/context/LanguageContext";
@@ -14,7 +14,7 @@ import { useSite } from "@/context/SiteContext";
 export default function FeaturedPackages() {
   const { lang } = useLanguage();
   const { search, setCategory } = useTrip();
-  const { packages, whatsappLink } = useSite();
+  const { site, packages, whatsappLink } = useSite();
 
   const [selectedPkg, setSelectedPkg] = useState<Package | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function FeaturedPackages() {
   });
 
   return (
-    <section id="packages" className="relative overflow-hidden bg-gray-50 py-24 dark:bg-dark-500/50">
+    <section id="packages" className="relative overflow-hidden bg-gray-50 py-24 scroll-mt-20 dark:bg-dark-500/50">
       <div className="pointer-events-none absolute right-0 top-0 -mr-20 -mt-20 h-80 w-80 rounded-full bg-accent-400/10 opacity-50 blur-3xl dark:opacity-20" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -215,28 +215,35 @@ export default function FeaturedPackages() {
                   <button
                     type="button"
                     onClick={() => openModal(pkg)}
-                    className="btn-primary w-full py-3 text-sm"
+                    className="btn-primary w-full py-3 text-sm font-bold shadow-md"
                   >
                     {lang === "am"
-                      ? "ዋጋ ይጠይቁና ያስይዙ"
+                      ? "ቦታ ያስይዙ / ዋጋ ይጠይቁ"
                       : lang === "om"
-                      ? "Gatii Gaafadhaa & Qabsiisaa"
-                      : "Request Quote & Book"}
+                      ? "Iddoo Qabsiisaa / Gatii"
+                      : "Book Trip / Request Quote"}
                   </button>
 
-                  <a
-                    href={whatsappLink(`Hello HIKAYA, I would like to inquire about ${pkg.title}`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-gray-200 py-2.5 text-xs font-semibold text-gray-700 transition hover:border-[#25D366]/60 hover:text-[#128C7E] dark:border-dark-100 dark:text-gray-300 dark:hover:text-[#25D366]"
-                  >
-                    <MessageCircle className="h-3.5 w-3.5 text-[#25D366]" />
-                    {lang === "am"
-                      ? "በዋትስአፕ ይጠይቁ"
-                      : lang === "om"
-                      ? "Waatsaappiin Gaafadhaa"
-                      : "Inquire on WhatsApp"}
-                  </a>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={whatsappLink(`Hello HIKAYA, I would like to book: ${pkg.title}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/40 py-2.5 text-xs font-semibold text-emerald-800 transition hover:border-emerald-500 hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
+                    >
+                      <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
+                      <span>WhatsApp</span>
+                    </a>
+                    <a
+                      href={site.social.telegram || "https://t.me/Hikayatravrl"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-1.5 rounded-xl border border-sky-500/30 bg-sky-50/40 py-2.5 text-xs font-semibold text-sky-800 transition hover:border-sky-500 hover:bg-sky-500 hover:text-white dark:border-sky-500/20 dark:bg-sky-950/20 dark:text-sky-300 dark:hover:bg-sky-600 dark:hover:text-white"
+                    >
+                      <Send className="h-3.5 w-3.5 text-sky-600 dark:text-sky-400 group-hover:text-white" />
+                      <span>Telegram</span>
+                    </a>
+                  </div>
                 </div>
               </motion.article>
             ))}

@@ -60,8 +60,17 @@ export async function POST(request: Request) {
   if (!["contact", "booking", "newsletter"].includes(type)) {
     return NextResponse.json({ error: "invalid_type" }, { status: 400 });
   }
-  if (!EMAIL_RE.test(email)) {
-    return NextResponse.json({ error: "invalid_email" }, { status: 422 });
+
+  // Contact and newsletter strictly require a valid email.
+  // Bookings require a phone number; email is optional (validated if provided).
+  if (type === "contact" || type === "newsletter") {
+    if (!EMAIL_RE.test(email)) {
+      return NextResponse.json({ error: "invalid_email" }, { status: 422 });
+    }
+  } else if (type === "booking") {
+    if (email && !EMAIL_RE.test(email)) {
+      return NextResponse.json({ error: "invalid_email" }, { status: 422 });
+    }
   }
 
   const lead: Body = { type, email, receivedAt: new Date().toISOString() };

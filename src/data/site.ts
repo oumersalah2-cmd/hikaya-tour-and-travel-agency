@@ -29,11 +29,11 @@ export interface SiteSettings {
 export const DEFAULT_SETTINGS: SiteSettings = {
   name: "HIKAYA Tour and Travel Agency",
   shortName: "HIKAYA",
-  phones: ["+251 91 014 7495"],
-  whatsapp: "251910147495",
-  whatsappDisplay: "+251 91 014 7495",
+  phones: ["+251 91 212 4876"],
+  whatsapp: "251912124876",
+  whatsappDisplay: "+251 91 212 4876",
   whatsappMessage: "Hello HIKAYA, I would like to inquire about your services",
-  emails: ["info@hikayatour.com", "support@hikayatour.com"],
+  emails: ["hikayatravelagency12@gmail.com"],
   address: {
     en: ["Bole Road, Near Friendship Mall", "Addis Ababa, Ethiopia"],
     om: ["Daandii Boolee, Friendship Mall Bira", "Finfinnee, Itoophiyaa"],
@@ -45,10 +45,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     am: ["ከሰኞ – ዓርብ፡ 2:30 – 11:30", "ቅዳሜ፡ 3:00 – 7:00"],
   },
   social: {
-    facebook: "",
+    facebook: "https://www.facebook.com/share/1E8V8mrJDf/",
     instagram: "",
     tiktok: "https://www.tiktok.com/@hikaya1212",
-    telegram: "https://t.me/Seifa95",
+    telegram: "https://t.me/Hikayatravrl",
     youtube: "",
   },
   mapUrl: "",

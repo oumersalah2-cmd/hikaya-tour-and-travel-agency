@@ -48,9 +48,9 @@ export default function Footer() {
     e.preventDefault();
     if (!email || status === "sending") return;
     setStatus("sending");
-    const ok = await submitLead({ type: "newsletter", email });
-    setStatus(ok ? "success" : "error");
-    if (ok) setEmail("");
+    const res = await submitLead({ type: "newsletter", email });
+    setStatus(res.ok ? "success" : "error");
+    if (res.ok) setEmail("");
   };
 
   const iconLink =
@@ -156,6 +156,19 @@ export default function Footer() {
                 >
                   <Send className="h-4 w-4 shrink-0 text-[#2AABEE] transition-transform group-hover:scale-110" />
                   <span className="text-sm">Telegram: {handleFromUrl(site.social.telegram)}</span>
+                </a>
+              )}
+              {site.social.facebook && (
+                <a
+                  href={site.social.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 text-gray-300 transition-colors hover:text-accent-300"
+                >
+                  <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-[#1877F2] transition-transform group-hover:scale-110" aria-hidden="true">
+                    <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" />
+                  </svg>
+                  <span className="text-sm">Facebook: Hikaya Travel Agency</span>
                 </a>
               )}
             </address>

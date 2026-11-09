@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Inbox, CalendarCheck, MessageSquare, Mail, Images, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import PageHeader from "@/components/admin/PageHeader";
 import { StatusBadge, TypeBadge } from "@/components/admin/Badges";
-import { DEFAULT_SETTINGS } from "@/data/site";
 import { getSettings, hasContent } from "@/lib/content";
 import { getGallery } from "@/lib/gallery";
 import { listLeads } from "@/lib/store";
@@ -20,7 +19,11 @@ export default async function Dashboard() {
 
   const checklist = [
     {
-      done: settings.emails[0] !== DEFAULT_SETTINGS.emails[0],
+      done: Boolean(
+        settings.emails[0] &&
+          !settings.emails[0].includes("hikayatour.com") &&
+          !settings.emails[0].includes("example.com")
+      ),
       label: "Enter your real e-mail address (and double-check phone / WhatsApp)",
       href: "/admin/settings",
     },

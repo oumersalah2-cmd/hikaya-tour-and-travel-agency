@@ -14,6 +14,7 @@ import {
   Bed,
   PlaneTakeoff,
   Send,
+  MessageCircle,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTrip } from "@/context/TripContext";
@@ -114,7 +115,11 @@ export default function SearchBooking() {
       returnDate: "",
       travelers: umrahForm.travelers,
     });
-    document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("packages");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, "", `#packages`);
+    }
   };
 
   // Handle Flights inquiry
@@ -142,7 +147,11 @@ export default function SearchBooking() {
       returnDate: "",
       travelers: tourForm.travelers,
     });
-    document.getElementById("packages")?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("packages");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, "", `#packages`);
+    }
   };
 
   const field = (name: string) => `${uid}-${name}`;
@@ -275,10 +284,21 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-primary w-full py-3.5 text-sm sm:text-base flex items-center justify-center gap-2">
-                  <Search className="h-5 w-5" />
-                  <span>{pick("Find Umrah Packages", "Paakeejii Umraa Barbaadi", "የኡምራ ፓኬጆችን ፈልግ")}</span>
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button type="submit" className="btn-primary w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md">
+                    <Search className="h-4 w-4" />
+                    <span>{pick("Find Packages", "Paakeejii Barbaadi", "ፓኬጆችን ፈልግ")}</span>
+                  </button>
+                  <a
+                    href={whatsappLink(`Hello HIKAYA, I would like to book Umrah: ${umrahForm.travelers} pilgrim(s), Room: ${umrahForm.roomSharing}, Travel date: ${umrahForm.departure || "flexible"}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/50 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
+                    <span>{pick("Book on WhatsApp", "Waatsaappiin Qabsiisaa", "በዋትስአፕ ያስይዙ")}</span>
+                  </a>
+                </div>
               </motion.form>
             )}
 
@@ -567,10 +587,21 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-primary w-full py-3.5 text-sm sm:text-base flex items-center justify-center gap-2">
-                  <Mountain className="h-5 w-5" />
-                  <span>{pick("Explore Ethiopia Tours", "Daawwannaa Itoophiyaa Ilaalaa", "የኢትዮጵያ ቱሮችን ይመልከቱ")}</span>
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button type="submit" className="btn-primary w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md">
+                    <Mountain className="h-4 w-4" />
+                    <span>{pick("Explore Tours", "Daawwannaa Ilaali", "ቱሮችን ይመልከቱ")}</span>
+                  </button>
+                  <a
+                    href={whatsappLink(`Hello HIKAYA, I would like to book an Ethiopian Tour: ${tourForm.travelers} traveler(s), Group: ${tourForm.groupType}, Date: ${tourForm.departure || "flexible"}.`)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/50 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
+                  >
+                    <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
+                    <span>{pick("Book on WhatsApp", "Waatsaappiin Qabsiisaa", "በዋትስአፕ ያስይዙ")}</span>
+                  </a>
+                </div>
               </motion.form>
             )}
           </AnimatePresence>
