@@ -1,7 +1,5 @@
 "use server";
 
-import fs from "node:fs/promises";
-import path from "node:path";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import {
@@ -16,7 +14,7 @@ import {
   startSession,
 } from "@/lib/auth";
 import { changeGallery } from "@/lib/gallery";
-import { deleteLead, resetContent, updateLead, writeContent, UPLOAD_DIR, type LeadStatus } from "@/lib/store";
+import { deleteLead, deleteUpload, resetContent, updateLead, writeContent, type LeadStatus } from "@/lib/store";
 import { sanitizeSettings } from "@/lib/content";
 import { COLLECTION_NAMES, sanitizeItems, type CollectionName } from "@/lib/collections";
 import { locales } from "@/lib/i18n";
@@ -27,18 +25,18 @@ export interface LoginState {
 
 export async function loginAction(_prev: LoginState, formData: FormData): Promise<LoginState> {
   if (!adminConfigured()) {
-    return { error: "Admin is not configured. Set ADMIN_PASSWORD and SESSION_SECRET." };
+    return { error: "Admin is not configured. Set ADMIN_PASSWORD (12+ characters) and SESSION_SECRET (16+ characters)." };
   }
   const key = await clientKey();
-  if (isLocked(key)) {
+  if (await isLocked(key)) {
     return { error: "Too many attempts. Please wait 15 minutes and try again." };
   }
   const password = String(formData.get("password") ?? "");
   if (!passwordMatches(password)) {
-    recordFailure(key);
+    await recordFailure(key);
     return { error: "Incorrect password." };
   }
-  clearFailures(key);
+  await clearFailures(key);
   await startSession();
   redirect("/admin");
 }
@@ -117,8 +115,7 @@ export async function deleteGalleryAction(id: string) {
   });
   if (removed && !removed.builtin) {
     for (const url of [removed.src, removed.thumb]) {
-      const file = path.basename(url);
-      await fs.rm(path.join(UPLOAD_DIR, file), { force: true });
+      if (url.startsWith("/uploads/")) await deleteUpload(url.slice("/uploads/".length));
     }
   }
   refreshPublicGallery();

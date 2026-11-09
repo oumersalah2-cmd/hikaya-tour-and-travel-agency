@@ -2,6 +2,7 @@ import "server-only";
 import crypto from "node:crypto";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { bumpCounter, clearCounter, readCounter } from "@/lib/store";
 
 export const SESSION_COOKIE = "hikaya_admin";
 const SESSION_HOURS = 8;
@@ -11,10 +12,15 @@ const secret = () => {
   return s && s.length >= 16 ? s : null;
 };
 
-export const adminConfigured = () => Boolean(process.env.ADMIN_PASSWORD && secret());
+export const adminConfigured = () =>
+  Boolean(process.env.ADMIN_PASSWORD && process.env.ADMIN_PASSWORD.length >= 12 && secret());
 
+/** The key also depends on ADMIN_PASSWORD, so rotating the password invalidates old sessions. */
 const sign = (value: string) =>
-  crypto.createHmac("sha256", secret()!).update(value).digest("base64url");
+  crypto
+    .createHmac("sha256", `${secret()!}:${process.env.ADMIN_PASSWORD ?? ""}`)
+    .update(value)
+    .digest("base64url");
 
 const sha = (value: string) => crypto.createHash("sha256").update(value).digest();
 
@@ -53,32 +59,39 @@ export async function isAdmin(): Promise<boolean> {
   return Number(expires) > Date.now();
 }
 
+/** true when the request's Origin header (if any) matches the Host. Never throws. */
+export function sameOrigin(request: Request): boolean {
+  const origin = request.headers.get("origin");
+  if (!origin) return true;
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  try {
+    return Boolean(host) && new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+}
+
 /** Use at the top of every admin page / action. */
 export async function requireAdmin() {
   if (!(await isAdmin())) redirect("/admin/login");
 }
 
-/* Brute-force protection: 5 failed attempts / 15 min per IP (in-memory). */
-const attempts = new Map<string, { count: number; reset: number }>();
+/* Brute-force protection: 5 failed attempts / 15 min per IP (shared via Redis on Vercel). */
+const LOGIN_WINDOW_S = 15 * 60;
+const LOGIN_MAX = 5;
+const loginKey = (key: string) => `login:${key}`;
 
 export async function clientKey() {
   const h = await headers();
-  return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "local";
+  return h.get("x-real-ip") || h.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
 }
 
-export function isLocked(key: string) {
-  const entry = attempts.get(key);
-  if (!entry || entry.reset < Date.now()) return false;
-  return entry.count >= 5;
+export async function isLocked(key: string) {
+  return (await readCounter(loginKey(key))) >= LOGIN_MAX;
 }
 
-export function recordFailure(key: string) {
-  const entry = attempts.get(key);
-  if (!entry || entry.reset < Date.now()) {
-    attempts.set(key, { count: 1, reset: Date.now() + 15 * 60_000 });
-  } else {
-    entry.count += 1;
-  }
+export async function recordFailure(key: string) {
+  await bumpCounter(loginKey(key), LOGIN_WINDOW_S);
 }
 
-export const clearFailures = (key: string) => attempts.delete(key);
+export const clearFailures = (key: string) => clearCounter(loginKey(key));

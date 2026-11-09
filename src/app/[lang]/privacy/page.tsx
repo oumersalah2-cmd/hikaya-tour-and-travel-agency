@@ -142,7 +142,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
   return (
     <>
       <Navbar />
-      <main id="main" className="min-h-screen px-4 pb-24 pt-32 sm:px-6 lg:px-8 dark:bg-dark-500">
+      <main id="main" className="min-h-dvh px-4 pb-24 pt-32 sm:px-6 lg:px-8 dark:bg-dark-500">
         <article className="mx-auto max-w-3xl">
           <h1 className="font-display text-4xl font-bold text-primary-700 dark:text-white">{page.title}</h1>
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{page.updated}</p>

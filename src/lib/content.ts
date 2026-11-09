@@ -14,7 +14,7 @@ import { readContent } from "@/lib/store";
 
 import type { Locale } from "@/lib/i18n";
 
-const FAQ_PHONE = "+251 91 212 4876";
+const FAQ_PHONE = DEFAULT_SETTINGS.whatsappDisplay;
 
 /** Built-in content (English + Afaan Oromoo + Amharic merged) used until the owner edits a list. */
 export function defaultItems(name: CollectionName): Item[] {

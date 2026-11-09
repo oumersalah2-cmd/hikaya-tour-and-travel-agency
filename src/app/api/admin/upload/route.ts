@@ -1,10 +1,8 @@
 import crypto from "node:crypto";
-import fs from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 import sharp from "sharp";
-import { isAdmin } from "@/lib/auth";
-import { UPLOAD_DIR } from "@/lib/store";
+import { isAdmin, sameOrigin } from "@/lib/auth";
+import { saveUpload } from "@/lib/store";
 
 export const runtime = "nodejs";
 
@@ -15,13 +13,16 @@ export async function POST(request: Request) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host");
-  if (origin && host && new URL(origin).host !== host) {
+  if (!sameOrigin(request)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const form = await request.formData();
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
+  }
   const file = form.get("file");
   if (!(file instanceof File) || file.size === 0) {
     return NextResponse.json({ error: "No file selected." }, { status: 400 });
@@ -44,9 +45,8 @@ export async function POST(request: Request) {
       .resize(640, 640, { fit: "inside", withoutEnlargement: true })
       .webp({ quality: 75 })
       .toBuffer();
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
-    await fs.writeFile(path.join(UPLOAD_DIR, `${id}.webp`), main.data);
-    await fs.writeFile(path.join(UPLOAD_DIR, `${id}-thumb.webp`), thumb);
+    await saveUpload(`${id}.webp`, main.data);
+    await saveUpload(`${id}-thumb.webp`, thumb);
     return NextResponse.json({
       src: `/uploads/${id}.webp`,
       thumb: `/uploads/${id}-thumb.webp`,

@@ -20,7 +20,7 @@ export default function Error({
   return (
     <main
       id="main"
-      className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-primary-800 to-primary-950 px-6 text-center text-white"
+      className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-primary-800 to-primary-950 px-6 text-center text-white"
     >
       <h1 className="font-display text-3xl font-bold">
         {om ? "Rakkoon uumame" : "Something went wrong"}

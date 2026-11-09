@@ -11,7 +11,7 @@ export default function NotFound() {
   return (
     <main
       id="main"
-      className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-primary-800 to-primary-950 px-6 text-center text-white"
+      className="flex min-h-dvh flex-col items-center justify-center bg-gradient-to-b from-primary-800 to-primary-950 px-6 text-center text-white"
     >
       <p className="font-display text-7xl font-bold text-gradient-gold">404</p>
       <h1 className="mt-4 font-display text-3xl font-bold">

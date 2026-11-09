@@ -18,7 +18,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useTrip } from "@/context/TripContext";
 import { useSite } from "@/context/SiteContext";
 import { submitLead } from "@/lib/submitLead";
-import { telHref } from "@/data/site";
+import { DEFAULT_SETTINGS, handleFromUrl, telHref } from "@/data/site";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -177,9 +177,9 @@ export default function BookingModal({
   }\nPlease confirm availability and booking requirements.`;
 
   const whatsappHref = whatsappLink(detailedBookingText);
-  const telegramHref = site.social.telegram || "https://t.me/Hikayatravrl";
-  const phoneHref = telHref(site.phones[0] || "+251912124876");
-  const facebookHref = site.social.facebook || "https://www.facebook.com/share/1E8V8mrJDf/";
+  const telegramHref = site.social.telegram || DEFAULT_SETTINGS.social.telegram;
+  const phoneHref = telHref(site.phones[0] || DEFAULT_SETTINGS.phones[0]);
+  const facebookHref = site.social.facebook || DEFAULT_SETTINGS.social.facebook;
 
   const labels = {
     en: {
@@ -191,7 +191,7 @@ export default function BookingModal({
       whatsappSub: "Instant 1-on-1 chat with booking consultant",
       whatsappBtn: "Open WhatsApp Booking",
       telegramTitle: "Book via Telegram",
-      telegramSub: "Direct messaging with @Hikayatravrl",
+      telegramSub: "Direct messaging on Telegram",
       telegramBtn: "Open Telegram Chat",
       phoneTitle: "Direct Phone Call",
       phoneSub: "Speak with our Addis Ababa travel consultants",
@@ -213,7 +213,7 @@ export default function BookingModal({
       whatsappSub: "ከቦታ ማስያዣ አማካሪያችን ጋር ቀጥታ ውይይት",
       whatsappBtn: "በዋትስአፕ ይወያዩ",
       telegramTitle: "በቴሌግራም ያስይዙ",
-      telegramSub: "ከ@Hikayatravrl ጋር ቀጥታ መልእክት",
+      telegramSub: "በቴሌግራም ቀጥታ መልእክት",
       telegramBtn: "በቴሌግራም ይወያዩ",
       phoneTitle: "በቀጥታ ስልክ ይደውሉ",
       phoneSub: "በአዲስ አበባ ቢሯችን ካሉ አማካሪዎቻችን ጋር ይነጋገሩ",
@@ -235,7 +235,7 @@ export default function BookingModal({
       whatsappSub: "Ogeessa keenya waliin haasaa kallattii",
       whatsappBtn: "Waatsaappiin Qabsiisaa",
       telegramTitle: "Telegiraamaan Qabsiisaa",
-      telegramSub: "Ergaa kallattii @Hikayatravrl wajjin",
+      telegramSub: "Ergaa kallattii Telegiraamiin",
       telegramBtn: "Telegiraamaan Haasa'aa",
       phoneTitle: "Bilbila Kallattii",
       phoneSub: "Biroo keenya Finfinnee jiru bilbilaan qunnamaa",
@@ -278,7 +278,7 @@ export default function BookingModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="absolute right-4 top-4 rounded-full p-1.5 text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+                className="absolute right-3 top-3 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                 aria-label={t.ui.booking.close}
               >
                 <X className="h-5 w-5" />
@@ -341,7 +341,7 @@ export default function BookingModal({
             </div>
 
             {/* Modal Body */}
-            <div className="max-h-[72vh] overflow-y-auto p-5 sm:p-6">
+            <div className="max-h-[72dvh] overflow-y-auto p-5 sm:p-6">
               {/* TAB 1: INSTANT PLATFORM BOOKING */}
               {method === "platform" && (
                 <motion.div
@@ -403,7 +403,7 @@ export default function BookingModal({
                             {labels.telegramTitle}
                           </h4>
                           <span className="rounded-full bg-sky-100 px-2 py-0.5 text-[10px] font-bold text-sky-800 group-hover:bg-white/20 group-hover:text-white dark:bg-sky-900/50 dark:text-sky-200">
-                            @Hikayatravrl
+                            {handleFromUrl(telegramHref)}
                           </span>
                         </div>
                         <p className="text-xs text-gray-600 group-hover:text-white/90 dark:text-gray-400 truncate">
@@ -533,7 +533,7 @@ export default function BookingModal({
                             autoComplete="tel"
                             value={form.phone}
                             onChange={set("phone")}
-                            placeholder="+251 91 212 4876"
+                            placeholder="+251 9XX XXX XXX"
                             className="form-input"
                           />
                         </div>

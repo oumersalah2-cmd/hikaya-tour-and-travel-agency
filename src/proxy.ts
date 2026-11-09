@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { defaultLocale, locales } from "@/lib/i18n";
+import { defaultLocale, isLocale, locales } from "@/lib/i18n";
 
 /** Redirects any path without a language prefix to `/{defaultLocale}/...`. */
 export function proxy(request: NextRequest) {
@@ -10,6 +10,12 @@ export function proxy(request: NextRequest) {
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
   if (hasLocale) return NextResponse.next();
+
+  // If the path starts with an unsupported 2-letter language code (e.g. /xx, /fr), return 404
+  const firstSegment = pathname.split("/")[1];
+  if (firstSegment && /^[a-z]{2}$/i.test(firstSegment) && !isLocale(firstSegment)) {
+    return new NextResponse(null, { status: 404 });
+  }
 
   const url = request.nextUrl.clone();
   url.pathname = `/${defaultLocale}${pathname === "/" ? "" : pathname}`;

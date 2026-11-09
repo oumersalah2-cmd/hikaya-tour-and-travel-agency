@@ -156,7 +156,7 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main id="main" className="min-h-screen pb-20 pt-28 dark:bg-dark-500">
+      <main id="main" className="min-h-dvh overflow-x-hidden pb-20 pt-28 dark:bg-dark-500">
         <div className="mx-auto max-w-7xl px-4 md:px-8">
           <SectionHeading
             subtitle={t.contact.subtitle}
@@ -172,12 +172,12 @@ export default function ContactPage() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-dark-300 dark:bg-dark-400"
+                  className="flex gap-4 rounded-2xl border border-gray-100 bg-white p-4 sm:p-6 shadow-sm transition-shadow hover:shadow-md dark:border-dark-300 dark:bg-dark-400"
                 >
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent-400/10 text-accent-700 dark:text-accent-300">
                     <info.icon className="h-6 w-6" aria-hidden="true" />
                   </div>
-                  <div>
+                  <div className="min-w-0 flex-1 break-words">
                     <h3 className="mb-2 text-lg font-bold text-primary-700 dark:text-white">{info.title}</h3>
                     <div className="mb-2 space-y-1">
                       {info.details.map((d) =>

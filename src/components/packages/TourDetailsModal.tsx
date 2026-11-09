@@ -141,7 +141,7 @@ export default function TourDetailsModal({
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className="relative flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl transition-all duration-300 dark:bg-dark-300 sm:max-h-[88vh] sm:max-w-2xl sm:rounded-3xl"
+        className="relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl transition-all duration-300 dark:bg-dark-300 sm:max-h-[88dvh] sm:max-w-2xl sm:rounded-3xl"
       >
         {/* Mobile bottom-sheet drag indicator */}
         <div className="flex justify-center pt-2.5 pb-1 sm:hidden">

@@ -191,7 +191,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setIsMobileOpen((open) => !open)}
-              className={`rounded-lg p-2 transition-colors ${
+              className={`rounded-lg p-2.5 transition-colors ${
                 solid ? "text-primary-700 dark:text-white" : "text-white"
               }`}
               aria-label={isMobileOpen ? t.ui.closeMenu : t.ui.openMenu}

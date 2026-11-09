@@ -31,7 +31,7 @@ export default async function GalleryPage() {
   return (
     <>
       <Navbar />
-      <main id="main" className="min-h-screen px-4 pb-24 pt-32 sm:px-6 lg:px-8 dark:bg-dark-500">
+      <main id="main" className="min-h-dvh px-4 pb-24 pt-32 sm:px-6 lg:px-8 dark:bg-dark-500">
         <div className="mx-auto max-w-7xl">
           <GalleryPageContent items={items} />
         </div>

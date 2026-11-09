@@ -186,7 +186,7 @@ export default function Footer() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder-gray-400 transition focus:border-transparent focus:outline-none focus:ring-2 focus:ring-accent-400"
+                className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/10 px-4 py-2.5 text-base text-white placeholder-gray-400 transition focus:border-transparent focus:outline-none focus:ring-2 focus:ring-accent-400"
               />
               <button
                 type="submit"

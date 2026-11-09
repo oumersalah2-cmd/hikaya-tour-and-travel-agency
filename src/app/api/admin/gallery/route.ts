@@ -1,12 +1,10 @@
 import crypto from "node:crypto";
-import fs from "node:fs/promises";
-import path from "node:path";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import sharp from "sharp";
-import { isAdmin } from "@/lib/auth";
+import { isAdmin, sameOrigin } from "@/lib/auth";
 import { changeGallery } from "@/lib/gallery";
-import { UPLOAD_DIR, type GalleryItem } from "@/lib/store";
+import { saveUpload, type GalleryItem } from "@/lib/store";
 import { locales } from "@/lib/i18n";
 
 export const runtime = "nodejs";
@@ -19,20 +17,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   // Same-origin only (cookie is SameSite=Strict too)
-  const origin = request.headers.get("origin");
-  const host = request.headers.get("host");
-  if (origin && host && new URL(origin).host !== host) {
+  if (!sameOrigin(request)) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const form = await request.formData();
+  let form: FormData;
+  try {
+    form = await request.formData();
+  } catch {
+    return NextResponse.json({ error: "Invalid upload." }, { status: 400 });
+  }
   const files = form.getAll("files").filter((f): f is File => f instanceof File && f.size > 0);
   if (!files.length) return NextResponse.json({ error: "No files selected." }, { status: 400 });
   if (files.length > MAX_FILES) {
     return NextResponse.json({ error: `Upload at most ${MAX_FILES} photos at a time.` }, { status: 400 });
   }
 
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
   const added: GalleryItem[] = [];
   const failed: string[] = [];
 
@@ -44,8 +44,8 @@ export async function POST(request: Request) {
       const base = sharp(input, { failOn: "error" }).rotate();
       const main = await base.clone().resize(1600, 1600, { fit: "inside", withoutEnlargement: true }).webp({ quality: 80 }).toBuffer({ resolveWithObject: true });
       const thumb = await base.clone().resize(640, 640, { fit: "inside", withoutEnlargement: true }).webp({ quality: 75 }).toBuffer();
-      await fs.writeFile(path.join(UPLOAD_DIR, `${id}.webp`), main.data);
-      await fs.writeFile(path.join(UPLOAD_DIR, `${id}-thumb.webp`), thumb);
+      await saveUpload(`${id}.webp`, main.data);
+      await saveUpload(`${id}-thumb.webp`, thumb);
       added.push({
         id,
         src: `/uploads/${id}.webp`,

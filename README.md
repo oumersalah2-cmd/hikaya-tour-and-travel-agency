@@ -1,6 +1,6 @@
 # HIKAYA Tour and Travel Agency
 
-Bilingual (English / Afaan Oromoo) marketing site for HIKAYA — Umrah packages, flight tickets,
+Trilingual (English / Afaan Oromoo / Amharic) marketing site for HIKAYA — Umrah packages, flight tickets,
 hotel booking and guided tours across Ethiopia. Built with Next.js 16 (App Router), React 19,
 Tailwind CSS 4 and Framer Motion.
 
@@ -19,9 +19,10 @@ Scripts: `npm run build`, `npm start`, `npm run lint`, `npm run typecheck`.
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Canonical URL for SEO, sitemap and Open Graph |
-| `ADMIN_PASSWORD` | Password for the admin panel at `/admin` |
+| `ADMIN_PASSWORD` | Password for the admin panel at `/admin` — **12+ characters**; changing it logs out every active session |
 | `SESSION_SECRET` | 16+ random characters used to sign the admin login cookie (`openssl rand -base64 32`) |
-| `DATA_DIR` | Where leads, gallery data and uploads are stored (default `./data`) |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Upstash Redis (set automatically by the Vercel integration). Required on Vercel. |
+| `DATA_DIR` | Only without Redis: folder for leads, gallery data and uploads (default `./data`) |
 | `CONTACT_WEBHOOK_URL` | Optional. Also forwards every submission as JSON to Formspree, Make, Zapier, n8n, Apps Script… for e-mail / chat alerts |
 
 ## Admin panel (`/admin`)
@@ -44,7 +45,13 @@ Every list has a **Save changes** button (the website updates immediately) and *
 Photos can be uploaded from your computer or picked from the built-in library; with no photo a neutral placeholder is shown.
 Afaan Oromoo fields fall back to the English text when left empty.
 
-**Hosting note:** data is stored as JSON files and uploads on disk, so deploy to a host with a *persistent* disk (VPS, Docker volume, Railway/Render disk). Serverless hosts such as Vercel have no writable persistent disk — on those, replace `src/lib/store.ts` with a database (everything else only calls its exported functions).
+**Hosting / storage:** the app picks its storage automatically.
+
+- **Vercel (recommended for this project):** Vercel's disk is read-only, so add a free **Upstash Redis** database
+  (Vercel dashboard → Storage / Marketplace → Upstash Redis → connect to the project). It injects
+  `KV_REST_API_URL` and `KV_REST_API_TOKEN`; leads, admin edits, rate limits and uploaded photos then live in Redis.
+  Photos are re-compressed to WebP and must stay under ~650 KB after compression (the upload reports any that don't fit).
+- **VPS / Docker / Render disk:** with no Redis variables the app writes JSON files and photos to `DATA_DIR` (default `./data`).
 
 Back up the `data/` folder regularly (or use *Business info → Download backup*).
 
@@ -60,8 +67,7 @@ Back up the `data/` folder regularly (or use *Business info → Download backup*
 
 Hero → quick enquiry → Services → Packages → Destinations → Umrah timeline → Ziyarat → Why HIKAYA →
 Diaspora → Founder → Gallery → Reviews → FAQ → Office & contact. The order lives in `src/app/[lang]/page.tsx`.
-Customer reviews only appear once real ones are saved in the admin (Testimonials). `TrustPillars`,
-`BookingWorkflow` and `StatsSection` still exist in `src/components/home/` and can be added back to that file.
+Customer reviews only appear once real ones are saved in the admin (Testimonials).
 
 ## Structure
 

@@ -21,7 +21,7 @@ export default function WhatsAppButton() {
       )}
       target="_blank"
       rel="noopener noreferrer"
-      className="group fixed bottom-5 right-5 z-50 flex items-center gap-2 sm:bottom-6 sm:right-6"
+      className="group fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-50 flex items-center gap-2 sm:bottom-6 sm:right-6"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1.2, type: "spring" }}

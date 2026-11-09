@@ -4,7 +4,7 @@ import { Building2, MapPin, Clock, MessageCircle, ShieldCheck, ArrowRight } from
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSite } from "@/context/SiteContext";
-import { handleFromUrl } from "@/data/site";
+import { DEFAULT_SETTINGS, handleFromUrl } from "@/data/site";
 
 export default function OfficeDeskSection() {
   const { t, lang } = useLanguage();
@@ -139,12 +139,12 @@ export default function OfficeDeskSection() {
                   </a>
                   {" · "}
                   <a
-                    href={site.social.telegram || "https://t.me/Hikayatravrl"}
+                    href={site.social.telegram || DEFAULT_SETTINGS.social.telegram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sky-600 dark:text-sky-400 font-semibold underline"
                   >
-                    Telegram ({handleFromUrl(site.social.telegram || "https://t.me/Hikayatravrl")})
+                    Telegram ({handleFromUrl(site.social.telegram || DEFAULT_SETTINGS.social.telegram)})
                   </a>
                 </span>
               </div>

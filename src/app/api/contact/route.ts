@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { addLead, type LeadType } from "@/lib/store";
+import { addLead, bumpCounter, type LeadType } from "@/lib/store";
 
 export const runtime = "nodejs";
 
@@ -8,23 +8,10 @@ const MAX = { short: 200, long: 4000 };
 
 type Body = Record<string, unknown>;
 
-/* Simple per-IP rate limit (in memory): 8 submissions / 10 minutes. */
-const WINDOW_MS = 10 * 60_000;
+/* Per-IP rate limit: 8 submissions / 10 minutes (shared via Redis on Vercel). */
+const WINDOW_S = 10 * 60;
 const MAX_HITS = 8;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  if (hits.size > 5000) {
-    for (const [key, times] of hits) {
-      if (times.every((t) => now - t >= WINDOW_MS)) hits.delete(key);
-    }
-  }
-  return recent.length > MAX_HITS;
-}
+const MAX_BODY = 20_000;
 
 function str(value: unknown, max: number): string {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -32,19 +19,26 @@ function str(value: unknown, max: number): string {
 
 export async function POST(request: Request) {
   const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     "unknown";
-  if (rateLimited(ip)) {
+  if ((await bumpCounter(`contact:${ip}`, WINDOW_S)) > MAX_HITS) {
     return NextResponse.json({ error: "too_many_requests" }, { status: 429 });
   }
-  if (Number(request.headers.get("content-length") ?? 0) > 20_000) {
+  if (Number(request.headers.get("content-length") ?? 0) > MAX_BODY) {
     return NextResponse.json({ error: "payload_too_large" }, { status: 413 });
   }
 
   let body: Body;
   try {
-    body = (await request.json()) as Body;
+    const raw = await request.text();
+    // content-length can be missing or wrong (chunked uploads), so check the real size too
+    if (raw.length > MAX_BODY) {
+      return NextResponse.json({ error: "payload_too_large" }, { status: 413 });
+    }
+    const parsed: unknown = JSON.parse(raw);
+    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) throw new Error("not an object");
+    body = parsed as Body;
   } catch {
     return NextResponse.json({ error: "invalid_json" }, { status: 400 });
   }
@@ -127,6 +121,7 @@ export async function POST(request: Request) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(lead),
+        signal: AbortSignal.timeout(8000),
       });
       forwarded = res.ok;
       if (!res.ok) console.error(`[contact] webhook responded ${res.status}`);
