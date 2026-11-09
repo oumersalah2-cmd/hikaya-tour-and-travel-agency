@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -23,7 +23,7 @@ import { useSite } from "@/context/SiteContext";
 type Tab = "umrah" | "flights" | "hotels" | "tours";
 
 const inputClass =
-  "w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-10 pr-4 text-xs text-primary-700 transition focus:outline-none focus:ring-2 focus:ring-accent-400 dark:border-dark-100 dark:bg-dark-400 dark:text-white sm:text-sm";
+  "w-full min-h-[44px] rounded-xl border border-gray-200 bg-white py-2.5 pl-10 pr-4 text-xs text-primary-700 transition focus:outline-none focus:ring-2 focus:ring-accent-400 dark:border-dark-100 dark:bg-dark-400 dark:text-white sm:text-sm";
 const labelClass =
   "mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400";
 
@@ -69,10 +69,28 @@ export default function SearchBooking() {
     travelers: "2",
   });
 
-  const today = new Date().toISOString().split("T")[0];
-
   const pick = (en: string, om: string, am: string) =>
     lang === "am" ? am : lang === "om" ? om : en;
+
+  // Generate the next 12 months for readable month dropdowns in en, am, and om
+  const upcomingMonths = useMemo(() => {
+    const months: { value: string; label: string }[] = [];
+    const now = new Date();
+    const locale = lang === "am" ? "am-ET" : lang === "om" ? "om-ET" : "en-US";
+    const formatter = new Intl.DateTimeFormat(locale, {
+      month: "long",
+      year: "numeric",
+    });
+
+    for (let i = 0; i < 12; i++) {
+      const d = new Date(now.getFullYear(), now.getMonth() + i, 1);
+      const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const raw = formatter.format(d);
+      const label = raw.charAt(0).toUpperCase() + raw.slice(1);
+      months.push({ value, label });
+    }
+    return months;
+  }, [lang]);
 
   const tabs = [
     {
@@ -125,14 +143,14 @@ export default function SearchBooking() {
   // Handle Flights inquiry
   const handleFlightsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Hello HIKAYA, I would like to inquire about flight tickets: From ${flightForm.from} to ${flightForm.to}, Departure: ${flightForm.departure || "flexible"}, Return: ${flightForm.returnDate || "flexible"}, Passengers: ${flightForm.passengers} (${flightForm.class}).`;
+    const msg = `Hello HIKAYA, I would like to inquire about flight tickets: From ${flightForm.from} to ${flightForm.to}, Month/Date: ${flightForm.departure || "flexible"}, Return: ${flightForm.returnDate || "flexible"}, Passengers: ${flightForm.passengers} (${flightForm.class}).`;
     window.open(whatsappLink(msg), "_blank");
   };
 
   // Handle Hotels inquiry
   const handleHotelsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const msg = `Hello HIKAYA, I would like to inquire about hotel booking: Location: ${hotelForm.location}, Check-in: ${hotelForm.checkin || "flexible"}, Check-out: ${hotelForm.checkout || "flexible"}, Room Type: ${hotelForm.roomType}.`;
+    const msg = `Hello HIKAYA, I would like to inquire about hotel booking: Location: ${hotelForm.location}, Month/Date: ${hotelForm.checkin || "flexible"}, Room Type: ${hotelForm.roomType}.`;
     window.open(whatsappLink(msg), "_blank");
   };
 
@@ -157,16 +175,20 @@ export default function SearchBooking() {
   const field = (name: string) => `${uid}-${name}`;
 
   return (
-    <section id="search" className="relative z-20 mb-12 -mt-6 sm:-mt-8 lg:-mt-12 px-4 md:px-8">
+    <section id="search" className="relative z-20 mb-14 mt-4 sm:mt-6 lg:mt-8 px-4 sm:px-6 lg:px-8">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.5 }}
         className="mx-auto max-w-6xl"
       >
-        {/* Navigation Tabs */}
-        <div role="tablist" className="mb-3 flex flex-wrap gap-2 px-2 sm:px-4">
+        {/* Navigation Tabs (Horizontal scrolling on mobile without wrapping, min-h 44px) */}
+        <div
+          role="tablist"
+          aria-label={pick("Search travel services", "Tajaajila imalaa barbaadi", "የጉዞ አገልግሎቶችን ይፈልጉ")}
+          className="mb-3.5 flex gap-2 overflow-x-auto pb-2 scrollbar-none px-1 sm:px-2 flex-nowrap"
+        >
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -177,13 +199,13 @@ export default function SearchBooking() {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold shadow-sm transition-all duration-300 sm:px-5 sm:text-sm ${
+                className={`flex shrink-0 min-h-[44px] items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-xs font-semibold shadow-sm transition-all duration-300 sm:px-5 sm:text-sm ${
                   isActive
                     ? "bg-gradient-to-r from-accent-600 to-accent-500 text-white shadow-glow scale-[1.02]"
-                    : "bg-white/95 text-primary-700 backdrop-blur-md hover:bg-white dark:bg-dark-400 dark:text-gray-300 dark:hover:bg-dark-300"
+                    : "bg-white/95 text-primary-700 backdrop-blur-md hover:bg-white dark:bg-dark-400 dark:text-gray-300 dark:hover:bg-dark-300 border border-gray-200/80 dark:border-dark-100"
                 }`}
               >
-                <Icon className="h-4 w-4" aria-hidden="true" />
+                <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span>{tab.label}</span>
               </button>
             );
@@ -191,7 +213,7 @@ export default function SearchBooking() {
         </div>
 
         {/* Dynamic Service Forms based on Active Tab */}
-        <div className="glass-card rounded-2xl p-6 shadow-soft-lg md:p-8 dark:shadow-none">
+        <div className="glass-card rounded-2xl p-5 shadow-soft-lg sm:p-6 md:p-8 dark:shadow-none">
           <AnimatePresence mode="wait">
             {/* 1. UMRAH PACKAGES TAB */}
             {activeTab === "umrah" && (
@@ -204,7 +226,8 @@ export default function SearchBooking() {
                 onSubmit={handleUmrahSubmit}
                 className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5"
               >
-                <div>
+                {/* Package selection */}
+                <div className="w-full">
                   <label htmlFor={field("u-pkg")} className={labelClass}>
                     {pick("Umrah Package", "Paakeejii Umraa", "የኡምራ ፓኬጅ")}
                   </label>
@@ -226,9 +249,10 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div>
+                {/* Room Type (Short, clear labels that fit without truncation) */}
+                <div className="w-full">
                   <label htmlFor={field("u-room")} className={labelClass}>
-                    {pick("Room Sharing Type", "Gosa Kutaa", "የክፍል ዓይነት")}
+                    {pick("Room Type", "Gosa Kutaa", "የክፍል ዓይነት")}
                   </label>
                   <div className="relative">
                     <Bed className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
@@ -238,32 +262,39 @@ export default function SearchBooking() {
                       onChange={(e) => setUmrahForm({ ...umrahForm, roomSharing: e.target.value })}
                       className={`${inputClass} cursor-pointer`}
                     >
-                      <option value="4-room">{pick("4 Pilgrims / Room (Quad)", "Nama 4 Kutaa Tokkotti (Quad)", "4 ሰው በአንድ ክፍል (በጋራ)")}</option>
-                      <option value="3-room">{pick("3 Pilgrims / Room (Triple)", "Nama 3 Kutaa Tokkotti", "3 ሰው በአንድ ክፍል")}</option>
-                      <option value="2-room">{pick("2 Pilgrims / Room (Double)", "Nama 2 Kutaa Dhuunfaa", "2 ሰው በአንድ ክፍል (የግል)")}</option>
-                      <option value="vip-single">{pick("VIP Single Occupancy", "Kutaa Dhuunfaa Qeenxee", "የግል ባለ 1 ሰው ቪአይፒ")}</option>
+                      <option value="4-room">{pick("Quad (4 per room)", "Quad (nama 4 kutaatti)", "ክዋድ (4 ሰው በክፍል)")}</option>
+                      <option value="3-room">{pick("Triple (3 per room)", "Triple (nama 3 kutaatti)", "ትሪፕል (3 ሰው በክፍል)")}</option>
+                      <option value="2-room">{pick("Double (2 per room)", "Double (nama 2 kutaatti)", "ደብል (2 ሰው በክፍል)")}</option>
+                      <option value="vip-single">{pick("Single (1 per room)", "Single (nama 1 kutaatti)", "ሲንግል (1 ሰው በክፍል)")}</option>
                     </select>
                   </div>
                 </div>
 
-                <div>
+                {/* Preferred Date (Month dropdown showing next 12 months) */}
+                <div className="w-full">
                   <label htmlFor={field("u-dep")} className={labelClass}>
-                    {pick("Preferred Month / Date", "Guyyaa Imalaa", "የመነሻ ወር / ቀን")}
+                    {pick("Preferred Date", "Ji'a Imalaa", "ተመራጭ ወር")}
                   </label>
                   <div className="relative">
                     <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <input
+                    <select
                       id={field("u-dep")}
-                      type="date"
-                      min={today}
                       value={umrahForm.departure}
                       onChange={(e) => setUmrahForm({ ...umrahForm, departure: e.target.value })}
-                      className={inputClass}
-                    />
+                      className={`${inputClass} cursor-pointer`}
+                    >
+                      <option value="">{pick("Any month", "Ji'a kamiyyuu", "ማንኛውም ወር")}</option>
+                      {upcomingMonths.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
-                <div>
+                {/* Pilgrims Count (Clear display) */}
+                <div className="w-full">
                   <label htmlFor={field("u-trav")} className={labelClass}>
                     {pick("Pilgrims Count", "Baayyina Imaltootaa", "የምዕመናን ብዛት")}
                   </label>
@@ -284,18 +315,24 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <button type="submit" className="btn-primary w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md">
-                    <Search className="h-4 w-4" />
+                {/* Buttons (Stacked below inputs on mobile, min-h 44px) */}
+                <div className="flex flex-col gap-2 w-full sm:col-span-2 lg:col-span-1 pt-1 sm:pt-0">
+                  <button
+                    type="submit"
+                    className="btn-primary min-h-[44px] w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md"
+                  >
+                    <Search className="h-4 w-4 shrink-0" />
                     <span>{pick("Find Packages", "Paakeejii Barbaadi", "ፓኬጆችን ፈልግ")}</span>
                   </button>
                   <a
-                    href={whatsappLink(`Hello HIKAYA, I would like to book Umrah: ${umrahForm.travelers} pilgrim(s), Room: ${umrahForm.roomSharing}, Travel date: ${umrahForm.departure || "flexible"}.`)}
+                    href={whatsappLink(
+                      `Hello HIKAYA, I would like to book Umrah: ${umrahForm.travelers} pilgrim(s), Room: ${umrahForm.roomSharing}, Month: ${umrahForm.departure || "flexible"}.`
+                    )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/50 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
+                    className="flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/50 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
                   >
-                    <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
+                    <MessageCircle className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
                     <span>{pick("Book on WhatsApp", "Waatsaappiin Qabsiisaa", "በዋትስአፕ ያስይዙ")}</span>
                   </a>
                 </div>
@@ -313,7 +350,7 @@ export default function SearchBooking() {
                 onSubmit={handleFlightsSubmit}
                 className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5"
               >
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("f-from")} className={labelClass}>
                     {pick("Departure From", "Bakka Ka'umsaa", "የመነሻ ከተማ")}
                   </label>
@@ -334,7 +371,7 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("f-to")} className={labelClass}>
                     {pick("Flying To", "Bakka Imalaa", "የመዳረሻ ከተማ")}
                   </label>
@@ -356,24 +393,29 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("f-dep")} className={labelClass}>
-                    {pick("Departure Date", "Guyyaa Ka'umsaa", "የመነሻ ቀን")}
+                    {pick("Departure Month", "Ji'a Ka'umsaa", "የመነሻ ወር")}
                   </label>
                   <div className="relative">
                     <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <input
+                    <select
                       id={field("f-dep")}
-                      type="date"
-                      min={today}
                       value={flightForm.departure}
                       onChange={(e) => setFlightForm({ ...flightForm, departure: e.target.value })}
-                      className={inputClass}
-                    />
+                      className={`${inputClass} cursor-pointer`}
+                    >
+                      <option value="">{pick("Any month", "Ji'a kamiyyuu", "ማንኛውም ወር")}</option>
+                      {upcomingMonths.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("f-pass")} className={labelClass}>
                     {pick("Passengers & Class", "Baayyina & Sadarkaa", "ተሳፋሪዎችና መደብ")}
                   </label>
@@ -397,10 +439,15 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-primary w-full py-3.5 text-sm sm:text-base flex items-center justify-center gap-2">
-                  <Send className="h-5 w-5" />
-                  <span>{pick("Inquire Flights", "Xiyyaara Gaafadhaa", "የአየር ትኬት ይጠይቁ")}</span>
-                </button>
+                <div className="w-full sm:col-span-2 lg:col-span-1 pt-1 sm:pt-0">
+                  <button
+                    type="submit"
+                    className="btn-primary min-h-[44px] w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md"
+                  >
+                    <Send className="h-4 w-4 shrink-0" />
+                    <span>{pick("Inquire Flights", "Xiyyaara Gaafadhaa", "የአየር ትኬት ይጠይቁ")}</span>
+                  </button>
+                </div>
               </motion.form>
             )}
 
@@ -415,7 +462,7 @@ export default function SearchBooking() {
                 onSubmit={handleHotelsSubmit}
                 className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5"
               >
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("h-loc")} className={labelClass}>
                     {pick("Hotel Destination", "Bakka Hoteelaa", "የሆቴል መዳረሻ")}
                   </label>
@@ -436,41 +483,29 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("h-in")} className={labelClass}>
-                    {pick("Check-in Date", "Guyyaa Seensaa", "የመግቢያ ቀን")}
+                    {pick("Stay Month", "Ji'a Seensaa", "የቆይታ ወር")}
                   </label>
                   <div className="relative">
                     <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <input
+                    <select
                       id={field("h-in")}
-                      type="date"
-                      min={today}
                       value={hotelForm.checkin}
                       onChange={(e) => setHotelForm({ ...hotelForm, checkin: e.target.value })}
-                      className={inputClass}
-                    />
+                      className={`${inputClass} cursor-pointer`}
+                    >
+                      <option value="">{pick("Any month", "Ji'a kamiyyuu", "ማንኛውም ወር")}</option>
+                      {upcomingMonths.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor={field("h-out")} className={labelClass}>
-                    {pick("Check-out Date", "Guyyaa Ba'umsaa", "የመውጫ ቀን")}
-                  </label>
-                  <div className="relative">
-                    <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <input
-                      id={field("h-out")}
-                      type="date"
-                      min={hotelForm.checkin || today}
-                      value={hotelForm.checkout}
-                      onChange={(e) => setHotelForm({ ...hotelForm, checkout: e.target.value })}
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                <div>
+                <div className="w-full sm:col-span-2 lg:col-span-2">
                   <label htmlFor={field("h-room")} className={labelClass}>
                     {pick("Room & Guests", "Gosa Kutaa & Keessummoota", "የክፍል ዓይነትና እንግዶች")}
                   </label>
@@ -490,10 +525,15 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-primary w-full py-3.5 text-sm sm:text-base flex items-center justify-center gap-2">
-                  <Hotel className="h-5 w-5" />
-                  <span>{pick("Check Hotels", "Hoteela Gaafadhaa", "የሆቴል ቦታ ያረጋግጡ")}</span>
-                </button>
+                <div className="w-full sm:col-span-2 lg:col-span-1 pt-1 sm:pt-0">
+                  <button
+                    type="submit"
+                    className="btn-primary min-h-[44px] w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md"
+                  >
+                    <Hotel className="h-4 w-4 shrink-0" />
+                    <span>{pick("Check Hotels", "Hoteela Gaafadhaa", "የሆቴል ቦታ ያረጋግጡ")}</span>
+                  </button>
+                </div>
               </motion.form>
             )}
 
@@ -508,7 +548,7 @@ export default function SearchBooking() {
                 onSubmit={handleTourSubmit}
                 className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5"
               >
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("t-dest")} className={labelClass}>
                     {pick("Tour Destination", "Bakka Daawwannaa", "የቱር መዳረሻ")}
                   </label>
@@ -530,7 +570,7 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("t-grp")} className={labelClass}>
                     {pick("Experience Style", "Gosa Daawwannaa", "የጉዞ ልምድ ዓይነት")}
                   </label>
@@ -543,30 +583,35 @@ export default function SearchBooking() {
                       className={`${inputClass} cursor-pointer`}
                     >
                       <option value="Guided Small Group">{pick("Guided Small Group", "Garee Qajeelfama Qabu", "የተመራ አነስተኛ ቡድን")}</option>
-                      <option value="Private VIP Tour">{pick("Private VIP Expedition", "Daawwannaa Dhuunfaa VIP", "የግል ቪአይፒ ጉዞ")}</option>
+                      <option value="Private VIP Tour">{pick("Private VIP Tour", "Daawwannaa Dhuunfaa VIP", "የግል ቪአይፒ ጉዞ")}</option>
                       <option value="Weekend Getaway">{pick("Weekend Getaway", "Boqonnaa Ayyaanaa", "የሳምንት መጨረሻ እረፍት")}</option>
                     </select>
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("t-dep")} className={labelClass}>
-                    {pick("Tour Date", "Guyyaa Daawwannaa", "የጉዞ ቀን")}
+                    {pick("Preferred Date", "Ji'a Daawwannaa", "ተመራጭ ወር")}
                   </label>
                   <div className="relative">
                     <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <input
+                    <select
                       id={field("t-dep")}
-                      type="date"
-                      min={today}
                       value={tourForm.departure}
                       onChange={(e) => setTourForm({ ...tourForm, departure: e.target.value })}
-                      className={inputClass}
-                    />
+                      className={`${inputClass} cursor-pointer`}
+                    >
+                      <option value="">{pick("Any month", "Ji'a kamiyyuu", "ማንኛውም ወር")}</option>
+                      {upcomingMonths.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
-                <div>
+                <div className="w-full">
                   <label htmlFor={field("t-trav")} className={labelClass}>
                     {pick("Travelers", "Baayyina Imaltootaa", "የተጓዦች ብዛት")}
                   </label>
@@ -587,18 +632,23 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <button type="submit" className="btn-primary w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md">
-                    <Mountain className="h-4 w-4" />
+                <div className="flex flex-col gap-2 w-full sm:col-span-2 lg:col-span-1 pt-1 sm:pt-0">
+                  <button
+                    type="submit"
+                    className="btn-primary min-h-[44px] w-full py-2.5 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 shadow-md"
+                  >
+                    <Mountain className="h-4 w-4 shrink-0" />
                     <span>{pick("Explore Tours", "Daawwannaa Ilaali", "ቱሮችን ይመልከቱ")}</span>
                   </button>
                   <a
-                    href={whatsappLink(`Hello HIKAYA, I would like to book an Ethiopian Tour: ${tourForm.travelers} traveler(s), Group: ${tourForm.groupType}, Date: ${tourForm.departure || "flexible"}.`)}
+                    href={whatsappLink(
+                      `Hello HIKAYA, I would like to book an Ethiopian Tour: ${tourForm.travelers} traveler(s), Group: ${tourForm.groupType}, Month: ${tourForm.departure || "flexible"}.`
+                    )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/50 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
+                    className="flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-50/50 py-2 text-xs font-bold text-emerald-800 transition hover:bg-emerald-500 hover:text-white dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300 dark:hover:bg-emerald-600 dark:hover:text-white"
                   >
-                    <MessageCircle className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
+                    <MessageCircle className="h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400 group-hover:text-white" />
                     <span>{pick("Book on WhatsApp", "Waatsaappiin Qabsiisaa", "በዋትስአፕ ያስይዙ")}</span>
                   </a>
                 </div>

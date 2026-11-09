@@ -16,7 +16,7 @@ export const en = {
     titleStart: "Your Journey, Your ",
     titleHighlight: "Story (Hikaya)",
     titleEnd: " & Sacred Moments",
-    subtitle: "Premier Umrah packages (Makkah & Medina with historical Ziyarah), International & Domestic flight tickets, worldwide hotel bookings, and extraordinary eco-tours to Sof Omar, Wonchi, Bale Mountains, Semien, and Afar.",
+    subtitle: "Umrah packages, flights, hotels and Ethiopia tours, all in one place.",
     explore: "Explore Packages",
     contact: "Contact Us",
     scroll: "Scroll",

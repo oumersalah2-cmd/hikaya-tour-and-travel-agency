@@ -16,7 +16,7 @@ export const om = {
     titleStart: "Imala Keessan, ",
     titleHighlight: "Seenaa (Hikaya)",
     titleEnd: " fi Yeroo Eebbifamaa",
-    subtitle: "Paakeejii Umraa (Makkaa, Madiinaa fi Ziyaaraa), Tikeettii Idil-addunyaa, Tikeettii Biyya Keessaa, Hoteela Idil-addunyaa fi Biyya Keessaa qabsiisuu, akkasumas daawwannaa Soof Umar, Wonchii, Gaarren Baalee, Gaarren Saameen, fi Gammoojjii Affaar.",
+    subtitle: "Paakeejii Umraa, balallii xiyyaaraa, hoteelota fi daawwannaa bakka tokkotti.",
     explore: "Paakeejota Daawwadhaa",
     contact: "Nu Quunnamaa",
     scroll: "Gadi Siqsi",
