@@ -183,11 +183,11 @@ export default function SearchBooking() {
         transition={{ duration: 0.5 }}
         className="mx-auto max-w-6xl"
       >
-        {/* Navigation Tabs (Horizontal scrolling on mobile without wrapping, min-h 44px) */}
+        {/* Navigation Tabs: 2 lines on mobile so all 4 services are visible at once without horizontal scrolling */}
         <div
           role="tablist"
           aria-label={pick("Search travel services", "Tajaajila imalaa barbaadi", "የጉዞ አገልግሎቶችን ይፈልጉ")}
-          className="mb-3.5 flex gap-2 overflow-x-auto pb-2 scrollbar-none px-1 sm:px-2 flex-nowrap"
+          className="mb-3.5 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-2.5"
         >
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -199,14 +199,14 @@ export default function SearchBooking() {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex shrink-0 min-h-[44px] items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-xs font-semibold shadow-sm transition-all duration-300 sm:px-5 sm:text-sm ${
+                className={`flex min-h-[48px] w-full items-center justify-center gap-1.5 rounded-xl px-2.5 py-2 text-center text-xs font-semibold transition-all duration-300 sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm ${
                   isActive
                     ? "bg-gradient-to-r from-accent-600 to-accent-500 text-white shadow-glow scale-[1.02]"
-                    : "bg-white/95 text-primary-700 backdrop-blur-md hover:bg-white dark:bg-dark-400 dark:text-gray-300 dark:hover:bg-dark-300 border border-gray-200/80 dark:border-dark-100"
+                    : "border border-gray-200/80 bg-white/95 text-primary-700 backdrop-blur-md hover:bg-white dark:border-dark-100 dark:bg-dark-400 dark:text-gray-300 dark:hover:bg-dark-300"
                 }`}
               >
                 <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{tab.label}</span>
+                <span className="leading-tight">{tab.label}</span>
               </button>
             );
           })}
