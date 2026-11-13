@@ -8,7 +8,7 @@ export interface Package {
   title: string;
   destination: string;
   duration: string;
-  price: number;
+  price?: number;
   priceETB?: string;
   originalPrice?: number;
   occupancy?: string;
@@ -24,121 +24,141 @@ export interface Package {
 
 export const getPackages = (lang: Locale): Package[] => [
   {
-    id: "umrah-standard",
+    id: "umrah-muzayyan",
     category: "umrah",
     title:
       lang === "am"
-        ? "የታህሳስ / ዲሴምበር ልዩ የኡምራ ጉዞ"
+        ? "ልዩ የኡምራ ጉዞ (ከኡስታዝ ሙዘየን ሙሐመድ ጋር)"
         : lang === "om"
-        ? "Paakeejii Umraa Addaa Muddee (December)"
-        : "December Special Umrah Pilgrimage",
+        ? "Paakeejii Umraa Addaa (Ustaaz Muzayyan Muhaammad Wajjiin)"
+        : "Special Umrah Pilgrimage (With Ustaz Muzayyan Muhammad)",
     destination:
       lang === "am"
-        ? "መካ (7 ምሽቶች) · መዲና (3 ምሽቶች) — በዑለሞች መሪነት"
+        ? "መካ (7 ቀናት) · መዲና (3 ቀናት)"
         : lang === "om"
-        ? "Makkaa (Halkan 7) · Madiinaa (Halkan 3) — Ogeessa Amantiin"
-        : "Makkah (7N) · Madinah (3N) — Guided by Scholar",
+        ? "Makkaa (Guyyaa 7) · Madiinaa (Guyyaa 3)"
+        : "Makkah (7 Days) · Madinah (3 Days)",
     duration:
       lang === "am"
-        ? "11 ቀናት / 10 ምሽቶች"
+        ? "10 ቀናት"
         : lang === "om"
-        ? "Guyyaa 11 / Halkan 10"
-        : "11 Days / 10 Nights",
-    price: 1450,
-    priceETB: "150,000 ETB",
-    originalPrice: 1650,
+        ? "Guyyaa 10"
+        : "10 Days",
     occupancy:
       lang === "am"
-        ? "4 በአንድ ክፍል (በጋራ)"
+        ? "ከኡስታዝ ሙዘየን ሙሐመድ ጋር"
         : lang === "om"
-        ? "Nama 4 / Kutaa 1"
-        : "4 / Room Sharing",
+        ? "Ustaaz Muzayyan Muhaammad Wajjiin"
+        : "With Ustaz Muzayyan Muhammad",
     routeBadge: "Addis ➔ Madinah ➔ Makkah ➔ Addis",
     badge:
       lang === "am"
-        ? "የዲሴምበር ልዩ ጉዞ"
+        ? "ምዝገባ ላይ ነን!"
         : lang === "om"
-        ? "Imala Addaa Muddee"
-        : "December Special",
+        ? "Galmee irra jirra!"
+        : "Registration Open!",
     rating: 5.0,
-    reviews: 780,
+    reviews: 980,
     description:
       lang === "am"
-        ? "በተከበሩ ዑለሞችና ኡስታዞች የሚመራ የ11 ቀናት የታህሳስ (ዲሴምበር) ልዩ የኡምራ ጉዞ በ150,000 ብር። 3 ምሽቶች መዲና ከመስጂደ ነበዊ አቅራቢያ፣ 7 ምሽቶች መካ ከሀረም አቅራቢያ። የተሟላ ታሪካዊ ዚያራ፣ ይፋዊ ቪዛ፣ የአየር ትኬት እና የላቀ መንፈሳዊ መመሪያ ያካትታል።"
+        ? "ከኡስታዝ ሙዘየን ሙሐመድ ጋር የሚደረግ ልዩና መንፈሳዊ የኡምራ ጉዞ (ከኅዳር 30 እስከ ታኅሣሥ 9)። በመካ 7 ቀናት እና በመዲና 3 ቀናት። ቪዛ፣ የደርሶ መልስ አየር ትኬት፣ ሆቴል፣ ምቹ ትራንስፖርት (ፈጣን ባቡር እና አውቶቡስ)፣ የታሪክ ቦታዎች ዚያራ እና ኢንሹራንስ ያካተተ የተሟላ አገልግሎት። ስልክ፡ 0912124876።"
         : lang === "om"
-        ? "Imala Umraa addaa Muddee (December) guyyoota 11 kan ogeeyyii amantii kabajamoo wajjin ta'u kaffaltii 150,000 ETB qofaan. Halkan 3 Madiinaa Masjiida Nabawiitti dhihoo, Halkan 7 Makkaa Haramatti dhihoo, ziyaaraa seenaa guutuu, viizaa fi deeggarsa guutuu waliin."
-        : "Special 11-day December holiday Umrah pilgrimage accompanied and guided by respected Islamic scholars for 150,000 ETB. 3 nights Madinah near Masjid an-Nabawi, 7 nights Makkah near the Haram. Full historical Ziyarah, official visa, and dedicated spiritual guidance.",
-    image: "/images/packages/december-umrah-scholar.jpg",
+        ? "Imala Umraa hafuuraa fi kabajamaa Ustaaz Muzayyan Muhaammad wajjin Sadaasa 30 hanga Muddee 9tti gaggeeffamu. Makkaa guyyaa 7 fi Madiinaa guyyaa 3. Tikeetii xiyyaaraa, Viizaa, Hoteela, Tiraanspoortii (baabura ammayyaa fi awutoobisii qabbaneessaa), Ziyaaraa iddoowwan seenaa qulqulluu, fi Inshuraansii kan of keessatti qabate. Bilbila: 0912124876."
+        : "Special spiritual Umrah pilgrimage accompanied and guided by Ustaz Muzayyan Muhammad from November 30 to December 9. Spend 7 days in Makkah and 3 days in Madinah. Includes round-trip flight tickets, official Umrah visa, hotel accommodation, ground transportation (high-speed Haramain train & luxury AC buses), full historical Ziyarah, and travel insurance. Contact: 0912124876.",
+    image: "/images/packages/umrah-muzayyan.jpg",
     highlights:
       lang === "am"
         ? [
-            "በተከበሩ ዑለሞችና ኡስታዞች የሚመራ",
-            "3 ምሽቶች መዲና + 7 ምሽቶች መካ (11 ቀናት)",
-            "ሙሉ ታሪካዊ ዚያራ (ቁባ እና ኡሁድ)",
-            "ይፋዊ የኡምራ ቪዛ እና የተሟላ ትራንስፖርት",
+            "ከኡስታዝ ሙዘየን ሙሐመድ ጋር የሚመራ",
+            "ይፋዊ ቪዛ እና የተሟላ ኢንሹራንስ",
+            "የደርሶ መልስ አየር ትኬት እና ሆቴል",
+            "ትራንስፖርት (ፈጣን ባቡር እና አውቶቡስ)",
+            "ሙሉ ታሪካዊ ዚያራ (መካ እና መዲና)",
+            "መካ 7 ቀናት እና መዲና 3 ቀናት",
           ]
         : lang === "om"
         ? [
-            "Ogeeyyii Amantiin Kan Geggeeffamu",
-            "Halkan 3 Madiinaa + Halkan 7 Makkaa",
-            "Ziyaaraa Guutuu (Qubaa fi Uhud)",
-            "Viizaa Umraa fi Geejjiba Guutuu",
+            "Ustaaz Muzayyan Muhaammad Wajjiin",
+            "Viizaa fi Inshuraansii Guutuu",
+            "Tikeetii Xiyyaaraa & Hoteela",
+            "Tiraanspoortii (Baabura & Awutoobisii)",
+            "Ziyaaraa Iddoowwan Seenaa Qulqulluu",
+            "Makkaa Guyyaa 7 & Madiinaa Guyyaa 3",
           ]
         : [
-            "Accompanied by Respected Islamic Scholars",
-            "3N Madinah + 7N Makkah (11 Days Round)",
-            "Full Historical Ziyarat (Quba & Uhud)",
-            "Official Umrah Visa & Ground Support",
+            "Guided by Ustaz Muzayyan Muhammad",
+            "Official Umrah Visa & Travel Insurance",
+            "Round-trip Flight Tickets & Hotel Accommodation",
+            "Ground Transport (Haramain Train & Luxury Bus)",
+            "Historical Holy Sites Ziyarah (Makkah & Madinah)",
+            "Makkah 7 Days & Madinah 3 Days",
           ],
     featured: true,
   },
   {
-    id: "umrah-vip",
-    category: "umrah",
+    id: "international-flight-hotel-package",
+    category: "travel",
     title:
       lang === "am"
-        ? "ቪአይፒ ሉክሰሪ የኡምራ ፓኬጅ"
+        ? "ዓለም አቀፍና ሀገር ውስጥ የአየር ትኬትና ሆቴል ማስያዝ"
         : lang === "om"
-        ? "Paakeejii Umraa VIP Qulqullina Olaanaa"
-        : "VIP Luxury Umrah Package",
+        ? "Tikeettii Xiyyaaraa & Hoteela Idil-Addunyaa fi Biyya Keessaa"
+        : "International & Domestic Tickets & Hotel Booking",
     destination:
       lang === "am"
-        ? "መካ (7 ምሽቶች) · መዲና (3 ምሽቶች)"
+        ? "ዓለም አቀፍና የሀገር ውስጥ መዳረሻዎች"
         : lang === "om"
-        ? "Makkaa (Halkan 7) · Madiinaa (Halkan 3)"
-        : "Makkah (7N) · Madinah (3N)",
+        ? "Addunyaa Guutuu fi Biyya Keessaa"
+        : "Worldwide & Domestic Routes",
     duration:
       lang === "am"
-        ? "11 ቀናት / 10 ምሽቶች"
+        ? "እንደ ምርጫዎ / ፈጣን"
         : lang === "om"
-        ? "Guyyaa 11 / Halkan 10"
-        : "11 Days / 10 Nights",
-    price: 1850,
-    priceETB: "177,500 ETB",
-    originalPrice: 2100,
+        ? "Yeroo Fedhii Keessanii"
+        : "Flexible / Instant",
     occupancy:
       lang === "am"
-        ? "2 በአንድ ክፍል (ባልና ሚስት / የግል)"
+        ? "የግልና የቤተሰብ"
         : lang === "om"
-        ? "Nama 2 / Kutaa Dhuunfaa"
-        : "2 / Room (Couples / Double)",
-    routeBadge: "Addis ➔ Madinah ➔ Makkah ➔ Addis",
-    badge: "VIP Luxury",
-    rating: 5.0,
-    reviews: 420,
+        ? "Dhuunfaa fi Maatii"
+        : "Individual & Family",
+    routeBadge: "Any Destination Worldwide",
+    badge:
+      lang === "am"
+        ? "ፈጣን ማስያዣ"
+        : lang === "om"
+        ? "Salphaatti Qabsiisaa"
+        : "Instant Booking",
+    rating: 4.9,
+    reviews: 520,
     description:
       lang === "am"
-        ? "የላቀ ምቾት በ177,500 ብር — ባለ 5 ኮከብ ሉክሰሪ ሆቴሎች ከሀረመይን ጥቂት እርምጃዎች፣ ለ2 ሰዎች በአንድ ክፍል (ለባልና ሚስት ወይም ለግል)። የቪአይፒ አየር ማረፊያ ፈጣን አገልግሎት፣ የግል ትራንስፖርት እና የኡለማ የግል አጋዥነት ያካትታል።"
+        ? "የሂካያን ቀጥተኛ የአየር መንገድ ትስስር እና ዓለም አቀፍ የሆቴል ስምምነቶች ይጠቀሙ። የሀገር ውስጥ በረራዎችን፣ ዓለም አቀፍ ትኬቶችንና ምርጥ ሆቴሎችን በ24/7 ፈጣን ድጋፍ ያስይዙ።"
         : lang === "om"
-        ? "Muuxannoo addaa 177,500 ETB — Hoteelota urjii 5 Haramainitti dhihoo, kutaa tokko keessa namoota 2 (abbaa warraa fi haadha warraa ykn dhuunfaa). Geejjiba VIP qabbaneessaa, ziyaaraa dhuunfaa, fi qajeelchaa amantii dhuunfaa."
-        : "Premium comfort for 177,500 ETB — 5-star luxury hotels steps from the Haramain, arranged for 2 people per room (couples or private double occupancy). Includes VIP airport fast-track, private transport, and personalized scholar accompaniment.",
+        ? "Tikeettii balali'iinsa xiyyaaraa biyya keessaa fi idil-addunyaa, akkasumas hoteelota sadarkaa addunyaa HIKAYA waliin qabsiisaa. Jijjiirraa guyyaa sa'aatii 24 fi deeggarsa guutuu."
+        : "Take advantage of HIKAYA's direct airline reservations and global hotel contracts. Book domestic Ethiopian flights, international tickets across all continents, and luxury hotel rooms with 24/7 date-change support.",
     image: "/images/destinations/medina-ziyarah.jpg",
     highlights:
       lang === "am"
-        ? ["ባለ 5 ኮከብ ሆቴሎች ከሀረም አጠገብ", "የግል ባለ 2 ሰው ክፍል", "የግል ቪአይፒ ሉክሰሪ ትራንስፖርት", "የግል የኡለማ እና የዚያራ መመሪያ"]
+        ? [
+            "ምርጥ የአየር ትኬት ዋጋ ዋስትና",
+            "ዓለም አቀፍና ሀገር ውስጥ የሆቴል ማስያዣ",
+            "ፈጣን የቀን ለውጥ እና ድጋፍ",
+            "ይፋዊ የአየር መንገድ ትኬት ማረጋገጫ",
+          ]
         : lang === "om"
-        ? ["Hoteela Urjii 5 Haramatti Dhihoo", "Kutaa Dhuunfaa Nama 2", "Geejjiba VIP Qabbaneessaa", "Qajeelchaa Amantii Dhuunfaa"]
-        : ["5-Star Hotels Steps from Haram", "2 / Room Private Double Occupancy", "Private VIP Luxury Transfers", "Personalized Scholar & Ziyarah Guidance"],
+        ? [
+            "Gatii Tikeettii Isa Gaarii",
+            "Hoteelota Sadarkaa Olaanaa",
+            "Jijjiirraa Guyyaa Salphaa",
+            "Ragaa Tikeettii Seera Qabeessa",
+          ]
+        : [
+            "Best Airfare Rates Guarantee",
+            "Worldwide & Domestic Hotel Bookings",
+            "Instant Date Changes & Support",
+            "Official Airline Ticket Confirmation",
+          ],
     featured: true,
   },
   {
@@ -162,9 +182,6 @@ export const getPackages = (lang: Locale): Package[] => [
         : lang === "om"
         ? "Guyyaa 4 / Halkan 3"
         : "4 Days / 3 Nights",
-    price: 480,
-    priceETB: "35,000 ETB",
-    originalPrice: 590,
     occupancy:
       lang === "am"
         ? "የተመራ አነስተኛ ቡድን"
@@ -216,9 +233,6 @@ export const getPackages = (lang: Locale): Package[] => [
         : lang === "om"
         ? "Guyyaa 2 / Halkan 1"
         : "2 Days / 1 Night",
-    price: 190,
-    priceETB: "18,500 ETB",
-    originalPrice: 240,
     occupancy:
       lang === "am"
         ? "የሳምንት መጨረሻ / የቀን ጉዞዎች"
@@ -247,167 +261,6 @@ export const getPackages = (lang: Locale): Package[] => [
         : lang === "om"
         ? ["Imala Doonii Gara Odolaatti", "Farda Yaabbatanii Bu'uu", "Burqituu Ho'aa Uumamaa", "Mul'ata Gaarren Biyya Keessaa"]
         : ["Scenic Boat Ride to Island", "Caldera Horseback Riding", "Natural Hot Springs", "Stunning Mountain Views"],
-    featured: true,
-  },
-  {
-    id: "semien-mountains-samen",
-    category: "tours",
-    title:
-      lang === "am"
-        ? "የሰሜን ተራራ (ሰሜን ተራራ) የእግር ጉዞ"
-        : lang === "om"
-        ? "Daawwannaa Gaarren Saameen (Samen Terara)"
-        : "Semien Mountains (Samen Terara) Peak Trek",
-    destination:
-      lang === "am"
-        ? "ሰሜን ተራራ፣ ኢትዮጵያ"
-        : lang === "om"
-        ? "Gaarren Saameen, Itoophiyaa"
-        : "Semien Mountains, Ethiopia",
-    duration:
-      lang === "am"
-        ? "5 ቀናት / 4 ምሽቶች"
-        : lang === "om"
-        ? "Guyyaa 5 / Halkan 4"
-        : "5 Days / 4 Nights",
-    price: 650,
-    priceETB: "48,000 ETB",
-    originalPrice: 780,
-    occupancy:
-      lang === "am"
-        ? "የእግር ተጓዦች ቡድን"
-        : lang === "om"
-        ? "Garee Daandii Gaaraa"
-        : "Trekking Group",
-    routeBadge: "Gondar ➔ Debark ➔ Semien ➔ Addis",
-    badge:
-      lang === "am"
-        ? "የዩኔስኮ ቅርስ"
-        : lang === "om"
-        ? "Dhaala UNESCO"
-        : "UNESCO Heritage",
-    rating: 4.9,
-    reviews: 215,
-    description:
-      lang === "am"
-        ? "በ'አፍሪካ ጣራ' ላይ የእግር ጉዞ — ጥልቅ ገደሎችን፣ ድንቅ ቋጥኞችንና የራስ ዳሽንን ተራራማ እይታዎች ይጎብኙ። የጭላዳ ዝንጀሮዎችንና የዋልያ አይቤክስን በተፈጥሮ መኖሪያቸው ይመልከቱ።"
-        : lang === "om"
-        ? "Fiixee Gaarren Saameen (Samen Terara) daawwadhaa. Qarqara qileewwan gadi fageenyi isaanii sodaachisaa ta'an, Jaldeessa Giiladaa, fi bineensota alagaa UNESCOn eegaman daawwadhaa."
-        : "Trek across the 'Roof of Africa' with dramatic escarpments, deep chasms, and views near Ras Dashen. Encounter wild troops of Gelada baboons and Walia ibex in their natural UNESCO habitat.",
-    image: "/images/destinations/semien-mountains.jpg",
-    highlights:
-      lang === "am"
-        ? ["የዩኔስኮ የዓለም ቅርስ ገደሎች", "የጭላዳ ዝንጀሮዎችን መመልከት", "በተራራ ስር ድንኳን ማሳደር", "ባለሙያ የተራራ መሪዎች"]
-        : lang === "om"
-        ? ["Iddoo Dhaala Addunyaa UNESCO", "Jaldeessa Giiladaa Daawwachuu", "Buufata Gaarren Keessaa", "Qajeelchitoota Gaaraa Ogeeyyii"]
-        : ["UNESCO World Heritage Escarpments", "Gelada Baboon Encounters", "Camp Under Alpine Skies", "Professional Mountain Guides"],
-    featured: true,
-  },
-  {
-    id: "gammoojji-affaar-danakil",
-    category: "tours",
-    title:
-      lang === "am"
-        ? "የአፋር ዳሎል እና ኤርታ አሌ እሳተ ገሞራ ጉዞ"
-        : lang === "om"
-        ? "Imala Gammoojjii Affaar fi Erta Ale"
-        : "Afar Depression & Erta Ale Volcano Expedition",
-    destination:
-      lang === "am"
-        ? "ዳናኪል፣ አፋር፣ ኢትዮጵያ"
-        : lang === "om"
-        ? "Dallol fi Erta Ale, Affaar"
-        : "Danakil, Afar, Ethiopia",
-    duration:
-      lang === "am"
-        ? "4 ቀናት / 3 ምሽቶች"
-        : lang === "om"
-        ? "Guyyaa 4 / Halkan 3"
-        : "4 Days / 3 Nights",
-    price: 690,
-    priceETB: "52,000 ETB",
-    originalPrice: 850,
-    occupancy:
-      lang === "am"
-        ? "በ4x4 የበረሃ ጉዞ"
-        : lang === "om"
-        ? "Konkolaataa 4x4"
-        : "4x4 Desert Expedition",
-    routeBadge: "Semera ➔ Erta Ale ➔ Dallol ➔ Addis",
-    badge:
-      lang === "am"
-        ? "ድንቅ ጀብዱ"
-        : lang === "om"
-        ? "Imala Addaa"
-        : "Extreme Adventure",
-    rating: 4.8,
-    reviews: 180,
-    description:
-      lang === "am"
-        ? "በምድር ላይ ወደሚገኘው ልዩና እፁብ ድንቅ የአፋር ስምጥ ይጓዙ። የሚፈነዳውን የኤርታ አሌ ፍላት እሳተ ገሞራ ሐይቅ፣ ባለቀለም የዳሎል የሰልፈር ምንጮችን እና የጨው በረሃዎችን ይመልከቱ።"
-        : lang === "om"
-        ? "Gammoojjii Affaar iddoo addunyaa irraa adda ta'e daawwadhaa. Volkaanoo Erta Ale isa abidda bilcheessu, burqaa ashaboo fi salfarii Dallol isa bifa adda addaan miidhage, fi lafa soogiddaa daawwadhaa."
-        : "Journey into one of the most surreal landscapes on Earth in the Afar depression. Witness the boiling lava lake of active volcano Erta Ale, the kaleidoscopic neon sulfur springs of Dallol, and salt desert flats.",
-    image: "/images/destinations/afar-danakil.jpg",
-    highlights:
-      lang === "am"
-        ? ["የኤርታ አሌ ንቁ እሳተ ገሞራ ፍላት", "የዳሎል ባለቀለም ሰልፈር ምንጮች", "የካሩም ሐይቅ የጨው በረሃ", "የተሟላ የ4x4 የበረሃ ጉዞ"]
-        : lang === "om"
-        ? ["Galaana Abiddaa Erta Ale", "Burqaa Salfarii Dallol", "Lafa Soogiddaa Kaarum", "Konkolaattota 4x4 Ammayyaa"]
-        : ["Erta Ale Active Volcano Lava Lake", "Dallol Psychedelic Sulfur Springs", "Lake Karum Salt Desert", "Escorted 4x4 Desert Expedition"],
-    featured: true,
-  },
-  {
-    id: "international-flight-hotel-package",
-    category: "travel",
-    title:
-      lang === "am"
-        ? "ዓለም አቀፍና ሀገር ውስጥ የአየር ትኬትና ሆቴል ማስያዝ"
-        : lang === "om"
-        ? "Tikeettii Xiyyaaraa & Hoteela Idil-Addunyaa fi Biyya Keessaa"
-        : "International & Domestic Tickets & Hotel Booking",
-    destination:
-      lang === "am"
-        ? "ዓለም አቀፍና የሀገር ውስጥ መዳረሻዎች"
-        : lang === "om"
-        ? "Addunyaa Guutuu fi Biyya Keessaa"
-        : "Worldwide & Domestic Routes",
-    duration:
-      lang === "am"
-        ? "እንደ ምርጫዎ / ፈጣን"
-        : lang === "om"
-        ? "Yeroo Fedhii Keessanii"
-        : "Flexible / Instant",
-    price: 180,
-    priceETB: "18,000+ ETB",
-    occupancy:
-      lang === "am"
-        ? "የግልና የቤተሰብ"
-        : lang === "om"
-        ? "Dhuunfaa fi Maatii"
-        : "Individual & Family",
-    routeBadge: "Any Destination Worldwide",
-    badge:
-      lang === "am"
-        ? "ፈጣን ማስያዣ"
-        : lang === "om"
-        ? "Salphaatti Qabsiisaa"
-        : "Instant Booking",
-    rating: 4.9,
-    reviews: 520,
-    description:
-      lang === "am"
-        ? "የሂካያን ቀጥተኛ የአየር መንገድ ትስስር እና ዓለም አቀፍ የሆቴል ስምምነቶች ይጠቀሙ። የሀገር ውስጥ በረራዎችን፣ ዓለም አቀፍ ትኬቶችንና ምርጥ ሆቴሎችን በ24/7 የቀን ለውጥ ድጋፍ ያስይዙ።"
-        : lang === "om"
-        ? "Tikeettii balali'iinsa xiyyaaraa biyya keessaa fi idil-addunyaa, akkasumas hoteelota sadarkaa addunyaa gatii madaalawaa fi amansiisaa ta'een HIKAYA waliin qabsiisaa. Jijjiirraa guyyaa sa'aatii 24."
-        : "Take advantage of HIKAYA's direct airline reservations and global hotel contracts. Book domestic Ethiopian flights, international tickets across all continents, and luxury hotel rooms with 24/7 date-change support.",
-    image: "/images/destinations/medina-ziyarah.jpg",
-    highlights:
-      lang === "am"
-        ? ["ምርጥ የአየር ትኬት ዋጋ ዋስትና", "ዓለም አቀፍና ሀገር ውስጥ የሆቴል ማስያዣ", "ፈጣን የቀን ለውጥ እና ድጋፍ", "ይፋዊ የአየር መንገድ ትኬት ማረጋገጫ"]
-        : lang === "om"
-        ? ["Gatii Tikeettii Isa Gaarii", "Hoteelota Sadarkaa Olaanaa", "Jijjiirraa Guyyaa Salphaa", "Ragaa Tikeettii Seera Qabeessa"]
-        : ["Best Airfare Rates Guarantee", "Worldwide & Domestic Hotel Bookings", "Instant Date Changes & Support", "Official Airline Ticket Confirmation"],
     featured: true,
   },
 ];

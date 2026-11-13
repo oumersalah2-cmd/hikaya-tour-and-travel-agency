@@ -103,7 +103,7 @@ export default function SearchBooking() {
       id: "flights" as const,
       icon: Plane,
       label: pick("Flight Tickets", "Tikeettii Xiyyaaraa", "የአየር ትኬቶች"),
-      badge: pick("Instant Quote", "Gatii Hatattamaa", "ፈጣን ዋጋ"),
+      badge: pick("Fast Booking", "Qabsiisa Hatattamaa", "ፈጣን ማስያዣ"),
     },
     {
       id: "hotels" as const,
@@ -242,7 +242,7 @@ export default function SearchBooking() {
                       <option value="">{pick("All Umrah Packages", "Paakeejii Umraa Hunda", "ሁሉም የኡምራ ፓኬጆች")}</option>
                       {umrahPackages.map((pkg) => (
                         <option key={pkg.id} value={pkg.id}>
-                          {pkg.title} ({pkg.priceETB})
+                          {pkg.title}
                         </option>
                       ))}
                     </select>
@@ -563,7 +563,7 @@ export default function SearchBooking() {
                       <option value="">{pick("All Ethiopia Tours", "Daawwannaa Itoophiyaa Hunda", "ሁሉም የኢትዮጵያ ቱሮች")}</option>
                       {tourPackages.map((pkg) => (
                         <option key={pkg.id} value={pkg.id}>
-                          {pkg.title} ({pkg.priceETB})
+                          {pkg.title}
                         </option>
                       ))}
                     </select>

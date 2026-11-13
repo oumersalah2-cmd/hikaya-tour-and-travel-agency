@@ -50,7 +50,6 @@ export default function BookingModal({
   isOpen,
   onClose,
   packageTitle,
-  packagePrice,
 }: BookingModalProps) {
   const { lang, t } = useLanguage();
   const { site, whatsappLink } = useSite();
@@ -164,9 +163,7 @@ export default function BookingModal({
   const labelClass = "mb-1.5 block text-xs font-semibold text-gray-600 dark:text-gray-300";
 
   // Pre-formatted messages for social / messaging platforms
-  const baseBookingText = `Hello HIKAYA, I would like to book: ${packageTitle ?? "Umrah / Travel Package"}${
-    packagePrice ? ` ($${packagePrice.toLocaleString("en-US")})` : ""
-  }.`;
+  const baseBookingText = `Hello HIKAYA, I would like to book: ${packageTitle ?? "Umrah / Travel Package"}.`;
 
   const detailedBookingText = `${baseBookingText}${
     form.name ? `\n• Name: ${form.name}` : ""
@@ -299,11 +296,6 @@ export default function BookingModal({
               {packageTitle && (
                 <p className="mt-1 text-sm text-accent-300 font-medium">
                   {packageTitle}
-                  {packagePrice ? (
-                    <span className="font-bold text-white ml-2 rounded-md bg-white/10 px-2 py-0.5">
-                      ${packagePrice.toLocaleString("en-US")}
-                    </span>
-                  ) : null}
                 </p>
               )}
             </div>
@@ -662,10 +654,6 @@ export default function BookingModal({
                           {labels.switchToPlatform}
                         </button>
                       </div>
-
-                      <p className="text-center text-xs text-gray-500 dark:text-gray-400">
-                        {b.note}
-                      </p>
                     </form>
                   )}
                 </motion.div>

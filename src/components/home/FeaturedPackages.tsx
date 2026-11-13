@@ -66,10 +66,10 @@ export default function FeaturedPackages() {
         <SectionHeading
           subtitle={
             lang === "am"
-              ? "ግልጽ ዋጋና የጉዞ ዙሮች"
+              ? "ልዩ የጉዞ ፓኬጆችና አገልግሎቶች"
               : lang === "om"
-              ? "Gatii Ifaa & Paakeejota"
-              : "Transparent Pricing & Rounds"
+              ? "Paakeejota Addaa & Tajaajiloota"
+              : "Featured Packages & Services"
           }
           title={
             lang === "am"
@@ -80,10 +80,10 @@ export default function FeaturedPackages() {
           }
           description={
             lang === "am"
-              ? "ግልጽ የክፍልና የዋጋ ዝርዝር፣ ታሪካዊ ዚያራዎችን ያካተተ እና ያለ ቅድመ ፓስፖርት የሚሰጥ ዋጋ።"
+              ? "የተሟላ የፓኬጅ አገልግሎት፣ ታሪካዊ ዚያራዎችን ያካተተ፣ ሆቴልና በረራ በታላላቅ ኡስታዞች መሪነት።"
               : lang === "om"
-              ? "Gatii ifa ta'e, kutaa filatamaa, ziyaaraa guutuu waliin, fi paaspoortii dura hin barbaachisne."
-              : "Clear quotations with room occupancy breakdown, historical Ziyarat included, and no upfront passport documents."
+              ? "Bal'ina paakeejii guutuu, ziyaaraa seenaa, hoteela fi tikeettii xiyyaaraa ogeeyyii amantii kabajamoo wajjin."
+              : "Full package services, historical Ziyarat included, confirmed hotels and flights, guided by respected Islamic scholars."
           }
         />
 
@@ -154,7 +154,6 @@ export default function FeaturedPackages() {
         isOpen={modalOpen}
         onClose={closeModal}
         packageTitle={selectedPkg?.title}
-        packagePrice={selectedPkg?.price}
       />
     </section>
   );

@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   X,
-  Star,
   Clock,
   Users,
   Route,
@@ -90,18 +89,6 @@ export default function TourDetailsModal({
 
   if (!isOpen || !tour) return null;
 
-  const priceLabel = tour.priceETB
-    ? lang === "am"
-      ? `ከ ${tour.priceETB}`
-      : lang === "om"
-      ? `Ka'umsa ${tour.priceETB}`
-      : `From ${tour.priceETB}`
-    : lang === "am"
-    ? `ከ $${tour.price.toLocaleString("en-US")}`
-    : lang === "om"
-    ? `Ka'umsa $${tour.price.toLocaleString("en-US")}`
-    : `From $${tour.price.toLocaleString("en-US")}`;
-
   const bookNowText =
     lang === "am"
       ? "አሁኑኑ ያስይዙ"
@@ -125,6 +112,19 @@ export default function TourDetailsModal({
       : lang === "om"
       ? "Gosa Kutaa"
       : "Room Type";
+
+  const isScholar =
+    tour.occupancy?.toLowerCase().includes("ustaaz") ||
+    tour.occupancy?.includes("ኡስታዝ") ||
+    tour.occupancy?.toLowerCase().includes("ustaz");
+
+  const guideOrRoomLabel = isScholar
+    ? lang === "am"
+      ? "የጉዞ መሪ / ኡስታዝ"
+      : lang === "om"
+      ? "Qajeelchaa / Ustaaza"
+      : "Tour Leader / Scholar"
+    : roomTypeLabel;
 
   const durationLabel =
     lang === "am" ? "የቆይታ ጊዜ" : lang === "om" ? "Turtii" : "Duration";
@@ -161,8 +161,8 @@ export default function TourDetailsModal({
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto">
-          {/* Larger Image */}
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-dark-200">
+          {/* Image: completely clean without any overlapping badges or gradients */}
+          <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-gray-100 dark:bg-dark-200">
             <Image
               src={tour.image}
               alt={tour.title}
@@ -171,71 +171,34 @@ export default function TourDetailsModal({
               sizes="(max-width: 640px) 100vw, 672px"
               priority
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/30" />
-
-            {/* Badges on image */}
-            <div className="absolute left-4 top-4 flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-black/65 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md shadow-sm">
-                <Clock className="h-3.5 w-3.5 text-accent-300" aria-hidden="true" />
-                <span>{tour.duration}</span>
-              </span>
-              {tour.badge && (
-                <span className="inline-block rounded-full border border-white/20 bg-accent-600/90 px-3 py-1 text-xs font-bold text-white backdrop-blur-md shadow-sm">
-                  {tour.badge}
-                </span>
-              )}
-            </div>
-
-            <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between gap-2 text-white">
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium drop-shadow">
-                <MapPin className="h-4 w-4 text-accent-300 shrink-0" aria-hidden="true" />
-                <span>{tour.destination}</span>
-              </span>
-              <span className="inline-flex items-center rounded-full bg-gradient-to-r from-accent-600 to-accent-500 px-3 py-1 text-xs font-extrabold text-white shadow-glow">
-                {priceLabel}
-              </span>
-            </div>
           </div>
 
           {/* Details body */}
           <div className="p-5 sm:p-7 space-y-5">
-            {/* Title and Rating */}
-            <div>
+            {/* Title, Destination and Status Badge (No star rating/rate displayed) */}
+            <div className="space-y-2">
               <h2
                 id="tour-details-title"
-                className="font-display text-xl font-bold text-primary-700 dark:text-white sm:text-2xl"
+                className="font-display text-xl font-bold text-primary-700 dark:text-white sm:text-2xl leading-snug"
               >
                 {tour.title}
               </h2>
 
-              <div className="mt-2 flex flex-wrap items-center gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
-                <div className="flex items-center gap-1.5">
-                  <Star
-                    className="h-4 w-4 fill-amber-400 text-amber-400 shrink-0"
-                    aria-hidden="true"
-                  />
-                  <span className="font-bold text-gray-900 dark:text-gray-100">
-                    {tour.rating.toFixed(1)}
-                  </span>
-                  <span>({tour.reviews})</span>
-                </div>
-                {tour.price && (
-                  <span className="text-gray-400 dark:text-gray-500">•</span>
-                )}
-                {tour.priceETB ? (
-                  <span className="font-medium text-accent-600 dark:text-accent-400">
-                    {tour.priceETB} (~${tour.price.toLocaleString("en-US")})
-                  </span>
-                ) : (
-                  <span className="font-medium text-accent-600 dark:text-accent-400">
-                    ${tour.price.toLocaleString("en-US")}
+              <div className="flex flex-wrap items-center gap-2.5 text-xs sm:text-sm">
+                <span className="inline-flex items-center gap-1.5 font-medium text-primary-700 dark:text-accent-300">
+                  <MapPin className="h-4 w-4 shrink-0 text-accent-600 dark:text-accent-400" aria-hidden="true" />
+                  <span>{tour.destination}</span>
+                </span>
+                {tour.badge && (
+                  <span className="inline-block rounded-full bg-accent-100 px-2.5 py-0.5 text-xs font-bold text-accent-700 dark:bg-accent-950 dark:text-accent-300">
+                    {tour.badge}
                   </span>
                 )}
               </div>
             </div>
 
-            {/* Meta tags: Duration, Room Type */}
-            <div className="grid grid-cols-2 gap-3 rounded-2xl bg-gray-50 p-3.5 dark:bg-dark-200/60 sm:p-4">
+            {/* Meta tags: Duration, Scholar / Room Type (1 col on mobile so long text never truncates) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-2xl bg-gray-50 p-3.5 dark:bg-dark-200/60 sm:p-4">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-100 text-accent-700 dark:bg-accent-950/60 dark:text-accent-300">
                   <Clock className="h-4 w-4" aria-hidden="true" />
@@ -244,7 +207,7 @@ export default function TourDetailsModal({
                   <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
                     {durationLabel}
                   </p>
-                  <p className="truncate text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100">
+                  <p className="text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100">
                     {tour.duration}
                   </p>
                 </div>
@@ -257,9 +220,9 @@ export default function TourDetailsModal({
                   </div>
                   <div className="min-w-0">
                     <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
-                      {roomTypeLabel}
+                      {guideOrRoomLabel}
                     </p>
-                    <p className="truncate text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100">
+                    <p className="text-xs sm:text-sm font-bold text-gray-900 dark:text-gray-100 break-words">
                       {tour.occupancy}
                     </p>
                   </div>
