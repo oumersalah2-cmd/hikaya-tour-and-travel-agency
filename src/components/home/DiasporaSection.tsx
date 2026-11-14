@@ -1,14 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Globe, HeartHandshake, CheckCircle2, MessageCircle } from "lucide-react";
-import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useSite } from "@/context/SiteContext";
+import DiasporaQuoteModal from "@/components/ui/DiasporaQuoteModal";
 
 export default function DiasporaSection() {
   const { t, lang } = useLanguage();
   const { site, whatsappLink } = useSite();
+  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
   const diaspora = t.diaspora;
 
   return (
@@ -64,12 +66,13 @@ export default function DiasporaSection() {
                 </span>
               </a>
 
-              <Link
-                href={`/${lang}/contact`}
-                className="px-6 py-4 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm transition"
+              <button
+                type="button"
+                onClick={() => setQuoteModalOpen(true)}
+                className="px-6 py-4 rounded-xl border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white font-semibold text-sm transition cursor-pointer"
               >
                 {diaspora.ctaQuote}
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -178,6 +181,11 @@ export default function DiasporaSection() {
           </div>
         </div>
       </div>
+
+      <DiasporaQuoteModal
+        isOpen={quoteModalOpen}
+        onClose={() => setQuoteModalOpen(false)}
+      />
     </section>
   );
 }

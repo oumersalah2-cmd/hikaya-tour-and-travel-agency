@@ -270,26 +270,19 @@ export default function SearchBooking() {
                   </div>
                 </div>
 
-                {/* Preferred Date (Month dropdown showing next 12 months) */}
+                {/* Fixed Schedule Display (Pre-decided, no manual date choice needed) */}
                 <div className="w-full">
                   <label htmlFor={field("u-dep")} className={labelClass}>
-                    {pick("Preferred Date", "Ji'a Imalaa", "ተመራጭ ወር")}
+                    {pick("Trip Schedule", "Sagantaa Imalaa", "የጉዞ መርሃ ግብር")}
                   </label>
                   <div className="relative">
                     <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <select
+                    <div
                       id={field("u-dep")}
-                      value={umrahForm.departure}
-                      onChange={(e) => setUmrahForm({ ...umrahForm, departure: e.target.value })}
-                      className={`${inputClass} cursor-pointer`}
+                      className={`${inputClass} flex items-center bg-gray-50/80 dark:bg-dark-300 text-xs sm:text-sm font-semibold text-primary-800 dark:text-gray-200 cursor-default select-none truncate`}
                     >
-                      <option value="">{pick("Any month", "Ji'a kamiyyuu", "ማንኛውም ወር")}</option>
-                      {upcomingMonths.map((m) => (
-                        <option key={m.value} value={m.value}>
-                          {m.label}
-                        </option>
-                      ))}
-                    </select>
+                      {pick("Nov 30 – Dec 9 (Fixed)", "Sadaasa 30 – Muddee 9", "ኅዳር 30 – ታኅሣሥ 9 (የተወሰነ)")}
+                    </div>
                   </div>
                 </div>
 

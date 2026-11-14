@@ -15,4 +15,5 @@ export const BUILTIN_IMAGES: BuiltinImage[] = [
   { src: "/images/destinations/semien-mountains.jpg", label: "Semien Mountains" },
   { src: "/images/destinations/afar-danakil.jpg", label: "Afar Danakil" },
   { src: "/images/destinations/sof-omar.jpg", label: "Sof Omar Caves" },
+  { src: "/images/packages/international-domestic-tickets.png", label: "Ethiopian Airlines & Worldwide Flight Tickets" },
 ];

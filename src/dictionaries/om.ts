@@ -221,7 +221,7 @@ export const om = {
       desc: "Waggoota 10 oliif qophii paaspoortii, viizaa biyya alaa, fi tajaajila diyaaspooraa keessatti muuxannoo qabatamaa qaban.",
     },
     quote: "Waadaan keenya inni guddaan hujjajjoota fi imaltoota hunda amanamummaa guutuu, qophii of eeggannoo qabu, fi tajaajila qulqulluun tajaajiluudha.",
-    ctaWhatsApp: "Waatsaappiin Kallattiin Qunnamaa",
+    ctaWhatsApp: "Hundeeffamaa Waliin Kallattiin Bilbilaa (0910147495)",
     ctaVisit: "Waajjira Keenya Daawwadhaa",
   },
   officeDesk: {

@@ -137,7 +137,7 @@ export const getPackages = (lang: Locale): Package[] => [
         : lang === "om"
         ? "Tikeettii balali'iinsa xiyyaaraa biyya keessaa fi idil-addunyaa, akkasumas hoteelota sadarkaa addunyaa HIKAYA waliin qabsiisaa. Jijjiirraa guyyaa sa'aatii 24 fi deeggarsa guutuu."
         : "Take advantage of HIKAYA's direct airline reservations and global hotel contracts. Book domestic Ethiopian flights, international tickets across all continents, and luxury hotel rooms with 24/7 date-change support.",
-    image: "/images/destinations/medina-ziyarah.jpg",
+    image: "/images/packages/international-domestic-tickets.png",
     highlights:
       lang === "am"
         ? [

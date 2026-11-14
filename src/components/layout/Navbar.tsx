@@ -43,17 +43,18 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: `/${lang}#home`, label: t.nav.home },
-    { href: `/${lang}#services`, label: t.nav.services },
-    { href: `/${lang}#packages`, label: t.nav.packages },
+    { href: `/${lang}#home`, label: t.nav.home, desktop: false },
+    { href: `/${lang}#packages`, label: t.nav.packages, desktop: true },
+    { href: `/${lang}#services`, label: t.nav.services, desktop: true },
     {
       href: `/${lang}#founder`,
       label: lang === "en" ? "Founder" : lang === "am" ? "መስራች" : "Hundeeffaa",
+      desktop: "xl",
     },
-    { href: `/${lang}#schedule`, label: t.nav.schedule },
-    { href: `/${lang}#diaspora`, label: t.nav.diaspora },
-    { href: `/${lang}/gallery`, label: t.nav.gallery },
-    { href: `/${lang}/contact`, label: t.nav.contact },
+    { href: `/${lang}#schedule`, label: t.nav.schedule, desktop: true },
+    { href: `/${lang}#diaspora`, label: t.nav.diaspora, desktop: true },
+    { href: `/${lang}/gallery`, label: t.nav.gallery, desktop: true },
+    { href: `/${lang}/contact`, label: t.nav.contact, desktop: true },
   ];
 
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function Navbar() {
           aria-label={t.ui.mainNav}
           className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 md:px-8"
         >
-          <Link href={`/${lang}`} className="group flex shrink-0 items-center gap-2.5 transition-transform duration-200 hover:scale-[1.02] mr-2 xl:mr-6">
+          <Link href={`/${lang}`} className="group flex shrink-0 items-center gap-2.5 transition-transform duration-200 hover:scale-[1.02] mr-3 xl:mr-6">
             <HikayaLogo
               variant="full"
               inverted={!solid}
@@ -99,24 +100,28 @@ export default function Navbar() {
             />
           </Link>
 
-          <div className="hidden items-center gap-0.5 xl:gap-1.5 lg:flex flex-1 justify-center max-w-3xl min-w-0">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-semibold tracking-tight transition-colors duration-200 xl:px-3.5 xl:text-sm ${
-                  solid
-                    ? "text-primary-700 hover:bg-primary-50 hover:text-primary-900 dark:text-gray-300 dark:hover:bg-dark-200 dark:hover:text-white"
-                    : "text-white/90 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden items-center justify-center gap-0.5 xl:gap-1.5 2xl:gap-2 lg:flex flex-1 min-w-0 px-2 xl:px-4">
+            {navLinks
+              .filter((l) => l.desktop)
+              .map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`whitespace-nowrap rounded-lg px-2 py-1 text-xs font-semibold tracking-tight transition-colors duration-200 xl:px-2.5 2xl:px-3 2xl:text-sm ${
+                    link.desktop === "xl" ? "hidden xl:inline-block" : ""
+                  } ${
+                    solid
+                      ? "text-primary-700 hover:bg-primary-50 hover:text-primary-900 dark:text-gray-300 dark:hover:bg-dark-200 dark:hover:text-white"
+                      : "text-white/90 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
           </div>
 
-          <div className="hidden shrink-0 items-center gap-2 xl:gap-3 lg:flex ml-2 xl:ml-6">
+          <div className="hidden shrink-0 items-center gap-2 xl:gap-3 lg:flex ml-3 xl:ml-6">
             {/* 3-Language segmented switcher */}
             <div
               className={`inline-flex items-center rounded-xl p-0.5 text-xs font-bold transition-colors ${

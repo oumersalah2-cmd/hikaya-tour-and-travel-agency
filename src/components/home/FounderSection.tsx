@@ -9,17 +9,15 @@ import {
   Briefcase,
   ShieldCheck,
   Award,
-  MessageCircle,
+  PhoneCall,
   ArrowRight,
   Quote,
   CheckCircle2,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { useSite } from "@/context/SiteContext";
 
 export default function FounderSection() {
   const { t, lang } = useLanguage();
-  const { whatsappLink } = useSite();
   const f = t.founder;
 
   return (
@@ -218,12 +216,10 @@ export default function FounderSection() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-4">
               <a
-                href={whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="tel:+251910147495"
                 className="btn-primary px-6 py-3.5 text-sm flex items-center gap-2 shadow-glow"
               >
-                <MessageCircle className="w-4 h-4 text-primary-950" />
+                <PhoneCall className="w-4 h-4 text-primary-950" />
                 <span>{f.ctaWhatsApp}</span>
               </a>
 

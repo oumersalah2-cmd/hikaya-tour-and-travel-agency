@@ -47,7 +47,7 @@ export default async function Home() {
         <WhyChooseUs />
         <FounderSection />
         <DiasporaSection />
-        <GallerySection items={gallery.slice(0, 8)} total={gallery.length} />
+        <GallerySection items={gallery} total={gallery.length} />
         {hasRealReviews && <Testimonials />}
         <FAQ />
         <OfficeDeskSection />

@@ -221,7 +221,7 @@ export const en = {
       desc: "Over a decade of hands-on expertise facilitating passports, overseas visas, document clearances, and safely sending travelers abroad.",
     },
     quote: "Our sacred promise to every traveler and pilgrim is absolute truthfulness, meticulous preparation, and dedicated support from our office to the holy sites.",
-    ctaWhatsApp: "Direct Consultation with Founder",
+    ctaWhatsApp: "Direct Consultation with Founder (0910147495)",
     ctaVisit: "Visit Our Headquarters",
   },
   officeDesk: {
