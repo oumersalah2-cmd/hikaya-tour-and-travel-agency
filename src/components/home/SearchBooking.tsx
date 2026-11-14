@@ -224,7 +224,7 @@ export default function SearchBooking() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
                 onSubmit={handleUmrahSubmit}
-                className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-5"
+                className="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-4"
               >
                 {/* Package selection */}
                 <div className="w-full">
@@ -245,27 +245,6 @@ export default function SearchBooking() {
                           {pkg.title}
                         </option>
                       ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Room Type (Short, clear labels that fit without truncation) */}
-                <div className="w-full">
-                  <label htmlFor={field("u-room")} className={labelClass}>
-                    {pick("Room Type", "Gosa Kutaa", "የክፍል ዓይነት")}
-                  </label>
-                  <div className="relative">
-                    <Bed className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-accent-500" />
-                    <select
-                      id={field("u-room")}
-                      value={umrahForm.roomSharing}
-                      onChange={(e) => setUmrahForm({ ...umrahForm, roomSharing: e.target.value })}
-                      className={`${inputClass} cursor-pointer`}
-                    >
-                      <option value="4-room">{pick("Quad (4 per room)", "Quad (nama 4 kutaatti)", "ክዋድ (4 ሰው በክፍል)")}</option>
-                      <option value="3-room">{pick("Triple (3 per room)", "Triple (nama 3 kutaatti)", "ትሪፕል (3 ሰው በክፍል)")}</option>
-                      <option value="2-room">{pick("Double (2 per room)", "Double (nama 2 kutaatti)", "ደብል (2 ሰው በክፍል)")}</option>
-                      <option value="vip-single">{pick("Single (1 per room)", "Single (nama 1 kutaatti)", "ሲንግል (1 ሰው በክፍል)")}</option>
                     </select>
                   </div>
                 </div>
@@ -319,7 +298,7 @@ export default function SearchBooking() {
                   </button>
                   <a
                     href={whatsappLink(
-                      `Hello HIKAYA, I would like to book Umrah: ${umrahForm.travelers} pilgrim(s), Room: ${umrahForm.roomSharing}, Month: ${umrahForm.departure || "flexible"}.`
+                      `Hello HIKAYA, I would like to book Umrah: ${umrahForm.travelers} pilgrim(s), Schedule: Nov 30 – Dec 9.`
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
