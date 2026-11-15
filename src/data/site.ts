@@ -48,7 +48,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     facebook: "https://www.facebook.com/share/1E8V8mrJDf/",
     instagram: "",
     tiktok: "https://www.tiktok.com/@hikaya1212",
-    telegram: "https://t.me/Hikayatravrl",
+    telegram: "https://t.me/Hikayatourandtravel",
     youtube: "",
   },
   mapUrl: "",
