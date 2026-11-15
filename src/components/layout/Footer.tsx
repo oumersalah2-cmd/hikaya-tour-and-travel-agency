@@ -132,12 +132,14 @@ export default function Footer() {
                   ))}
                 </span>
               </div>
-              <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 shrink-0 text-accent-400" />
-                <a href={`mailto:${site.emails[0]}`} className="text-sm text-gray-300 hover:text-accent-300">
-                  {site.emails[0]}
-                </a>
-              </div>
+              {site.emails.map((email) => (
+                <div key={email} className="flex items-center gap-3">
+                  <Mail className="h-4 w-4 shrink-0 text-accent-400" />
+                  <a href={`mailto:${email}`} className="text-sm text-gray-300 hover:text-accent-300">
+                    {email}
+                  </a>
+                </div>
+              ))}
               <a
                 href={whatsappLink()}
                 target="_blank"
