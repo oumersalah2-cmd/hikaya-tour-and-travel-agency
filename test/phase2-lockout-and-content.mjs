@@ -94,7 +94,7 @@ async function run() {
   const updatedSettings = sanitizeSettings({
     ...origSettings,
     phones: ["+251912124876"],
-    emails: ["hikayatravelagency12@gmail.com"],
+    emails: ["contact@hikayatourandtravel.com"],
     whatsapp: "251912124876",
   });
 
@@ -105,7 +105,7 @@ async function run() {
     "Settings",
     "Update business info (phone, email, whatsapp) persists in store",
     reloadedSettings.phones.includes("+251912124876") &&
-      reloadedSettings.emails.includes("hikayatravelagency12@gmail.com") &&
+      reloadedSettings.emails.includes("contact@hikayatourandtravel.com") &&
       reloadedSettings.whatsapp === "251912124876",
     `Phone: ${reloadedSettings.phones[0]}, Email: ${reloadedSettings.emails[0]}`
   );

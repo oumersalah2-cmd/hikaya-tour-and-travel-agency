@@ -33,7 +33,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   whatsapp: "251912124876",
   whatsappDisplay: "+251 91 212 4876",
   whatsappMessage: "Hello HIKAYA, I would like to inquire about your services",
-  emails: ["hikayatravelagency12@gmail.com"],
+  emails: ["contact@hikayatourandtravel.com"],
   address: {
     en: ["Bole Road, Near Friendship Mall", "Addis Ababa, Ethiopia"],
     om: ["Daandii Boolee, Friendship Mall Bira", "Finfinnee, Itoophiyaa"],

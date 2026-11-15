@@ -96,14 +96,11 @@ export async function generateMetadata({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0842cd" },
-    { media: "(prefers-color-scheme: dark)", color: "#051336" },
-  ],
+  themeColor: "#0842cd",
 };
 
-/** Runs before first paint so the saved / system theme never flashes. */
-const themeScript = `(function(){try{var s=localStorage.getItem('theme');var d=s?s==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
+/** Default is white/light. Only apply dark mode if user explicitly selected it. */
+const themeScript = `(function(){try{var s=localStorage.getItem('theme');if(s==='dark'){document.documentElement.classList.add('dark');}else{document.documentElement.classList.remove('dark');}}catch(e){}})();`;
 
 const skipLabel: Record<Locale, string> = {
   en: "Skip to main content",
