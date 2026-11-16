@@ -37,21 +37,6 @@ export const galleryDefaults: GalleryItem[] = [
     createdAt: "2026-11-13T12:00:00.000Z",
   },
   {
-    id: "office-scholar-portrait",
-    src: "/images/gallery/hikaya-office-scholar-portrait.webp",
-    thumb: "/images/gallery/hikaya-office-scholar-portrait-thumb.webp",
-    width: 768,
-    height: 1024,
-    caption: {
-      en: "Respected Islamic Scholar at HIKAYA Travel Agency Headquarters",
-      om: "Ogeessa Amantii Kabajamaa Waajjira Ejansii HIKAYA Finfinneetti",
-      am: "የተከበሩ ኡስታዝ በሂካያ የጉዞ ኤጀንሲ ዋናው ቢሮ",
-    },
-    visible: true,
-    builtin: true,
-    createdAt: "2026-11-13T12:00:00.000Z",
-  },
-  {
     id: "makkah-pilgrims-blessing",
     src: "/images/gallery/makkah-pilgrims-blessing.webp",
     thumb: "/images/gallery/makkah-pilgrims-blessing-thumb.webp",
